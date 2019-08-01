@@ -1,0 +1,64 @@
+/* stylesheets for intro and all other globally shared assets (c) 2019 */
+
+#intro_text{
+	position:fixed;
+	top: 150px;
+	left: 142px;
+	animation-duration: 2s;
+	animation-name: introtext1;
+	animation-play-state: paused;
+}
+.introtext{
+	position:fixed;
+	color: rgb(128,128,128);
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+}
+#intro_logo{
+	width:360px;
+	display:block;
+	margin:auto;
+	position:fixed;
+	top: 124px;
+	opacity: 0;
+	animation-duration: 2s;
+	animation-name: intrologo1;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	animation-delay: 0.5s;
+}
+#intro_text2{
+	top:35%;
+	left:5%;
+	opacity: 0;
+	animation-duration: 2s;
+	animation-name: introtext2;
+	animation-delay: 1s;
+}
+#intro_text3{
+	color: rgb(128,128,128);
+	opacity: 0;
+	position: fixed;
+	top: 50%;
+	left: 5%;
+	animation-duration: 2s;
+	animation-name: introtext2; /*reused for simplicity*/
+	animation-delay: 3.5s;
+}
+#next_button{
+	color:#FFFFFF;
+	background: rgb(38,39,59);
+	width:64px;
+	height:48px;
+	text-align: center;
+	position:fixed;
+	top:85%;
+	left:43%;
+}
+#nav{
+	width:360px; height: 58px;
+	margin: 0px; padding: 0px; border:0px; position:fixed;
+	top: 582px;
+	overflow-x: hidden;
+}

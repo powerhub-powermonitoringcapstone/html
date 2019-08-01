@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+<!--POWERHUB LOGIN CODE (C) 2019-->
+	<script src="client.min.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		window.onload = function (){
+			var client = new ClientJS();
+			$("#dynamicc").html("Your fingerprint:" + client.getFingerprint());
+
+		}
+	</script>	
+	<link href="animations.css" type="text/css" rel="stylesheet">
+	<link href="intro.css" type="text/css" rel="stylesheet">
+	<style>
+		body{
+			background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+			color:#FFFFFF;
+			width: 360px;
+			margin: 0 auto;
+		}
+		#intro_logo{
+			position:fixed;top:12px;
+		}
+	</style>
+</HEAD>
+<BODY>
+	<div style="height:96px"></div><!--placeholder-->
+	<img id="intro_logo" src="../logo1.png">
+	<table id="login">
+		<tr><td>Login:</td></tr>
+		<tr><td>text area here</td></tr>
+		<tr><td id="dynamicc">Your fingerprint:</td></tr>
+		<!--<tr><td><a href="main.py">Bypass for now</a></td></tr>-->
+	</table>
+</BODY>
+</HTML>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+	<link href="animations.css" type="text/css" rel="stylesheet">
+	<link href="intro.css" type="text/css" rel="stylesheet">
+	<script src="client.min.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+	window.onload = function () {
+		if (readCookie("sesh") != "11000000"){
+		document.getElementById("intro_logo").style.animationPlayState = "running";
+		document.cookie = "sesh=11000000";
+		}
+		else {document.getElementById("intro_logo").style.opacity = "0.5"}
+		}
+	function readCookie(cname){
+		var name = cname + "=";
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var ca = decodedCookie.split(':');
+		for (var i = 0; i < ca.length; i++){
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+				}
+			if (c.indexOf(name) == 0){
+				return c.substring (name.length, c.length);
+				}
+			} 
+		return (false);	
+		}
+	function security(){
+		$('.security').toggle();
+		$('.navbuttons').toggle();
+	}
+	</script>
+	<style>
+		#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		top:12px;
+		}
+		body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		height: 58px;
+		margin: 0 auto;
+		}
+		.navbuttons{
+			background: rgb(60,63,99);
+			padding-top: 24px;
+			padding-bottom: 24px;
+		}
+		.navarrow{
+			position:absolute;
+			left:332px;
+		}
+		.navparm{
+			position:fixed;
+			left:150px;
+		}
+		.security{
+			display:none;
+			background: rgb(60,63,99);
+			padding-top: 24px;
+			padding-bottom: 24px;
+		}
+	</style>
+</HEAD>

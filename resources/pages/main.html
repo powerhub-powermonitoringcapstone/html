@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+<link href="animations.css" type="text/css" rel="stylesheet">
+<link href="intro.css" type="text/css" rel="stylesheet">
+<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
+<!--MAIN SCREEN (C) 2019 -->
+<style>
+	body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		width: 360px;
+		margin: 0 auto;
+	}
+	table{
+		background: rgb(38,39,59)
+	}
+	td, th{
+		border: 1px solid #dddddd;
+	}
+	/*override na lang pota*/
+	#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		top:12px;
+	}
+	#data, #nodeshit{
+		margin-left:30%;
+	}
+	#nodeshit{
+		margin-left:15%;
+	}
+</style>
+<script src="client.min.js"></script>
+<script>
+	window.onload = function () {
+	if (readCookie("sesh") != "10100000"){
+		document.getElementById("intro_logo").style.animationPlayState = "running" ;
+		document.cookie = "sesh=10100000";
+	}
+	else {document.getElementById("intro_logo").style.opacity = "0.5"}
+	var client = new ClientJS();
+	alert(client.getFingerprint());
+	}
+	function readCookie(cname){
+		var name = cname + "=";
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var ca = decodedCookie.split(':');
+		for (var i = 0; i < ca.length; i++){
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+				}
+			if (c.indexOf(name) == 0){
+				return c.substring (name.length, c.length);
+				}
+			} 
+		return (false);	
+		}
+</script>
+</HEAD>
+<BODY>
+	<div style="height:96px"></div><!--placeholder-->
+	<img id="intro_logo" src="../logo1.png">
+	<iframe id="nav" src="nav.html?from=home"></iframe>
+<!---dynamic shit here! -->
