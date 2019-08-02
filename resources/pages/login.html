@@ -7,7 +7,8 @@
 	<script>
 		window.onload = function (){
 			var client = new ClientJS();
-			$("#dynamicc").html("Your fingerprint:" + client.getFingerprint());
+			$("#fingerprint").html(client.getFingerprint());
+			$("#fgt").val(client.getFingerprint());
 			}
 	</script>	
 	<link href="animations.css" type="text/css" rel="stylesheet">
@@ -30,7 +31,7 @@
 	<table id="login">
 		<tr><td>Login:</td></tr>
 		<tr><td><form action="login.py" method="get" name="password" onSubmit="return test()"><input type="password" id="password" name="auth"></td></tr>
-		<tr><td id="dynamicc">Your fingerprint:</td></tr>
+		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input type="password" name="fgt" id="fgt" style="display:none;"></td></tr>
 		<tr><td><input type="submit" value="Submit"></td></tr>
 		</form>
 	</table>
