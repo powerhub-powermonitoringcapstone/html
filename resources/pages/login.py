@@ -1,22 +1,22 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-# enable debugging
-import cgitb, cgi, hashlib
+import cgitb, cgi, hashlib, os, sys
+import xml.etree.ElementTree as ET
 cgitb.enable()
-form = cgi.FieldStorage()
-form = form.getvalue('auth')
-form = form.encode('utf-8')
-fgt = cgi.FieldStorage()
-fgt = fgt.getvalue('fgt')
-fgt = fgt.encode('utf-8') ##fingerprint as salt
-form = form + fgt
-
-form = hashlib.sha256(form)
-form = form.hexdigest()
-form = str(form)
-fgt = str(fgt).lstrip('b')
-##fgt = hashlib.sha256(fgt)
-##fgt = fgt.hexdigest()
+sys.path.insert(1, '/home/capstone/codebase/')
+cwdf = '/home/capstone/codebase/'
+sett = open(cwdf + 'pvt.xml', 'r') #element tree stuff
+settings = ET.parse(sett)
+root = settings.getroot()
+found = root.find(".private").attrib['key']
+auth = (cgi.FieldStorage()).getvalue('auth') #get value
+fgt = (cgi.FieldStorage()).getvalue('fgt') #get value of fingerprint
+auth = auth + fgt #hash n salt
+auth = hashlib.sha256(auth.encode('utf-8'))
+auth = auth.hexdigest()
+auth = str(auth)
+passh = str(hashlib.sha256((found+fgt).encode('utf-8')).hexdigest()) #password hashed
 print("Content-Type: text/html;charset=utf-8\n\n")
 print()
-print(form + "<br>" + "Salt:" + fgt)
+print(auth + "<br>Salt:" + fgt + "<br>Salted" + passh)
 
