@@ -10,7 +10,7 @@ cgitb.enable()
 v=230
 a=10
 w=v*a
-print("Content-Type: text/html;charset=utf-8\n")
+print("Content-Type: text/html;charset=utf-8\n\n")
 print()
 for data in static.readlines():
     print(data.rstrip('\n'))

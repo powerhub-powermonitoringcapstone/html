@@ -34,13 +34,14 @@
 <script src="client.min.js"></script>
 <script>
 	window.onload = function () {
+		var client = new ClientJS();
+		document.cookie = "fgt=" + client.getFingerprint();
 	if (readCookie("sesh") != "10100000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running" ;
 		document.cookie = "sesh=10100000";
 	}
 	else {document.getElementById("intro_logo").style.opacity = "0.5"}
-	var client = new ClientJS();
-	alert(client.getFingerprint());
+	
 	}
 	function readCookie(cname){
 		var name = cname + "=";
