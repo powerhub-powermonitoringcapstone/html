@@ -9,6 +9,7 @@
 			var client = new ClientJS();
 			$("#fingerprint").html(client.getFingerprint());
 			$("#fgt").val(client.getFingerprint());
+			$("#salt").val(Math.random()*100000000);
 			}
 	</script>	
 	<link href="animations.css" type="text/css" rel="stylesheet">
@@ -31,7 +32,7 @@
 	<table id="login">
 		<tr><td>Login:</td></tr>
 		<tr><td><form action="login.py" method="get" name="password" onSubmit="return test()"><input type="password" id="password" name="auth"></td></tr>
-		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input type="password" name="fgt" id="fgt" style="display:none;"></td></tr>
+		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input readonly type="password" name="fgt" id="fgt" style="display:none;"><input readonly type="password" name="salt" id="salt" style="display:none;"></td></tr>
 		<tr><td><input type="submit" value="Submit"></td></tr>
 		</form>
 		<tr><td><a href="main.py">Bypass</a></td></tr>

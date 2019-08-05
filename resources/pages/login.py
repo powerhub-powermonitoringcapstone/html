@@ -12,17 +12,18 @@ sett = open(cwdf + '/pvt.xml', 'r') #element tree stuff
 settings = ET.parse(sett)
 root = settings.getroot()
 found = root.find(".private").attrib['key']
-auth = (cgi.FieldStorage()).getvalue('auth') #get value
+auth = (cgi.FieldStorage()).getvalue('auth') #get value of passphrase
 fgt = (cgi.FieldStorage()).getvalue('fgt') #get value of fingerprint
+salt = (cgi.FieldStorage()).getvalue('salt') #get value of salt
 print("Content-Type: text/html;charset=utf-8\n\n")
 print()
 def fullAuth():
-    global auth, fgt
-    auth += fgt #hash n salt
+    global auth, salt
+    auth += salt #hash n salt
     auth = hashlib.sha256(auth.encode('utf-8'))
     auth = auth.hexdigest()
     auth = str(auth)
-    passh = str(hashlib.sha256((found+fgt).encode('utf-8')).hexdigest()) #password hashed
+    passh = str(hashlib.sha256((found+salt).encode('utf-8')).hexdigest()) #password hashed
     print("<!DOCTYPE HTML><HTML>")
     if (lh.isLogin(fgt)):
         print("<script>")
