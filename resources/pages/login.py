@@ -44,7 +44,7 @@ def fullAuth():
             print("</script>")
             print("<\HTML>")
     ##print(auth + "<br>Salt:" + fgt + "<br>Salted" + passh)
-if (auth != None):
+if (fgt != None):
     fullAuth()
 else:
     for line in login.readlines():
