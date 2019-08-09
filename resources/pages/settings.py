@@ -12,14 +12,15 @@ a=10
 w=v*a
 print("Content-Type: text/html;charset=utf-8\n")
 print()
-for data in static.readlines():
-    print(data.rstrip('\n'))
+print(static.readlines())
+##for data in static.readlines():
+##    print(data.rstrip('\n'))
 print("<body>")
 print("<div style=\"height:96px\"></div><!--placeholder-->")
 print("<img id=\"intro_logo\" class=\"main\" src=\"../logo1.png\">")
 print("<div class=\"navbuttons\" onClick=\"security()\">Security Controls<span class=\"navarrow\">&#x3009;</span></div><br>")
 print("<div class=\"navbuttons\">Firmware Update<span class=\"navarrow\">&#x3009;</span></div><br>")
-print(f"<div class=\"navbuttons\">Node Name...<span class=\"navparm\">{sh.readSettings()[4]}</span><span class=\"navarrow\">&#x3009;</span></div><br>")
+print("<div class=\"navbuttons\" id=\"node\">Node Name...<span class=\"navparm\">{sh.readSettings()[4]}</span><span class=\"navarrow\">&#x3009;</span></div><br>")
 print("<div class=\"navbuttons\" onClick=\"about()\">About<span class=\"navarrow\">&#x3009;</span></div><br>")
 print("<!--security-->")
 print("<div class=\"security\">MAC Address<span class=\"security\" style=\"position:fixed; left:210px\">Status</span></div><br>")
