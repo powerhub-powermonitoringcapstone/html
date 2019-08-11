@@ -6,15 +6,21 @@
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
 		window.onload = function (){
-			//var client = new ClientJS();
-			//$("#fingerprint").html(client.getFingerprint());
-			//$("#fgt").val(client.getFingerprint());
-			//$("#salt").val(Math.random()*100000000);			
+			var client = new ClientJS();
+			$("#fingerprint").html(client.getFingerprint());
+			$("#fgt").val(client.getFingerprint());
+			fgt=client.getFingerprint()
+			$("#salt").val(Math.random()*100000000);			
 			$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/',
-				data: '{"test": "yeah"}',
-				success: function(data){alert(data);},
+				data: JSON.stringify ({fgt: fgt}),
+				success: function(data){
+					if (data == "True")
+					{
+						window.location.href = "/resources/pages/main.py";
+					}
+				},
 				contentType: "application/json"
 			});
 			}
