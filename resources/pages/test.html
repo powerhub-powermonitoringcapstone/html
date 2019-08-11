@@ -2,21 +2,27 @@
 <HTML>
 <HEAD>
 	<TITLE>FUCK</TITLE>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		$.post("/wsgi_bin/login/",{'fgt':'999999'},function(data){	alert(data);});
+		//$.get("/wsgi_bin/login/", function(data){	alert(data);});
+	</script>	
 </HEAD>
 <BODY>
-	<BODY>
 	<div style="height:96px"></div><!--placeholder-->
-	<!--<img id="intro_logo" src="../logo1.png">-->
-	<table id="login">
+	<img id="intro_logo" src="../logo1.png">
+
+<!-- 	<table id="login">
+		<
 		<tr><td>Login:</td></tr>
-		<tr><td><form action="./wsgi-bin/login.wsgi" method="post"><input type="password" name="auth"></td></tr>
-		<!--<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input readonly type="password" name="fgt" id="fgt" style="display:none;"><input readonly type="password" name="salt" id="salt" style="display:none;"></td></tr>-->
+		<tr><td><form action="/wsgi_bin/login/" method="post"><input type="password" name="auth"></td></tr>
+		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input readonly type="password" name="fgt" id="fgt" style="display:none;"><input readonly type="password" name="salt" id="salt" style="display:none;"></td></tr>
 		<tr><td><input type="submit" value="Submit"></td></tr>
 		</form>
-	</table>
+	</table>-->
 	<!--
 	<form action="http://localhost:5000/post-get/" method="post">
 		Fuck: <input type="text" name="ans"><br>
 		<input type="submit" value="Submit">
-	</form>-->
+	</form> -->
 </BODY>

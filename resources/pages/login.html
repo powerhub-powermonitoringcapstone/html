@@ -6,10 +6,17 @@
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
 		window.onload = function (){
-			var client = new ClientJS();
-			$("#fingerprint").html(client.getFingerprint());
-			$("#fgt").val(client.getFingerprint());
-			$("#salt").val(Math.random()*100000000);
+			//var client = new ClientJS();
+			//$("#fingerprint").html(client.getFingerprint());
+			//$("#fgt").val(client.getFingerprint());
+			//$("#salt").val(Math.random()*100000000);			
+			$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/',
+				data: '{"test": "yeah"}',
+				success: function(data){alert(data);},
+				contentType: "application/json"
+			});
 			}
 	</script>	
 	<link href="animations.css" type="text/css" rel="stylesheet">
@@ -31,7 +38,7 @@
 	<img id="intro_logo" src="../logo1.png">
 	<table id="login">
 		<tr><td>Login:</td></tr>
-		<tr><td><form action="login.py" method="get" name="password" onSubmit="return test()"><input type="password" id="password" name="auth"></td></tr>
+		<tr><td><form action="/wsgi_bin/login/" method="post"><input type="password" id="password" name="auth"></td></tr>
 		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input readonly type="password" name="fgt" id="fgt" style="display:none;"><input readonly type="password" name="salt" id="salt" style="display:none;"></td></tr>
 		<tr><td><input type="submit" value="Submit"></td></tr>
 		</form>

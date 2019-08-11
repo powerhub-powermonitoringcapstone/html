@@ -1,19 +1,16 @@
 ##import sys
-##sys.path.insert(0, '/home/capstone/html/resources/pages/wsgi_bin/')
 import flask as F
+##sys.path.insert(1, '/home/capstone/codebase')
+##import loginHandler as lh
+##cwd = '/home/capstone/html/resources/pages'
+##cwdf = '/home/capstone/codebase'
+#sett = open(cwdf + '/pvt.xml', 'r')
+#login = open(cwd + '/login.html', 'r')
 app = F.Flask(__name__)
-#@app.route("/query-get/")
-#def manacc():
-#    arg = F.request.args.get('fuck')
-#    return "Hello World! Fuck {}".format(arg)
-@app.route("/") #methods=['POST'])
+@app.route("/", methods=['POST', 'GET'])
 def post():
-    ans = F.request.form.get('auth')
-    arg = F.request.args.get('fuck')
-    return "Hello World! Fuck {}".format(arg)
-    if (ans == "powerhub"):
-        return "<script>alert(\"tanga amat\");</script>"
-    else:
-        return "<script>alert(\"tanga male\");</script>"
+    ##fgt = F.request.args.get('test')
+    fgt = F.request.get_json().get('test')
+    return ("Duck {}".format(fgt))
 if __name__ == "__main__":
     app.run()
