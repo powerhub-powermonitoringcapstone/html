@@ -1,7 +1,17 @@
+import sys
+sys.path.insert(0, '/home/capstone/html/resources/pages/wsgi_bin/')
 import flask as F
 app = F.Flask(__name__)
-@app.route("/kantutan/")
+@app.route("/query-get/")
 def manacc():
-    return "Hello World!"
+    arg = F.request.args.get('fuck')
+    return "Hello World! Fuck {}".format(arg)
+@app.route("/post-get/", methods=['POST'])
+def post():
+    ans = F.request.form.get('auth')
+    if (ans == "powerhub"):
+        return "<script>alert(\"tanga amat\");</script>"
+    else:
+        return "<script>alert(\"tanga male\");</script>"
 if __name__ == "__main__":
     app.run()

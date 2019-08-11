@@ -25,33 +25,33 @@ def fullAuth():
     auth = str(auth)
     passh = str(hashlib.sha256((found+salt).encode('utf-8')).hexdigest()) #password hashed
     print("<!DOCTYPE HTML><HTML>")
+    if (auth == passh):
+        lh.newLogin(fgt)
+        print("<script>")
+        print("window.location.href = \"main.py\";")
+        print("</script>")
+        print("<\HTML>")
+    else:
+        print("<script>")
+        print("alert(\"Wrong Password!\");")
+        print("window.location.href = \"login.html\";")
+        print("</script>")
+        print("<\HTML>")
+    ##print(auth + "<br>Salt:" + fgt + "<br>Salted" + passh)
+if (auth == None):
     if (lh.isLogin(fgt)):
         print("<script>")
         print("window.location.href = \"main.py\";")
         print("</script>")
         print("<\HTML>")
     else:
-        if (auth == passh):
-            lh.newLogin(fgt)
-            print("<script>")
-            print("window.location.href = \"main.py\";")
-            print("</script>")
-            print("<\HTML>")
-        else:
-            print("<script>")
-            print("alert(\"Wrong Password!\");")
-            print("window.location.href = \"login.html\";")
-            print("</script>")
-            print("<\HTML>")
-    ##print(auth + "<br>Salt:" + fgt + "<br>Salted" + passh)
-if (fgt != None):
-    fullAuth()
+##        fullAuth()
+        for line in login.readlines():
+            print (line)
 else:
-    for line in login.readlines():
-        print (line)
-##    print("<script>")
-##    print("window.location.href = \"login.html\";")
-##    print("</script>")
-##    print("<\HTML>")
+    fullAuth()
+##    for line in login.readlines():
+##        print (line)
+
 
 
