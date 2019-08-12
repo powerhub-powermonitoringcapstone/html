@@ -5,22 +5,18 @@
 	<script src="client.min.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
-		window.onload = function (){
-			var client = new ClientJS();
-			fgt=client.getFingerprint()			
-			$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/login/',
-				data: JSON.stringify ({fgt: fgt}),
-				success: function(data){
-					if (data == "True")
-					{
+		var client = new ClientJS();
+		fgt=client.getFingerprint()			
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/login/',
+			data: JSON.stringify ({fgt: fgt}),
+			success: function(data){
+				if (data == "True"){
 						window.location.href = "/resources/pages/main.py";
-					}
-				},
-				contentType: "application/json"
+					}},
+			contentType: "application/json"
 			});
-			}
 		function Login(){
 			var client = new ClientJS();
 			fgt=client.getFingerprint();

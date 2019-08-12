@@ -6,6 +6,20 @@
 	<script src="client.min.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
+		var client = new ClientJS();
+		fgt=client.getFingerprint();
+		$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/',
+				data: JSON.stringify ({fgt: fgt}),
+				success: function(data){
+					if (data != "True")
+					{
+						window.location.href = "/resources/pages/login.html";
+					}
+				},
+				contentType: "application/json"
+			});
 	window.onload = function () {
 		if (readCookie("sesh") != "11000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
