@@ -32,17 +32,30 @@
 	}
 </style>
 <script src="client.min.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
 <script>
 	window.onload = function () {
 		var client = new ClientJS();
-		document.cookie = "fgt=" + client.getFingerprint();
+		fgt=client.getFingerprint();
+		$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/',
+				data: JSON.stringify ({fgt: fgt}),
+				success: function(data){
+					if (data != "True")
+					{
+						window.location.href = "/resources/pages/login.html";
+					}
+				},
+				contentType: "application/json"
+			});
+			}
 	if (readCookie("sesh") != "10100000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running" ;
 		document.cookie = "sesh=10100000";
 	}
 	else {document.getElementById("intro_logo").style.opacity = "0.5"}
 	
-	}
 	function readCookie(cname){
 		var name = cname + "=";
 		var decodedCookie = decodeURIComponent(document.cookie);

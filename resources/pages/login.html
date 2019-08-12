@@ -7,10 +7,7 @@
 	<script>
 		window.onload = function (){
 			var client = new ClientJS();
-			$("#fingerprint").html(client.getFingerprint());
-			$("#fgt").val(client.getFingerprint());
-			fgt=client.getFingerprint()
-			$("#salt").val(Math.random()*100000000);			
+			fgt=client.getFingerprint()			
 			$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/',
@@ -24,6 +21,26 @@
 				contentType: "application/json"
 			});
 			}
+		function Login(){
+			var client = new ClientJS();
+			fgt=client.getFingerprint();
+			auth=$('#password').val();
+			salt=Math.floor(Math.random()*10000000000);
+			$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/auth/',
+				data: JSON.stringify ({fgt:fgt, auth:auth, salt:salt}),
+				success: function(data){
+					if (data == "True")
+					{
+						window.location.href = "/resources/pages/main.py";
+					} else{
+						alert ("Wrong password!");
+					}
+				},
+				contentType: "application/json",
+			});
+		}
 	</script>	
 	<link href="animations.css" type="text/css" rel="stylesheet">
 	<link href="intro.css" type="text/css" rel="stylesheet">
@@ -44,11 +61,8 @@
 	<img id="intro_logo" src="../logo1.png">
 	<table id="login">
 		<tr><td>Login:</td></tr>
-		<tr><td><form action="/wsgi_bin/login/" method="post"><input type="password" id="password" name="auth"></td></tr>
-		<tr><td id="dynamicc">Your fingerprint: <span id="fingerprint"></span><input readonly type="password" name="fgt" id="fgt" style="display:none;"><input readonly type="password" name="salt" id="salt" style="display:none;"></td></tr>
-		<tr><td><input type="submit" value="Submit"></td></tr>
-		</form>
-		<tr><td><a href="main.py">Bypass</a></td></tr>
+		<tr><td><input type="password" id="password"></td></tr>
+		<tr><td><input type="button" onClick="Login()" value="Submit"></td></tr>
 	</table>
 </BODY>
 </HTML>
