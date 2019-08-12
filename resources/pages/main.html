@@ -31,6 +31,8 @@
 		margin-left:15%;
 	}
 </style>
+</HEAD>
+<BODY>
 <script src="client.min.js"></script>
 <script src="jquery-3.4.1.min.js"></script>
 <script>
@@ -75,18 +77,17 @@
 		url: '/wsgi_bin/data/',
 		//data: JSON.stringify ({fgt: fgt}),
 		success: function(data){
-			alert(data)
-		},
+			$('#voltage').html(data);
+		}
 		//contentType: "application/json"
 		});
-</script>
-</HEAD>
-<BODY>
+	</script>
+	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
 	<table id="data">
-		<tr><td>Voltage<br><span id="voltage">---</span> V</td></tr>
-		<tr><td>Current<br><span id="current">---</span> A</td></tr>
+		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
+		<td>Current<br><span id="current">---</span> A</td></tr>
 		<tr><td>Wattage<br><span id="wattage">---</span> W</td>
 		<td>Graph Here</td></tr>
 	</table>
