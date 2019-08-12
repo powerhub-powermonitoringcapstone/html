@@ -69,10 +69,36 @@
 			} 
 		return (false);	
 		}
+	//readData
+	$.ajax({
+		type: 'POST',
+		url: '/wsgi_bin/data/',
+		//data: JSON.stringify ({fgt: fgt}),
+		success: function(data){
+			alert(data)
+		},
+		//contentType: "application/json"
+		});
 </script>
 </HEAD>
 <BODY>
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
+	<table id="data">
+		<tr><td>Voltage<br><span id="voltage">---</span> V</td></tr>
+		<tr><td>Current<br><span id="current">---</span> A</td></tr>
+		<tr><td>Wattage<br><span id="wattage">---</span> W</td>
+		<td>Graph Here</td></tr>
+	</table>
+	<table id="nodeshit">
+	<tr><td>Node Name<br><span id="nodename"></span></td>
+	<td>IP Address<br><span id="ipaddr"></span></td></tr>
+	<tr><td>Firmware Version<br><span id="firmware"></span></td>
+	<td>Uptime:<br>99999</td></tr>
+	</table>
 	<iframe id="nav" src="nav.html?from=home"></iframe>
+</BODY>
+</HTML>
+
+	
 <!---dynamic shit here! -->

@@ -2,42 +2,6 @@
 <HTML>
 <HEAD>
 <!--POWERHUB LOGIN CODE (C) 2019-->
-	<script src="client.min.js"></script>
-	<script src="jquery-3.4.1.min.js"></script>
-	<script>
-		var client = new ClientJS();
-		fgt=client.getFingerprint()			
-		$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/login/',
-			data: JSON.stringify ({fgt: fgt}),
-			success: function(data){
-				if (data == "True"){
-						window.location.href = "/resources/pages/main.py";
-					}},
-			contentType: "application/json"
-			});
-		function Login(){
-			var client = new ClientJS();
-			fgt=client.getFingerprint();
-			auth=$('#password').val();
-			salt=Math.floor(Math.random()*10000000000);
-			$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/login/auth/',
-				data: JSON.stringify ({fgt:fgt, auth:auth, salt:salt}),
-				success: function(data){
-					if (data == "True")
-					{
-						window.location.href = "/resources/pages/main.py";
-					} else{
-						alert ("Wrong password!");
-					}
-				},
-				contentType: "application/json",
-			});
-		}
-	</script>	
 	<link href="animations.css" type="text/css" rel="stylesheet">
 	<link href="intro.css" type="text/css" rel="stylesheet">
 	<style>
@@ -53,6 +17,44 @@
 	</style>
 </HEAD>
 <BODY>
+	<!--ajax scripting start-->
+	<script src="client.min.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		var client = new ClientJS();
+		var fgt=client.getFingerprint();
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/login/',
+			data: JSON.stringify ({fgt: fgt}),
+			success: function(data){
+				if (data == "True"){
+						window.location.href = "/resources/pages/main.html";
+					}},
+			contentType: "application/json",
+			});
+		function Login(){
+			var client = new ClientJS();
+			fgt=client.getFingerprint();
+			auth=$('#password').val();
+			salt=Math.floor(Math.random()*10000000000);
+			$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/auth/',
+				data: JSON.stringify ({fgt:fgt, auth:auth, salt:salt}),
+				success: function(data){
+					if (data == "True")
+					{
+						window.location.href = "/resources/pages/main.html";
+					} else{
+						alert ("Wrong password!");
+					}
+				},
+				contentType: "application/json",
+			});
+		}
+	</script>	
+	<!--end of ajax-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
 	<table id="login">
