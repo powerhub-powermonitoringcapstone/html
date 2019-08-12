@@ -75,11 +75,12 @@
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/data/',
-		//data: JSON.stringify ({fgt: fgt}),
 		success: function(data){
 			$('#voltage').html(data.voltage);
 			$('#current').html(data.current);
 			$('#wattage').html(data.voltage * data.current);
+			$('#nodename').html(data.nodename);
+			$('#firmware').html(data.firmware);
 		}
 		//contentType: "application/json"
 		});
@@ -94,9 +95,9 @@
 		<td>Graph Here</td></tr>
 	</table>
 	<table id="nodeshit">
-	<tr><td>Node Name<br><span id="nodename"></span></td>
-	<td>IP Address<br><span id="ipaddr"></span></td></tr>
-	<tr><td>Firmware Version<br><span id="firmware"></span></td>
+	<tr><td>Node Name<br><span id="nodename">---</span></td>
+	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
+	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
 	<td>Uptime:<br>99999</td></tr>
 	</table>
 	<iframe id="nav" src="nav.html?from=home"></iframe>
