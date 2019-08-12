@@ -6,7 +6,8 @@ cwdf = '/home/capstone/codebase'
 app = F.Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def post():
-    return "230"##F.jsonify(voltage='230')
+    data = {'voltage': 230, 'current': 5}
+    return F.json.dumps(data)
 
 if __name__ == "__main__":
     app.run()

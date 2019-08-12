@@ -77,7 +77,9 @@
 		url: '/wsgi_bin/data/',
 		//data: JSON.stringify ({fgt: fgt}),
 		success: function(data){
-			$('#voltage').html(data);
+			$('#voltage').html(data.voltage);
+			$('#current').html(data.current);
+			$('#wattage').html(data.voltage * data.current);
 		}
 		//contentType: "application/json"
 		});
