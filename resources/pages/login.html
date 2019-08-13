@@ -20,9 +20,10 @@
 	<!--ajax scripting start-->
 	<script src="client.min.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
+	<script src="uuid_v4.js"></script>
+	<script src="readCookie.js"></script>
 	<script>
-		var client = new ClientJS();
-		var fgt=client.getFingerprint();
+		var fgt=readCookie('auth')
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/login/',
@@ -30,14 +31,14 @@
 			success: function(data){
 				if (data == "True"){
 						window.location.href = "/resources/pages/main.html";
-					}},
+					}
+				},
 			contentType: "application/json",
 			});
 		function Login(){
-			var client = new ClientJS();
-			fgt=client.getFingerprint();
+			fgt=uuidv4();
 			auth=$('#password').val();
-			salt=Math.floor(Math.random()*10000000000);
+			salt=uuidv4();
 			$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/auth/',
@@ -46,12 +47,21 @@
 					if (data == "True")
 					{
 						window.location.href = "/resources/pages/main.html";
+						document.cookie = "fgt=" + fgt;
 					} else{
 						alert ("Wrong password!");
 					}
 				},
 				contentType: "application/json",
 			});
+		}
+		//jquery remember me
+		function toggleClick(){
+		if ($('#rememberMe').is(':checked')){
+			$('#rememberMe').attr('checked', false);
+			} else {
+			$('#rememberMe').attr('checked', true);
+			};
 		}
 	</script>	
 	<!--end of ajax-->
@@ -60,7 +70,9 @@
 	<table id="login">
 		<tr><td>Login:</td></tr>
 		<tr><td><form onSubmit="Login()"><input type="password" id="password"></td></tr>
-		<tr><td><input type="button" onClick="Login()" value="Submit"></td></tr></form>
+		<tr><td><input type="button" onClick="Login()" value="Submit"></td></tr>
+		<tr><td><input type="checkbox" id="rememberMe" value="true"><span onclick="toggleClick()">Remember Me</span></td></tr>
+		</form>
 	</table>
 </BODY>
 </HTML>

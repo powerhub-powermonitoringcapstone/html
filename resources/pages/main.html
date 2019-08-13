@@ -35,9 +35,11 @@
 <BODY>
 <script src="client.min.js"></script>
 <script src="jquery-3.4.1.min.js"></script>
+<script src="readCookie.js"></script>
 <script>
-	var client = new ClientJS();
-	fgt=client.getFingerprint();
+	/*var client = new ClientJS();
+	fgt=client.getFingerprint();*/
+	fgt=readCookie('auth')
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/login/',
@@ -56,21 +58,6 @@
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		}
 	}
-	function readCookie(cname){
-		var name = cname + "=";
-		var decodedCookie = decodeURIComponent(document.cookie);
-		var ca = decodedCookie.split(':');
-		for (var i = 0; i < ca.length; i++){
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-				c = c.substring(1);
-				}
-			if (c.indexOf(name) == 0){
-				return c.substring (name.length, c.length);
-				}
-			} 
-		return (false);	
-		}
 	//readData
 	$.ajax({
 		type: 'POST',
@@ -82,7 +69,6 @@
 			$('#nodename').html(data.nodename);
 			$('#firmware').html(data.firmware);
 		}
-		//contentType: "application/json"
 		});
 	</script>
 	<!--actual markup code here-->
