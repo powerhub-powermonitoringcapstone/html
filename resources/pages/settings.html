@@ -40,9 +40,11 @@
 <body>
 	<script src="client.min.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
+	<script src="js-cookie.js"></script>
 	<script>
-		var client = new ClientJS();
-		fgt=client.getFingerprint();
+		/*var client = new ClientJS();
+		fgt=client.getFingerprint();*/
+		fgt = Cookies.get('fgt');
 		$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/',
@@ -56,9 +58,9 @@
 				contentType: "application/json"
 			});
 	window.onload = function () {
-		if (readCookie("sesh") != "11000000"){
+		if (Cookies.get("sesh") != "11000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
-		document.cookie = "sesh=11000000";
+		Cookies.set("sesh", "11000000");
 		}
 		else {document.getElementById("intro_logo").style.opacity = "0.5"};
 		$.ajax({
@@ -67,21 +69,6 @@
 			success: function(data){
 				$('#nodename').html(data.nodename);
 			}});
-		}
-	function readCookie(cname){
-		var name = cname + "=";
-		var decodedCookie = decodeURIComponent(document.cookie);
-		var ca = decodedCookie.split(':');
-		for (var i = 0; i < ca.length; i++){
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-				c = c.substring(1);
-				}
-			if (c.indexOf(name) == 0){
-				return c.substring (name.length, c.length);
-				}
-			} 
-		return (false);	
 		}
 	function security(){
 		$('.security').toggle();
@@ -94,6 +81,8 @@
 	</script>
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="../logo1.png">
+<!--navigation-->
+<div class="navbuttons">Nodes<span class="navarrow">&#x3009;</span></div><br>
 <div class="navbuttons" onClick="security()">Security Controls<span class="navarrow">&#x3009;</span></div><br>
 <div class="navbuttons">Firmware Update<span class="navarrow">&#x3009;</span></div><br>
 <div class="navbuttons" id="node">Node Name...<span class="navparm" id="nodename">---</span><span class="navarrow">&#x3009;</span></div><br>

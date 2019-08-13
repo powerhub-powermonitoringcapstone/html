@@ -35,25 +35,25 @@
 <BODY>
 <script src="client.min.js"></script>
 <script src="jquery-3.4.1.min.js"></script>
-<script src="readCookie.js"></script>
+<script src="js-cookie.js"></script>
 <script>
 	/*var client = new ClientJS();
 	fgt=client.getFingerprint();*/
-	fgt=readCookie('auth')
+	fgt=Cookies.get('fgt');
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/login/',
 		data: JSON.stringify ({fgt: fgt}),
 		success: function(data){
 		if (data != "True")
-			{window.location.href = "/resources/pages/login.html";}
+			{window.location.href = "/resources/pages/login.html";};
 		},
 		contentType: "application/json"
 		});
 	window.onload = function () {
-		if (readCookie("sesh") != "10100000"){
+		if (Cookies.get('sesh') != "10100000"){
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
-			document.cookie = "sesh=10100000";
+			Cookies.set("sesh", "10100000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		}
@@ -62,7 +62,7 @@
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/data/',
-		success: function(data){
+		success: function(data){alert(data);
 			$('#voltage').html(data.voltage);
 			$('#current').html(data.current);
 			$('#wattage').html(data.voltage * data.current);

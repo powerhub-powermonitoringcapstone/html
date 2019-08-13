@@ -21,9 +21,9 @@
 	<script src="client.min.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script src="uuid_v4.js"></script>
-	<script src="readCookie.js"></script>
+	<script src="js-cookie.js"></script>
 	<script>
-		var fgt=readCookie('auth')
+		fgt=Cookies.get('fgt');
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/login/',
@@ -47,7 +47,7 @@
 					if (data == "True")
 					{
 						window.location.href = "/resources/pages/main.html";
-						document.cookie = "fgt=" + fgt;
+						Cookies.set("fgt", fgt);
 					} else{
 						alert ("Wrong password!");
 					}
