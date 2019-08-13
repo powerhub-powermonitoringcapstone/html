@@ -3,54 +3,6 @@
 <HEAD>
 	<link href="animations.css" type="text/css" rel="stylesheet">
 	<link href="intro.css" type="text/css" rel="stylesheet">
-	<script src="client.min.js"></script>
-	<script src="jquery-3.4.1.min.js"></script>
-	<script>
-		var client = new ClientJS();
-		fgt=client.getFingerprint();
-		$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/login/',
-				data: JSON.stringify ({fgt: fgt}),
-				success: function(data){
-					if (data != "True")
-					{
-						window.location.href = "/resources/pages/login.html";
-					}
-				},
-				contentType: "application/json"
-			});
-	window.onload = function () {
-		if (readCookie("sesh") != "11000000"){
-		document.getElementById("intro_logo").style.animationPlayState = "running";
-		document.cookie = "sesh=11000000";
-		}
-		else {document.getElementById("intro_logo").style.opacity = "0.5"}
-		}
-	function readCookie(cname){
-		var name = cname + "=";
-		var decodedCookie = decodeURIComponent(document.cookie);
-		var ca = decodedCookie.split(':');
-		for (var i = 0; i < ca.length; i++){
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-				c = c.substring(1);
-				}
-			if (c.indexOf(name) == 0){
-				return c.substring (name.length, c.length);
-				}
-			} 
-		return (false);	
-		}
-	function security(){
-		$('.security').toggle();
-		$('.navbuttons').toggle();
-	}
-	function about(){
-		$('.about').toggle();
-		$('.navbuttons').toggle();
-	}
-	</script>
 	<style>
 		#intro_logo{
 		position:fixed;
@@ -85,3 +37,76 @@
 		.
 	</style>
 </HEAD>
+<body>
+	<script src="client.min.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		var client = new ClientJS();
+		fgt=client.getFingerprint();
+		$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/',
+				data: JSON.stringify ({fgt: fgt}),
+				success: function(data){
+					if (data != "True")
+					{
+						window.location.href = "/resources/pages/login.html";
+					}
+				},
+				contentType: "application/json"
+			});
+	window.onload = function () {
+		if (readCookie("sesh") != "11000000"){
+		document.getElementById("intro_logo").style.animationPlayState = "running";
+		document.cookie = "sesh=11000000";
+		}
+		else {document.getElementById("intro_logo").style.opacity = "0.5"};
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/settings/',
+			success: function(data){
+				$('#nodename').html(data.nodename);
+			}});
+		}
+	function readCookie(cname){
+		var name = cname + "=";
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var ca = decodedCookie.split(':');
+		for (var i = 0; i < ca.length; i++){
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+				}
+			if (c.indexOf(name) == 0){
+				return c.substring (name.length, c.length);
+				}
+			} 
+		return (false);	
+		}
+	function security(){
+		$('.security').toggle();
+		$('.navbuttons').toggle();
+	}
+	function about(){
+		$('.about').toggle();
+		$('.navbuttons').toggle();
+	}
+	</script>
+<div style="height:96px"></div>
+<img id="intro_logo" class="main" src="../logo1.png">
+<div class="navbuttons" onClick="security()">Security Controls<span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons">Firmware Update<span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons" id="node">Node Name...<span class="navparm" id="nodename">---</span><span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons" onClick="about()">About<span class="navarrow">&#x3009;</span></div><br>
+<!--security-->
+<div class="security">MAC Address<span class="security" style="position:fixed; left:210px">Status</span></div><br>
+<div class="security">Client Info<span class="security" style="position:fixed; left:332px">&#x3009;</span></div>
+<!--about-->
+<div class="about">This PowerHub web applet is made for the partial fulfillment of the SY 2019-2020 Capstone Experience Program.</div>
+<div class="about">Credits:</div>
+<div class="about">Jericho Rejuso - Android app development</div>
+<div class="about">Khalil Ubalde - Everything Else</div>
+<div class="about" onClick="about()" style="">Back</div>
+<iframe id="nav" class="main"src="nav.html?from=settings"></iframe>
+</body>
+</HTML>
