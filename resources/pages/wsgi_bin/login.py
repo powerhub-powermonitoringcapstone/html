@@ -24,11 +24,11 @@ def auth():
     sett = open(cwdf + '/pvt.xml', 'r')
     settings = ET.parse(sett)
     root = settings.getroot()
-    key = str(root.find(".private").attrib['key']) ##end of loading local files
-    auth = str(data.get('auth')) + str(data.get('salt'))
+    key = str(root.find(".private").attrib['key'])
+    salt = str(root.find(".private").attrib['salt'])##end of loading local files
+    auth = str(data.get('auth')) + salt
     auth = str(hashlib.sha256(auth.encode('utf-8')).hexdigest())
-    passh = str(hashlib.sha256((key+str(data.get('salt'))).encode('utf-8')).hexdigest()) #password hashed
-    if (auth == passh):
+    if (auth == key):
         lh.newLogin(str(data.get('fgt')))
         return ("True")
     else:

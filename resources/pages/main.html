@@ -38,6 +38,7 @@
 	/*var client = new ClientJS();
 	fgt=client.getFingerprint();*/
 	fgt=Cookies.get('fgt');
+	if(fgt==undefined){fgt=false};
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/login/',

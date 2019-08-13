@@ -10,6 +10,7 @@
 		top:12px;
 		}
 		body{
+		overflow-x:hidden;
 		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
 		color:#FFFFFF;
 		height: 58px;
@@ -45,6 +46,7 @@
 		/*var client = new ClientJS();
 		fgt=client.getFingerprint();*/
 		fgt = Cookies.get('fgt');
+		if(fgt==undefined){fgt=false};
 		$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/',

@@ -24,6 +24,7 @@
 	<script src="js-cookie.js"></script>
 	<script>
 		fgt=Cookies.get('fgt');
+		if(fgt==undefined){fgt=false};
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/login/',
