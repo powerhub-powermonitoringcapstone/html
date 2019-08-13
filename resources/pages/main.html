@@ -60,7 +60,7 @@
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/data/',
-		success: function(data){alert(data);
+		success: function(data){
 			$('#voltage').html(data.voltage);
 			$('#current').html(data.current);
 			$('#wattage').html(data.voltage * data.current);
