@@ -5,38 +5,11 @@
 <link href="intro.css" type="text/css" rel="stylesheet">
 <!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
 <!--MAIN SCREEN (C) 2019 -->
-<style>
-	body{
-		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
-		color:#FFFFFF;
-		width: 360px;
-		margin: 0 auto;
-	}
-	table{
-		background: rgb(38,39,59)
-	}
-	td, th{
-		border: 1px solid #dddddd;
-	}
-	/*override na lang pota*/
-	#intro_logo{
-		position:fixed;
-		animation-play-state: paused;
-		top:12px;
-	}
-	#data, #nodeshit{
-		width:250px;
-		margin-left:15%;
-	}
-</style>
-</HEAD>
-<BODY>
-<script src="client.min.js"></script>
+<!--javascript-->
 <script src="jquery-3.4.1.min.js"></script>
 <script src="js-cookie.js"></script>
+<script src="dynamic.js"></script>
 <script>
-	/*var client = new ClientJS();
-	fgt=client.getFingerprint();*/
 	fgt=Cookies.get('fgt');
 	if(fgt==undefined){fgt=false};
 	$.ajax({
@@ -69,7 +42,35 @@
 			$('#firmware').html(data.firmware);
 		}
 		});
+	//autorefresher
 	</script>
+<style>
+	body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		width: 360px;
+		margin: 0 auto;
+	}
+	table{
+		background: rgb(38,39,59)
+	}
+	td, th{
+		border: 1px solid #dddddd;
+	}
+	/*override na lang pota*/
+	#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		top:12px;
+	}
+	#data, #nodeshit{
+		width:250px;
+		margin-left:15%;
+	}
+</style>
+</HEAD>
+<BODY>
+<script src="client.min.js"></script>
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
