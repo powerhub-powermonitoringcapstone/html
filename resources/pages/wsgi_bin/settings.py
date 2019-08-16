@@ -15,5 +15,9 @@ def data():
     import settingsHandler as sh
     data = {'nodename': sh.readSettings()[4]}
     return F.jsonify(data)
+@app.route("/data/write/", methods=['GET', 'POST'])
+def write():
+##  dito na iveverify yung settings para di cluttered yung internal handler
+    return ("yeah")
 if __name__ == "__main__":
     app.run()
