@@ -7,20 +7,13 @@ async function demo() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			document.getElementById("demo").innerHTML =
-			this.responseText;
+			self.postMessage(this.responseText);
 		}
 	};
-	xhttp.open("GET", "ajax_info.txt", true);
-	xhttp.send(); 
 	while (1){
-
+		xhttp.open("GET", "/wsgi_bin/data/", true);
+		xhttp.send(); 
 		await sleep(1000);
 	}
 }
-
-
-self.addEventListener('message', function() {
-
-  self.postMessage(e.data);
-}, false);
+self.addEventListener('message', demo(), false);

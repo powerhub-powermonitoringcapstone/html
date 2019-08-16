@@ -8,7 +8,6 @@
 <!--javascript-->
 <script src="jquery-3.4.1.min.js"></script>
 <script src="js-cookie.js"></script>
-<script src="dynamic.js"></script>
 <script>
 	fgt=Cookies.get('fgt');
 	if(fgt==undefined){fgt=false};
@@ -43,6 +42,14 @@
 		}
 		});
 	//autorefresher
+	var dyn = new Worker('dynamic.js');
+	dyn.postMessage('');
+	dyn.onmessage = function(e) {
+		data = JSON.parse(e.data);
+		// $('#voltage').html(data.voltage);
+		// $('#current').html(data.current);
+		// $('#wattage').html(data.voltage * data.current);
+	};
 	</script>
 <style>
 	body{
