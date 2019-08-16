@@ -16,11 +16,20 @@
 		height: 58px;
 		margin: 0 auto;
 		}
-		.security{
+		.buttons{
 			background: rgb(60,63,99);
 			padding-top: 12px;
 			padding-bottom: 12px;
 		}
+		.parm{
+			position:fixed;
+			left:150px;
+		}
+		.arrow{
+			position:fixed;
+			left:332px;
+		}
+		#auth{display:none;} /*password change button*/
 	</style>
 </HEAD>
 <body>
@@ -48,20 +57,23 @@
 		Cookies.set("sesh", "11000000");
 		}
 		else {document.getElementById("intro_logo").style.opacity = "0.5"};
-		$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/settings/data/',
-			success: function(data){
-				$('#nodename').html(data.nodename);
-				$('input[name=nodename]').val(data.nodename);
-			}});
+		// $.ajax({
+		// 	type: 'POST',
+		// 	url: '/wsgi_bin/settings/data/',
+		// 	success: function(data){
+		// 		$('#nodename').html(data.nodename);
+		// 		$('input[name=nodename]').val(data.nodename);
+		// 	}});
 		}
+	function auth(){
+		$('#auth').toggle();$('#authb').toggle();
+	}
 	</script>
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="/resources/logo1.png">
-<!--security-->
 <!-- <div class="security">MAC Address<span style="position:fixed; left:210px">Status</span></div><br> -->
-<div class="security">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
+<div class="buttons" onClick="auth()" id="authb">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
+<div class="buttons" id="auth">Password<span class="parm" id="pw">---</span><span class="arrow">&#x3009;</span></div>
 <iframe id="nav" class="main" src="/resources/pages/nav.html?from=settings"></iframe>
 </body>
 </HTML>
