@@ -46,9 +46,9 @@
 	dyn.postMessage('');
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
-		// $('#voltage').html(data.voltage);
-		// $('#current').html(data.current);
-		// $('#wattage').html(data.voltage * data.current);
+		$('#voltage').html(data.voltage);
+		$('#current').html(data.current);
+		$('#wattage').html(data.voltage * data.current);
 	};
 	</script>
 <style>
