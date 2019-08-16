@@ -2,9 +2,12 @@ import flask as F
 cwd = '/home/capstone/html/resources/pages'
 cwdf = '/home/capstone/codebase'
 app = F.Flask(__name__, template_folder=cwd)
-@app.route("/main/", methods=['GET', 'POST'])
+@app.route("/main/")
 def main():
     return F.render_template('settings_main.html')
+@app.route("/security/")
+def secu():
+    return F.render_template('settings_security.html')
 @app.route("/data/", methods=['GET', 'POST'])
 def data():
     import sys
