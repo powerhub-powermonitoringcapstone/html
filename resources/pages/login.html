@@ -26,7 +26,6 @@
 		// time delta management
 		var date = new Date();
 		var minutes = false;
- 		;
 		fgt=Cookies.get('fgt');
 		if(fgt==undefined){fgt=false};
 		$.ajax({
@@ -53,7 +52,7 @@
 				success: function(data){
 					if (data == "True") //password correct
 					{
-						Cookies.set("fgt", fgt) // if ajax fails
+						Cookies.set("fgt", fgt); // if ajax fails
 						$.ajax({
 							type: 'POST',
 							url: '/wsgi_bin/settings/data/',
