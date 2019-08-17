@@ -13,7 +13,15 @@ def data():
     import sys
     sys.path.insert(1, '/home/capstone/codebase')
     import settingsHandler as sh
-    data = {'nodename': sh.readSettings()[4]}
+    data = {'isSetup':sh.readSettings()[0],\
+            'datalogging':sh.readSettings()[1],\
+            'threshold':sh.readSettings()[2],\
+            'debug':sh.readSettings()[3],\
+            'nodename':sh.readSettings()[4],\
+            'version':sh.readSettings()[5],\
+            'nodetype':sh.readSettings()[6],\
+            'permanence':sh.readSettings()[7],\
+            }
     return F.jsonify(data)
 @app.route("/data/write/", methods=['GET', 'POST'])
 def write():
