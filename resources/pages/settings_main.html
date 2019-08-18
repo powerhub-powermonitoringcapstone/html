@@ -68,14 +68,16 @@
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/settings/data/',
+			data: JSON.stringify ({fgt: fgt}),
 			success: function(data){
 				$('#nodename').html(data.nodename);
 				$('input[name=nodename]').val(data.nodename);
-			}});
+			},
+			contentType: "application/json"
+			});
 		}
 	function security(){
 		window.location.href = "/wsgi_bin/settings/security";
-		// alert('need to implement /wsgi_bin/settings/security');
 	}
 	function about(){
 		// $('.about').toggle();$('.navbuttons').toggle();

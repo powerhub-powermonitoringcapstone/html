@@ -45,16 +45,16 @@
 		fgt = Cookies.get('fgt');
 		if(fgt==undefined){fgt=false};
 		$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/login/',
-				data: JSON.stringify ({fgt: fgt}),
-				success: function(data){
-					if (data != "True")
-					{
-						window.location.href = "/resources/pages/login.html";
-					}
-				},
-				contentType: "application/json"
+			type: 'POST',
+			url: '/wsgi_bin/login/',
+			data: JSON.stringify ({fgt: fgt}),
+			success: function(data){
+				if (data != "True")
+				{
+					window.location.href = "/resources/pages/login.html";
+				}
+			},
+			contentType: "application/json"
 			});
 	window.onload = function () {
 		if (Cookies.get("sesh") != "11000000"){
@@ -65,6 +65,7 @@
 		$.ajax({
 		 	type: 'POST',
 		 	url: '/wsgi_bin/settings/data/',
+		 	data: JSON.stringify ({fgt: fgt}),
 			success: function(data){
 				data = parseInt(data.permanence);
 				$('#perm').html(data + " minutes");
@@ -72,7 +73,9 @@
 				if (data==60){$('#perm').html((data/60) + " hour");};
 				if (data>60){$('#perm').html((data/60) + " hours");};
 				//$('input[name=nodename]').val(data.nodename);
-			}});
+			},
+			contentType: "application/json"
+		});
 		}
 	function auth(){
 		$('.buttons.auth').toggle();$('.buttons.authb').toggle();

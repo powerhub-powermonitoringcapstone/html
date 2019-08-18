@@ -12,17 +12,25 @@ def secu():
 def data():
     import sys
     sys.path.insert(1, '/home/capstone/codebase')
-    import settingsHandler as sh
-    data = {'isSetup':sh.readSettings()[0],\
-            'datalogging':sh.readSettings()[1],\
-            'threshold':sh.readSettings()[2],\
-            'debug':sh.readSettings()[3],\
-            'nodename':sh.readSettings()[4],\
-            'version':sh.readSettings()[5],\
-            'nodetype':sh.readSettings()[6],\
-            'permanence':sh.readSettings()[7],\
-            }
-    return F.jsonify(data)
+    import settingsHandler as sh, loginHandler as lh
+    if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
+        data = {'isSetup':sh.readSettings()[0],\
+                'datalogging':sh.readSettings()[1],\
+                'threshold':sh.readSettings()[2],\
+                'debug':sh.readSettings()[3],\
+                'nodename':sh.readSettings()[4],\
+                'version':sh.readSettings()[5],\
+                'nodetype':sh.readSettings()[6],\
+                'permanence':sh.readSettings()[7],\
+                }
+        return F.jsonify(data)
+    else:
+        data = {'nodename': sh.readSettings()[4], \
+                'nodetype': sh.readSettings()[6], \
+                }
+        return F.jsonify(data)
+            
+        
 @app.route("/data/write/", methods=['GET', 'POST'])
 def write():
 ##  dito na iveverify yung settings para di cluttered yung internal handler
