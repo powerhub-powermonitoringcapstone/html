@@ -9,7 +9,6 @@ def post():
     import sys
     sys.path.insert(1, '/home/capstone/codebase')
     import loginHandler as lh
-##    return("True")
     if (lh.isLogin(str(F.request.json.get('fgt')))):
         return ("True")
     else:

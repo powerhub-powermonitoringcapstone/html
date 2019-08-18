@@ -28,55 +28,56 @@
 		var minutes = false;
 		fgt=Cookies.get('fgt');
 		if(fgt==undefined){fgt=false};
+		function Login(){
+			var fgt=uuidv4();
+			var auth=$('#password').val();
+			$.ajax({
+				type: 'POST',
+				url: '/wsgi_bin/login/auth/',
+				data: JSON.stringify ({fgt:fgt, auth:auth}),
+				success: function(data){
+					if (data == "True") //password correct
+					{
+						$.ajax({
+							type: 'POST',
+							url: '/wsgi_bin/settings/data/',
+							data: JSON.stringify({fgt: fgt}),
+							success: function(data){
+								minutes = data.permanence;
+								date.setTime(date.getTime() + (minutes * 60 * 1000));
+								window.location.href = "/resources/pages/main.html";	
+								Cookies.set("fgt", fgt);		
+								if (minutes != 0){Cookies.set("fgt", fgt, { expires: date });};	
+							},
+							contentType: "application/json"
+						});		
+						
+ 					} else{ //password wrong
+						alert ("Wrong password!");
+					}
+				},
+				contentType: "application/json"
+			});
+		return false;
+		}
+		//autoLogin
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/login/',
 			data: JSON.stringify ({fgt: fgt}),
 			success: function(data){
 				if (data == "True"){
-						window.location.href = "/resources/pages/main.html";
-					}
-				},
+					window.location.href = "/resources/pages/main.html";
+				}
+			},
 			contentType: "application/json",
-			});
-		function Login(){
-			var fgt=uuidv4();
-			var auth=$('#password').val();
-			var salt=uuidv4();
-			var date=new Date();
-			//minutes = false;
-			$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/login/auth/',
-				data: JSON.stringify ({fgt:fgt, auth:auth, salt:salt}),
-				success: function(data){
-					if (data == "True") //password correct
-					{
-						Cookies.set("fgt", fgt); // if ajax fails
-						$.ajax({
-							type: 'POST',
-							url: '/wsgi_bin/settings/data/',
-							success: function(data){
-								minutes = data.permanence;
-								date.setTime(date.getTime() + (minutes * 60 * 1000));
-								if (minutes != 0){Cookies.set("fgt", fgt, { expires: date });};	
-							},
-							async: false
-						});		
-						window.location.href = "/resources/pages/main.html";			
- 					} else{ //password wrong
-						alert ("Wrong password!");
-					}
-				},
-				contentType: "application/json",
-			});
-		}
+		});
 		//jquery remember me
 		function toggleClick(){
-		if ($('#rememberMe').is(':checked')){
-			$('#rememberMe').attr('checked', false);
+			if ($('#rememberMe').is(':checked')){
+				$('#rememberMe').attr('checked', false);
 			} else {
-			$('#rememberMe').attr('checked', true);
+				$('#rememberMe').attr('checked', true);
 			};
 		}
 	</script>	
@@ -85,7 +86,7 @@
 	<img id="intro_logo" src="../logo1.png">
 	<table id="login">
 		<tr><td>Login:</td></tr>
-		<tr><td><form onSubmit="Login()"><input type="password" id="password"></td></tr>
+		<tr><td><form onSubmit="return Login()" accept-charset="utf-8"><input type="password" id="password"></td></tr>
 		<tr><td><input type="submit" value="Submit"></td></tr>
 		<tr><td><input type="checkbox" id="rememberMe" value="true"><span onclick="toggleClick()">Remember Me</span></td></tr>
 		</form>
