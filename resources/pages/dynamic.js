@@ -3,7 +3,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function demo() {
+async function demo(e) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -11,9 +11,13 @@ async function demo() {
 		}
 	};
 	while (1){
-		xhttp.open("GET", "/wsgi_bin/data/", true);
-		xhttp.send(); 
+		xhttp.open("POST", "/wsgi_bin/data/", true);
+		xhttp.setRequestHeader("Content-Type", "application/json");
+		xhttp.send(JSON.stringify({fgt:e})); 
 		await sleep(1000);
 	}
 }
-self.addEventListener('message', demo(), false);
+self.onmessage = function(msg){
+	demo(msg.data);
+};
+// self.addEventListener('message', demo(), false);

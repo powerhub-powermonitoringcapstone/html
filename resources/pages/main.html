@@ -17,7 +17,9 @@
 		data: JSON.stringify ({fgt: fgt}),
 		success: function(data){
 		if (data != "True")
-			{window.location.href = "/resources/pages/login.html";};
+			{window.location.href = "/resources/pages/login.html";} else{
+			readData();
+			};
 		},
 		contentType: "application/json"
 		});
@@ -30,20 +32,24 @@
 		}
 	}
 	//readData
+	function readData(){
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/data/',
+		data: JSON.stringify({fgt: fgt}),
 		success: function(data){
 			$('#voltage').html(data.voltage);
 			$('#current').html(data.current);
 			$('#wattage').html(data.voltage * data.current);
 			$('#nodename').html(data.nodename);
 			$('#firmware').html(data.firmware);
-		}
+		},
+		contentType: "application/json"
 		});
+	}
 	//autorefresher
 	var dyn = new Worker('dynamic.js');
-	dyn.postMessage('');
+	dyn.postMessage(fgt);
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		$('#voltage').html(data.voltage);
