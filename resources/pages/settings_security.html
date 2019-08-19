@@ -42,6 +42,7 @@
 	<script src="/resources/pages/jquery-3.4.1.min.js"></script>
 	<script src="/resources/pages/js-cookie.js"></script>
 	<script>
+		//autoLogin
 		fgt = Cookies.get('fgt');
 		if(fgt!=undefined){
 			$.ajax({
@@ -57,20 +58,6 @@
 			contentType: "application/json",
 			});
 		} else {window.location.href = "/resources/pages/login.html";};
-		// fgt = Cookies.get('fgt');
-		// if(fgt==undefined){fgt=false};
-		// $.ajax({
-		// 	type: 'POST',
-		// 	url: '/wsgi_bin/login/',
-		// 	data: JSON.stringify ({fgt: fgt}),
-		// 	success: function(data){
-		// 		if (data != "True")
-		// 		{
-		// 			window.location.href = "/resources/pages/login.html";
-		// 		}
-		// 	},
-		// 	contentType: "application/json"
-		// 	});
 	window.onload = function () {
 		if (Cookies.get("sesh") != "11000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
