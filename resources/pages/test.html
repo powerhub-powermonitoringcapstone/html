@@ -6,17 +6,20 @@
 	<script src="uuid_v4.js"></script>
 	<script src="js-cookie.js"></script>
 	<script>
+		fgt = Cookies.get('fgt');
 		function change(){
-			auth = $('#password').val()
+			if (fgt!=undefined){
+			auth = $('#password').val();
 			$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/change/',
-				data: JSON.stringify ({auth:auth}),
+				data: JSON.stringify ({auth:auth,fgt:fgt}),
 				success: function(data){
 					alert("Done!");
 				},
 				contentType: "application/json"
 				});
+			}
 			return false;
 		}
 			</script>

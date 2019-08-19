@@ -44,7 +44,7 @@ def change():
         settings = ET.parse(sett)
         root = settings.getroot()
         found = root.find("./private")
-        if (found == None):
+        if (found == None and lh.isLogin(data.get('fgt'))):
             root.append(ET.Element("private", {'key': auth, 'salt': salt}))
         else:
             found.set('key', auth)

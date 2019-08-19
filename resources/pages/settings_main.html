@@ -76,8 +76,11 @@
 			contentType: "application/json"
 			});
 		}
-	function security(){
-		window.location.href = "/wsgi_bin/settings/security";
+	// function security(){
+	// 	window.location.href = "/wsgi_bin/settings/security";
+	// }
+	function node(){
+		$("input[name='nodename']").val();
 	}
 	function about(){
 		// $('.about').toggle();$('.navbuttons').toggle();
@@ -88,11 +91,11 @@
 <img id="intro_logo" class="main" src="/resources/logo1.png">
 <!--navigation-->
 <!-- <div class="navbuttons">Nodes<span class="navarrow">&#x3009;</span></div><br> -->
-<div class="navbuttons" onClick="security()">Security Settings<span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons" onClick="window.location.href = '/wsgi_bin/settings/security'">Security Settings<span class="navarrow">&#x3009;</span></div><br>
 <div class="navbuttons">Firmware Update<span class="navarrow">&#x3009;</span></div><br>
 <!--node-->
 <div class="navbuttons" id="node">Node Name...<span class="navparm" id="nodename">---</span><span class="navarrow">&#x3009;</span>
-<span class="node"><form><input type="textbox" style="display:none;position:relative;left:150px;bottom:20px;z-index:5; background:inherit;color:inherit;border: 0 none;font-size: 12pt;"name="nodename" value="Yess"></form></span>
+<span class="node"><form onSubmit=""><input type="textbox" style="display:none;position:relative;left:150px;bottom:20px;z-index:5; background:inherit;color:inherit;border: 0 none;font-size: 12pt;"name="nodename" value="---"></form></span>
 </div><br>
 <div class="navbuttons" onClick="about()">About<span class="navarrow">&#x3009;</span></div><br>
 <!--about-->
