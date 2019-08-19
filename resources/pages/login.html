@@ -26,11 +26,24 @@
 		// time delta management
 		var date = new Date();
 		var minutes = false;
+		// autoLogin
 		fgt=Cookies.get('fgt');
-		if(fgt==undefined){fgt=false};
-		function Login(){
-			var fgt=uuidv4();
-			var auth=$('#password').val();
+		if(fgt!=undefined){
+			$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/login/',
+			data: JSON.stringify ({fgt: fgt}),
+			success: function(data){
+				if (data == "True"){
+					window.location.href = "/resources/pages/main.html";
+				} else {Cookies.set('fgt', '');};
+			},
+			contentType: "application/json",
+			});
+		};
+		function Login(){	
+			var fgt = uuidv4();
+			var auth = $('#password').val();
 			$.ajax({
 				type: 'POST',
 				url: '/wsgi_bin/login/auth/',
@@ -60,18 +73,6 @@
 			});
 		return false;
 		}
-		//autoLogin
-		$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/login/',
-			data: JSON.stringify ({fgt: fgt}),
-			success: function(data){
-				if (data == "True"){
-					window.location.href = "/resources/pages/main.html";
-				}
-			},
-			contentType: "application/json",
-		});
 		//jquery remember me
 		function toggleClick(){
 			if ($('#rememberMe').is(':checked')){

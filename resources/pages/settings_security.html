@@ -43,19 +43,34 @@
 	<script src="/resources/pages/js-cookie.js"></script>
 	<script>
 		fgt = Cookies.get('fgt');
-		if(fgt==undefined){fgt=false};
-		$.ajax({
+		if(fgt!=undefined){
+			$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/login/',
 			data: JSON.stringify ({fgt: fgt}),
 			success: function(data){
-				if (data != "True")
-				{
+				if (data != "True"){
 					window.location.href = "/resources/pages/login.html";
+					Cookies.set('fgt','');
 				}
 			},
-			contentType: "application/json"
+			contentType: "application/json",
 			});
+		} else {window.location.href = "/resources/pages/login.html";};
+		// fgt = Cookies.get('fgt');
+		// if(fgt==undefined){fgt=false};
+		// $.ajax({
+		// 	type: 'POST',
+		// 	url: '/wsgi_bin/login/',
+		// 	data: JSON.stringify ({fgt: fgt}),
+		// 	success: function(data){
+		// 		if (data != "True")
+		// 		{
+		// 			window.location.href = "/resources/pages/login.html";
+		// 		}
+		// 	},
+		// 	contentType: "application/json"
+		// 	});
 	window.onload = function () {
 		if (Cookies.get("sesh") != "11000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
