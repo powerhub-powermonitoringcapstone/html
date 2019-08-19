@@ -19,7 +19,7 @@
 			if (data != "True"){
 				window.location.href = "/resources/pages/login.html";
 				Cookies.set('fgt','');
-			}
+			} else{readData();};
 		},
 		contentType: "application/json",
 		});
