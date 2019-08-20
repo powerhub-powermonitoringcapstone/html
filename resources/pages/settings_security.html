@@ -30,6 +30,10 @@
 			position:fixed;
 			left:150px;
 		}
+		.parm.pw{
+			right:30px;
+
+		}		
 		.arrow{
 			position:fixed;
 			left:332px;
@@ -82,13 +86,26 @@
 	function auth(){
 		$('.buttons.auth').toggle();$('.buttons.authb').toggle();
 	}
+	function change(){
+		var auth = $("input[name='pw']").val();
+		$.ajax({
+		 	type: 'POST',
+		 	url: '/wsgi_bin/login/change/',
+		 	data: JSON.stringify ({fgt: fgt, auth:auth}),	
+		 	success: function(){
+		 		alert('Done!');
+		 	},
+		 	contentType: "application/json"
+		 });
+	return false;	
+	}
 	</script>
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="/resources/logo1.png">
 <!-- <div class="security">MAC Address<span style="position:fixed; left:210px">Status</span></div><br> -->
 <div class="label">Security Settings &#x3009;</div>
 <div class="buttons auth" onClick="auth()" id="authb">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
-<div class="buttons authb" id="auth">Password<span class="parm" id="pw">---</span><span class="arrow">&#x3009;</span></div>
+<div class="buttons authb" id="auth">Password<span class="parm pw"><form onSubmit="return change()"><input name="pw"  type="password"></form></span><span class="arrow">&#x3009;</span></div>
 <br>
 <div class="buttons authb">Login Permanence<span class="parm" id="perm" style="left:180px;">Until Exit</span><span class="arrow">&#x3009;</span></div>
 <iframe id="nav" class="main" src="/resources/pages/nav.html?from=settings"></iframe>
