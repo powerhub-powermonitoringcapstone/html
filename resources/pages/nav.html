@@ -15,9 +15,15 @@
 		cursor: pointer;
 	}
 </style>
+<script src="jquery-3.4.1.min.js"></script>
 <script>
 	window.onload = function () {
+				switch(getParameter("from")){
+					case 'settings_security':
+						$('#settings').css("background", "rgb(60,63,99)");
+						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/security/'");
 				document.getElementById(getParameter("from")).style.background = "rgb(60,63,99)";
+				}
 		}
 
 	function getParameter(variable){
