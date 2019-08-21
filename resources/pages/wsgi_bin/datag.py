@@ -24,6 +24,12 @@ def post():
 ##    sys.path.insert(1, cwdf)
 ##    import loginHandler as lh, settingsHandler as sh
 ##    if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
-        
+##        with open(cwdf+'/measurements.xml', 'r') as sett:
+##            ## since last start
+##            measurements = ET.parse(sett)
+##            root = measurements.getroot()
+##            item = root.findall("./plot[@n='1']")[-1]
+##            print(list(root).index(item))
+##        
 if __name__ == "__main__":
     app.run()
