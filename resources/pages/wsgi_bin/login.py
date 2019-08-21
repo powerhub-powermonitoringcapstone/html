@@ -52,9 +52,6 @@ def change():
         with open (cwdf + '/pvt.xml', 'wb') as settw:
             settings.write(settw)
             settw.close()
-    return (F.jsonify({\
-        'auth': auth,\
-        'salt': salt\
-        }))
+    return ("True") ## success
 if __name__ == "__main__":
     app.run()
