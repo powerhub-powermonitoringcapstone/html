@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+<link href="animations.css" type="text/css" rel="stylesheet">
+<link href="intro.css" type="text/css" rel="stylesheet">
+<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
+<!--MAIN SCREEN (C) 2019 -->
+<!--javascript-->
+<script src="jquery-3.4.1.min.js"></script>
+<script src="js-cookie.js"></script>
+<script src="plotly.js"></script>
+<script>
+	//autoLogin
+	fgt = Cookies.get('fgt');
+	if(fgt!=undefined){
+		$.ajax({
+		type: 'POST',
+		url: '/wsgi_bin/login/',
+		data: JSON.stringify ({fgt: fgt}),
+		success: function(data){
+			if (data != "True"){
+				window.location.href = "/resources/pages/login.html";
+				Cookies.set('fgt','');
+			} else if (data == "True"){readData();};
+		},
+		contentType: "application/json",
+		});
+	} else {window.location.href = "/resources/pages/login.html";};
+	window.onload = function () {
+		if (Cookies.get('sesh') != "10100000"){
+			document.getElementById("intro_logo").style.animationPlayState = "running" ;
+			Cookies.set("sesh", "10100000");
+		} else {
+			document.getElementById("intro_logo").style.opacity = "0.5";
+		}
+	}
+	//readData
+	function readData(){
+	$.ajax({
+		type: 'POST',
+		url: '/wsgi_bin/data/',
+		data: JSON.stringify({fgt: fgt}),
+		success: function(data){
+			$('#voltage').html(data.voltage);
+			$('#current').html(data.current);
+			$('#wattage').html(data.voltage * data.current);
+			$('#nodename').html(data.nodename);
+			$('#firmware').html(data.firmware);
+		},
+		contentType: "application/json"
+		});
+	}
+	//autorefresher
+	var dyn = new Worker('dynamic.js');
+	dyn.postMessage(fgt);
+	dyn.onmessage = function(e) {
+		data = JSON.parse(e.data);
+		$('#voltage').html(data.voltage);
+		$('#current').html(data.current);
+		$('#wattage').html(data.voltage * data.current);
+	};
+	</script>
+<style>
+	body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		width: 360px;
+		margin: 0 auto;
+	}
+	table{
+		background: rgb(38,39,59)
+	}
+	td, th{
+		border: 1px solid #dddddd;
+	}
+	/*override na lang pota*/
+	#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		top:12px;
+	}
+	#data, #nodeshit{
+		width:250px;
+		margin-left:15%;
+	}
+</style>
+</HEAD>
+<BODY>
+<script src="client.min.js"></script>
+	<!--actual markup code here-->
+	<div style="height:96px"></div><!--placeholder-->
+	<img id="intro_logo" src="../logo1.png">
+	<table id="data">
+		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
+		<td>Current<br><span id="current">---</span> A</td>
+		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
+		<!--<td>Graph Here</td></tr>-->
+	</table>
+	<!--maybe graph should be held captive here-->
+	<table id="nodeshit">
+	<tr><td>Node Name<br><span id="nodename">---</span></td>
+	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
+	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
+	<td>Uptime:<br>99999</td></tr>
+	</table>
+	<iframe id="nav" src="nav.html?from=home"></iframe>
+</BODY>
+</HTML>
+
+	
+<!---dynamic shit here! -->
