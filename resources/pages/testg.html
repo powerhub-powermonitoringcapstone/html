@@ -2,29 +2,31 @@
 <html>
 <head>
 	<title>graphing</title>
-	<script src="client.min.js"></script>
+	<script src="plotly.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script src="uuid_v4.js"></script>
 	<script src="js-cookie.js"></script>
 	<script>
-		fgt = Cookies.get('fgt');
-		function change(){
-			if (fgt!=undefined){
-				auth = $('#password').val();
-				$.ajax({
-					type: 'POST',
-					url: '/wsgi_bin/login/change/',
-					data: JSON.stringify ({auth:auth,fgt:fgt}),
-					success: function(data){
-						alert("Done!");
-					},
-					contentType: "application/json"
-				});
-			}
-			return false;
-		}
+		x = [], y = [];
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/data/graph/',
+			/*data: JSON.stringify ({auth:auth,fgt:fgt}),*/
+			success: function(data){
+				for(var i = 0; i < data.length; i++){
+					x.push(i); y.push(parseFloat(data[i].current));
+				};
+			},
+			async:false
+		});
+
 	</script>
+	
 </head>
 <body>
-	graphly.js here
+	<div id="graph"></div>
+	<script>
+		Plotly.plot('graph', [{x:x, y:y}]);
+	</script>
 </body>
+</html>
