@@ -7,17 +7,18 @@
 	<script src="uuid_v4.js"></script>
 	<script src="js-cookie.js"></script>
 	<script>
-		x = [], y = [];
+		x = [], y = [],	fgt = Cookies.get('fgt');
 		$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/data/graph/',
-			/*data: JSON.stringify ({auth:auth,fgt:fgt}),*/
+			data: JSON.stringify ({fgt:fgt, mode:"real"}), //program _start_, _real_ time (last 50 readings)
 			success: function(data){
 				for(var i = 0; i < data.length; i++){
 					x.push(i); y.push(parseFloat(data[i].current));
 				};
 			},
-			async:false
+			async:false,
+			contentType: "application/json"
 		});
 
 	</script>
