@@ -20,16 +20,20 @@ def post():
         return F.jsonify({'auth':'false'})
 ##@app.route("/graph/", methods=['GET', 'POST']) #past data array, graphing
 ##def graph():
-##    import sys, xml.etree.ElementTree as ET 
+##    import sys, xml.etree.ElementTree as ET
+##    data = []
 ##    sys.path.insert(1, cwdf)
 ##    import loginHandler as lh, settingsHandler as sh
-##    if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
+##    if (True):##(F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
 ##        with open(cwdf+'/measurements.xml', 'r') as sett:
 ##            ## since last start
 ##            measurements = ET.parse(sett)
 ##            root = measurements.getroot()
 ##            item = root.findall("./plot[@n='1']")[-1]
-##            print(list(root).index(item))
+##            read = root[list(root).index(item):]
+##            for k in range(len(read)):
+##                data.append({'voltage': read[k].attrib['voltage'], 'current': read[k].attrib['current']})
+##        return F.jsonify(data)
 ##        
 if __name__ == "__main__":
     app.run()
