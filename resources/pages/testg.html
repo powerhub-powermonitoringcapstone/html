@@ -5,29 +5,11 @@
 	<script src="plotly.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script src="uuid_v4.js"></script>
-	<script src="js-cookie.js"></script>
-	<script>
-		x = [], y = [],	fgt = Cookies.get('fgt');
-		$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/data/graph/',
-			data: JSON.stringify ({fgt:fgt, mode:"real"}), //program _start_, _real_ time (last 50 readings)
-			success: function(data){
-				for(var i = 0; i < data.length; i++){
-					x.push(i); y.push(parseFloat(data[i].current));
-				};
-			},
-			async:false,
-			contentType: "application/json"
-		});
-
-	</script>
-	
+	<script src="js-cookie.js"></script>	
 </head>
 <body>
 	<div id="graph"></div>
-	<script>
-		Plotly.plot('graph', [{x:x, y:y}]);
-	</script>
+	<input type="button" onClick="plot('real')" value="Real-Time"><input type="button" onClick="plot('start')" value="Last Start"></form>
+	<script src="graph.js"></script>
 </body>
 </html>

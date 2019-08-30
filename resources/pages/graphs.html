@@ -83,6 +83,9 @@
 		width:250px;
 		margin-left:15%;
 	}
+	#graph{
+		height:200px; width:80%; background:white; margin-left:10%;
+	}
 </style>
 </HEAD>
 <BODY>
@@ -90,20 +93,22 @@
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
-	<table id="data">
+	<!-- <table id="data">
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
 		<td>Current<br><span id="current">---</span> A</td>
 		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
-		<!--<td>Graph Here</td></tr>-->
-	</table>
+		<<td>Graph Here</td></tr>
+	</table> -->
+	<div id="graph"></div>
 	<!--maybe graph should be held captive here-->
-	<table id="nodeshit">
+	<!-- <table id="nodeshit">
 	<tr><td>Node Name<br><span id="nodename">---</span></td>
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
 	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
 	<td>Uptime:<br>99999</td></tr>
 	</table>
-	<iframe id="nav" src="nav.html?from=home"></iframe>
+	 --><script src="graph.js">plot('real');</script>
+	<iframe id="nav" src="nav.html?from=plot"></iframe>
 </BODY>
 </HTML>
 
