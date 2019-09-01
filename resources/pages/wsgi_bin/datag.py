@@ -28,8 +28,8 @@ def graph():
         with open(cwdf+'/measurements.xml', 'r') as sett:
             measurements = ET.parse(sett) 
             root = measurements.getroot()      
-            if (F.request.json.get('mode') == "real"): ## latest 50 readings
-                item = root.findall("./plot")[-50:]
+            if (F.request.json.get('mode') == "real"): ## latest 60 readings
+                item = root.findall("./plot")[-60:]
                 for k in range(len(item)):
                     data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
                 return F.jsonify(data)

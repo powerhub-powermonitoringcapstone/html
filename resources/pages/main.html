@@ -8,6 +8,7 @@
 <!--javascript-->
 <script src="jquery-3.4.1.min.js"></script>
 <script src="js-cookie.js"></script>
+<script src="plotly.js"></script>
 <script>
 	//autoLogin
 	fgt = Cookies.get('fgt');
@@ -53,11 +54,24 @@
 	var dyn = new Worker('dynamic.js');
 	dyn.postMessage(fgt);
 	dyn.onmessage = function(e) {
+		console.log(e);
 		data = JSON.parse(e.data);
 		$('#voltage').html(data.voltage);
 		$('#current').html(data.current);
 		$('#wattage').html(data.voltage * data.current);
 	};
+	//real time grapher
+	// var dyg = new Worker('graph.js');
+	// dyg.postMessage(fgt);
+	// dyg.onMessage = function(e){ 				// I CANT SEEM TO MAKE IT WORK. YET...//
+	// 	e = JSON.parse(e.data);
+	// 	x = [], y = [];
+	// 	for (var i = 0; i < e.length; i++){
+	// 		x.push(i); y.push(parseFloat(data[i].current));
+	// 		console.log(x);
+	// 	Plotly.react('graph', [{x:x, y:y}]);
+	// 	};
+	// }
 	</script>
 <style>
 	body{
@@ -74,7 +88,6 @@
 	}
 	#graph{
 		height:200px; width:80%; background:white; margin-left:10%;
-	}
 	}
 	/*override na lang pota*/
 	#intro_logo{
@@ -100,7 +113,6 @@
 		<!--<td>Graph Here</td></tr>-->
 	</table>
 	<div id="graph"></div>
-	<script src="graph.js">plot('real');</script>
 	<table id="nodeshit">
 	<tr><td>Node Name<br><span id="nodename">---</span></td>
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>

@@ -1,4 +1,4 @@
-//auto data refresh handler (c) 2019 powerhub
+//auto graph data refresh handler (c) 2019 powerhub
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
