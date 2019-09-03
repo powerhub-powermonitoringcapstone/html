@@ -61,13 +61,13 @@
 	};
 	var dyg = new Worker('graph.js');
 	dyg.postMessage(fgt);
-	dyg.onmessage = function(e){ 				// I CANT SEEM TO MAKE IT WORK. YET...//
+	dyg.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
 		x = [], y = [];
 		for (var i = 0; i < e.length; i++){
 			x.push(i); y.push(parseFloat(e[i].current));
 		};
-		Plotly.react('graph', [{x:x, y:y}]);
+		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 	}
 	</script>
 <style>
