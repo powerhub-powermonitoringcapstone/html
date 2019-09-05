@@ -82,8 +82,8 @@
 		animation-play-state: paused;
 		top:12px;
 	}
-	#data, #nodeshit{
-		width:250px;
+	#data, #nodeshit, #notifs{
+		width:275px;
 		margin-left:15%;
 	}
 </style>
@@ -105,6 +105,10 @@
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
 	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
 	<td>Uptime:<br>99999</td></tr>
+	</table>
+	<table id="notifs" style="background:#1a2839;">
+	<tr><td><img src="/resources/icons/limit.gif" style="height:36px"/></td><td>Limit Reached!</td></tr>
+	<tr><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Voltages above tolerance</td></tr>
 	</table>
 	<iframe id="nav" src="nav.html?from=home"></iframe>
 </BODY>
