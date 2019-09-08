@@ -14,9 +14,23 @@
 			border: 10px solid;
 			overflow-x:hidden;
 		}
+		#debugger{
+			background: grey;
+			position:absolute;
+			top:350px;
+			left:48px;
+		}
 	</style>
 </HEAD>
 <BODY>
+	<table id="debugger">
+		<tr><td>Notification Debugging</td></tr>
+	<form>
+		<tr><td><input type="button" value="Significant Load"></td><td><input type="button" value="Overvoltage"></td></tr>
+		<tr><td>System Flags</td></tr>
+		<tr><td><input type="button" value="Restart Server"></td><td><input type="button" value="Restart Logger"></td></tr>
+	</form>
+	</table>
 	<iframe id="content_frame" style="overflow-x:hidden;" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" src="./resources/pages/login.html"></iframe>
 </BODY>
 </HTML>

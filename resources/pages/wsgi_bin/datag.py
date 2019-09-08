@@ -14,7 +14,7 @@ def post():
             measurements = ET.parse(sett)
             root = measurements.getroot()
             last = root.findall("./plot")[-1]
-        data = {'voltage': last.attrib['voltage'], 'current': last.attrib['current'], 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5]}
+        data = {'voltage': last.attrib['voltage'], 'current': last.attrib['current'], 'variation':last.attrib['variation'], 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5]}
         return F.jsonify(data)
     else:
         return F.jsonify({'auth':'false'})
