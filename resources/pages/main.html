@@ -12,7 +12,7 @@
 <script src="login.js"></script><!-- if (isLogin()){readData();} else {window.location.href="resources/pages/login.html";};</script> -->
 <script>
 	fgt = Cookies.get('fgt');
-	if (isLogin(fgt) == 0){
+	if (isLogin(fgt) != 1){
 		window.location.href = "/resources/pages/login.html";
 	}
 	readData();
@@ -112,8 +112,9 @@
 	</table>
 	<table id="notifs" style="background:#1a2839;">
 	<tr class="limit"><td><img src="/resources/icons/limit.gif" style="height:36px"/></td><td>Limit Reached!</td></tr>
-	<tr class="limit"><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Voltages above tolerance</td></tr>
+	<tr class="overv"><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Voltages above tolerance</td></tr>
 	</table>
+	<audio autoplay="true" style="display:none;" src="/resources/beep.mp3"></audio>
 	<iframe id="nav" src="nav.html?from=home"></iframe>
 </BODY>
 </HTML>
