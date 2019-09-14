@@ -16,7 +16,7 @@ def secu():
 @app.route("/data/", methods=['GET', 'POST'])
 def data():
 ##    import sys
-    sys.path.insert(1, '/home/capstone/codebase')
+    sys.path.insert(1, cwdf)
     import settingsHandler as sh, loginHandler as lh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
         data = {'isSetup':sh.readSettings()[0],\
