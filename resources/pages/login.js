@@ -13,6 +13,6 @@ function isLogin(fgt){
 		contentType: "application/json",
 		async: false
 		});
-	} else {return ("False"); x = 0;};
+	} else {/*return ("False");*/ x = 0;};
 	return x;
 }
