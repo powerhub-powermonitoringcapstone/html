@@ -27,6 +27,7 @@ def data():
                 'version':sh.readSettings()[5],\
                 'nodetype':sh.readSettings()[6],\
                 'permanence':sh.readSettings()[7],\
+                'carbfpt':sh.readSettings()[8],\
                 }
         return F.jsonify(data)
     else:
