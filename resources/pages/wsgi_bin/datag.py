@@ -20,7 +20,7 @@ def post():
         return F.jsonify({'auth':'false'})
 @app.route("/graph/", methods=['GET', 'POST']) #past data array, graphing
 def graph():
-    import sys, xml.etree.ElementTree as ET
+    import sys, xml.etree.ElementTree as ET, datetime
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
@@ -41,5 +41,18 @@ def graph():
                     for k in range(len(read)):
                         data.append({'voltage': read[k].attrib['voltage'], 'current': read[k].attrib['current']})
                     return F.jsonify(data)
+                else:
+                    if (F.request.get('mode') == "day"): ##readings throughout a day
+                        i = end = start = 0
+                        item = root.findall("./plot")
+                        for k in reversed(range(len(item))):
+                            if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date()): 
+                                if i == 0:
+                                    i = 1
+                                    end = k ## end of data
+                                start = k
+                        for stuff in item[start:end]:
+                            data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
+                        return F.jsonify(data)
 if __name__ == "__main__":
     app.run()
