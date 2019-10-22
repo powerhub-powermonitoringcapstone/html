@@ -10,7 +10,7 @@
 			color: #FFFFFF;				/* The rest of the styles are on the intro.css stylesheet*/
 		}
 		/*#intro{display:none;}*/
-		#setup, #setupOnly{
+		#setup, #setupOnly, #setupOnlySet, #setupSetPass{
 			display:none;
 		}
 		#setup img{
@@ -29,6 +29,13 @@
 	</style>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
+		function Setup(){
+			if ($('#pass').val.length < 6 || $('#pass').val.length > 32){
+				alert ('Please enter a password between 6 to 32 characters.');
+				return false;
+			}
+			alert('adsfasfda');
+		}
 		function clickNext(page){
 		// alert("only node or group of many nodes here");
 		switch(page){
@@ -36,16 +43,37 @@
 			$('#intro').css("display", "block");
 			$('#setup').css("display", "none");
 			$('#setupOnly').css("display", "none");
+			$('#setupOnlySet').css("display", "none");
+			$('#setupSetPass').css("display", "none");
 			break;
 			case 'setup':
 			$('#intro').css("display", "none");
 			$('#setup').css("display", "block");
 			$('#setupOnly').css("display", "none");
+			$('#setupOnlySet').css("display", "none");
+			$('#setupSetPass').css("display", "none");
 			break;
 			case 'setupOnly':
 			$('#intro').css("display", "none");
 			$('#setup').css("display", "none");
 			$('#setupOnly').css("display", "block");
+			$('#setupOnlySet').css("display", "none");
+			$('#setupSetPass').css("display", "none");
+			$('#next_button').attr("onClick", "clickNext('setupSetPass')");
+			break;
+			case 'setupOnlySet':
+			$('#intro').css("display", "none");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "none");
+			$('#setupOnlySet').css("display", "block");
+			$('#setupSetPass').css("display", "none");
+			break;
+			case 'setupSetPass':
+			$('#intro').css("display", "none");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "none");
+			$('#setupOnlySet').css("display", "none");
+			$('#setupSetPass').css("display", "block");
 			break;
 		}
 	}
@@ -55,22 +83,34 @@
 </HEAD>
 <body>
 	<!-- first intro page-->
-		<img id="intro_logo" src="../logo2.png"> <!--kailangang ioverride yung position-->
+	<img id="intro_logo" src="../logo1.png"> <!--kailangang ioverride yung position-->
 	<div id="intro">
 		<div id="intro_text">Welcome!</div>
-		<div id="intro_text2" class="introtext">SmartMeter is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
-		<div id="intro_text3" class="introtext">SmartMeter's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
+		<div id="intro_text2" class="introtext">PowerHub is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
+		<div id="intro_text3" class="introtext">PowerHub's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
 	</div>
 	<!-- setup page-->
-	<div id="setup">
+	<div id="setup"><form accept-charset="utf-8" onSubmit="">
 		<div class="centr" onClick="clickNext('setupOnly')" style="float:left;"><img style="height:128px" alt="One Device" src="./intro/node.png"><br>Only Device<br>Choose this if you do not have any<br> other PowerHub(tm) Meters installed.</div>
 		<div class="centr" style="float:right;"><img style="height:128px" alt="Main Device" src="./intro/manynodes.png"><br>Main Device<br>Choose this if you have other<br> PowerHub(tm) Meters installed<br>that you wish to control.</div>
 	</div>
 	<!-- setup page, chose only page-->
-	<div id="setupOnly">
-		<div style="height:280px"></div>
-		<div>Please type in the name you'd like for your PowerHub.<br><input type="text" value="PowerHub_xxxxxx"></div>
-	</div>
+		<div id="setupOnly">
+			<div style="height:260px"></div>
+			<div>Please type in the name you'd like for your PowerHub.<br>PowerHub_<input type="text" name="name" value="xxxxxx"></div>
+		</div>
+		<div id="setupOnlySet">
+			<div style="height:260px"></div>
+			<div>You're set! Please wait while your PowerHub Central Node reboots, then reload this page.</div>
+		</div>
+	<!-- used for both-->
+		<div id="setupSetPass">
+			<div style="height:260px"></div>
+			Input a password that will be memorable. (6-32 characters):<br>
+			<input type="password" name="pass">
+		</div>
 	<a id="next_button" onClick="clickNext('setup')">NEXT</a><!--to setup-->
+	<button type="submit" onClick="return Setup()" value="Submit">
+	</form>
 </body>
 </HTML>

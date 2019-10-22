@@ -33,6 +33,7 @@ def data():
     else:
         data = {'nodename': sh.readSettings()[4], \
                 'nodetype': sh.readSettings()[6], \
+                'isSetup' : sh.readSettings()[0], \
                 }
         return F.jsonify(data)
             
