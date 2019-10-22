@@ -1,28 +1,72 @@
 <!DOCTYPE HTML>
 <HTML>
 <HEAD>
-<link href="animations.css" type="text/css" rel="stylesheet">
-<link href="intro.css" type="text/css" rel="stylesheet">
-<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
-<style>
-	body{
-		background:#000000;
-		color: #FFFFFF;				/* The rest of the styles are on the intro.css stylesheet*/
+	<link href="animations.css" type="text/css" rel="stylesheet">
+	<link href="intro.css" type="text/css" rel="stylesheet">
+	<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
+	<style>
+		body{
+			background:#000000;
+			color: #FFFFFF;				/* The rest of the styles are on the intro.css stylesheet*/
+		}
+		/*#intro{display:none;}*/
+		#setup, #setupOnly{
+			display:none;
+		}
+		.centr{
+			background: rgb(60,63,99);
+			width:160px;
+			height:220px;
+			display:inline-block;
+			position: relative;
+			top:200px;
+			font-size: 9px;
+		}
+	</style>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		function clickNext(page){
+		// alert("only node or group of many nodes here");
+		switch(page){
+			case 'intro':
+			$('#intro').css("display", "block");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "none");
+			break;
+			case 'setup':
+			$('#intro').css("display", "none");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "block");
+			break;
+			case 'setupOnly':
+			$('#intro').css("display", "none");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "block");
+			break;
+		}
 	}
-</style>
-<script>
-	function clickNext(){
-		window.location.href = "setup.py";
-	}
-
+	// $('#intro').toggle();
+	// $('#setup').toggle();
 </script>
 </HEAD>
 <body>
-<!-- first intro page-->
-<div id="intro_text">Welcome!</div>
-<img id="intro_logo" src="../logo1.png">
-<div id="intro_text2" class="introtext">PowerHub is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
-<div id="intro_text3" class="introtext">PowerHub's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
-<a id="next_button" onClick="clickNext()">NEXT</a><!--to setup-->
+	<!-- first intro page-->
+	<div id="intro">
+		<img id="intro_logo" src="../logo1.png">
+		<div id="intro_text">Welcome!</div>
+		<div id="intro_text2" class="introtext">PowerHub is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
+		<div id="intro_text3" class="introtext">PowerHub's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
+	</div>
+	<!-- setup page-->
+	<div id="setup">
+		<div class="centr" onClick="clickNext('setupOnly')" style="float:left;">Only Device<br>Choose this if you do not have any<br> other PowerHub(tm) Meters installed.</div>
+		<div class="centr" style="float:right;">Main Device<br>Choose this if you have other<br> PowerHub(tm) Meters installed<br>that you wish to control.</div>
+	</div>
+	<!-- setup page, chose only page-->
+	<div id="setupOnly">
+		<div style="height:280px"></div>
+		<div>Please type in the name you'd like for your PowerHub.<br><input type="text" value="PowerHub_xxxxxx"></div>
+	</div>
+	<a id="next_button" onClick="clickNext('setup')">NEXT</a><!--to setup-->
 </body>
 </HTML>

@@ -34,7 +34,7 @@
 	opacity: 0;
 	animation-duration: 2s;
 	animation-name: introtext2;
-	animation-delay: 1s;
+	animation-delay: 0.75s;
 }
 #intro_text3{
 	color: rgb(128,128,128);
@@ -48,6 +48,7 @@
 }
 #next_button{
 	color:#FFFFFF;
+	opacity:0;
 	background: rgb(38,39,59);
 	width:64px;
 	height:48px;
@@ -55,6 +56,12 @@
 	position:fixed;
 	top:85%;
 	left:43%;
+	animation-duration: 2.5s;
+	animation-name: introtext2;
+	animation-delay: 5s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
 }
 #nav{
 	width:360px; height: 58px;
