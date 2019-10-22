@@ -51,11 +51,12 @@ def change():
             settings.write(settw)
             settw.close()
     return ("True") ## success
-##@app.route("/change/register/", methods['GET', 'POST'])
+@app.route("/change/register/", methods['GET', 'POST'])
 ##def changeNew():
 ##    import sys, uuid, os, xml.etree.ElementTree as ET
 ##    sys.path.insert(1, '/home/capstone/codebase')
 ##    import loginHandler as lh
 ##    lh.clear()
+##    
 if __name__ == "__main__":
     app.run()
