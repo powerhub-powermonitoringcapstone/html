@@ -13,6 +13,10 @@
 		#setup, #setupOnly{
 			display:none;
 		}
+		#setup img{
+			padding-left: auto;
+			padding-right: auto;
+		}
 		.centr{
 			background: rgb(60,63,99);
 			width:160px;
@@ -35,8 +39,8 @@
 			break;
 			case 'setup':
 			$('#intro').css("display", "none");
-			$('#setup').css("display", "none");
-			$('#setupOnly').css("display", "block");
+			$('#setup').css("display", "block");
+			$('#setupOnly').css("display", "none");
 			break;
 			case 'setupOnly':
 			$('#intro').css("display", "none");
@@ -51,16 +55,16 @@
 </HEAD>
 <body>
 	<!-- first intro page-->
+		<img id="intro_logo" src="../logo2.png"> <!--kailangang ioverride yung position-->
 	<div id="intro">
-		<img id="intro_logo" src="../logo1.png">
 		<div id="intro_text">Welcome!</div>
-		<div id="intro_text2" class="introtext">PowerHub is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
-		<div id="intro_text3" class="introtext">PowerHub's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
+		<div id="intro_text2" class="introtext">SmartMeter is an intelligent power monitoring system designed to help you keep a mindful eye on your electrical power consumption.</div>
+		<div id="intro_text3" class="introtext">SmartMeter's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
 	</div>
 	<!-- setup page-->
 	<div id="setup">
-		<div class="centr" onClick="clickNext('setupOnly')" style="float:left;">Only Device<br>Choose this if you do not have any<br> other PowerHub(tm) Meters installed.</div>
-		<div class="centr" style="float:right;">Main Device<br>Choose this if you have other<br> PowerHub(tm) Meters installed<br>that you wish to control.</div>
+		<div class="centr" onClick="clickNext('setupOnly')" style="float:left;"><img style="height:128px" alt="One Device" src="./intro/node.png"><br>Only Device<br>Choose this if you do not have any<br> other PowerHub(tm) Meters installed.</div>
+		<div class="centr" style="float:right;"><img style="height:128px" alt="Main Device" src="./intro/manynodes.png"><br>Main Device<br>Choose this if you have other<br> PowerHub(tm) Meters installed<br>that you wish to control.</div>
 	</div>
 	<!-- setup page, chose only page-->
 	<div id="setupOnly">
