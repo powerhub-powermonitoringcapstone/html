@@ -27,24 +27,23 @@ def graph():
         data = []
         with open(cwdf+'/measurements.xml', 'r') as sett:
             measurements = ET.parse(sett) 
-            root = measurements.getroot()      
+            root = measurements.getroot()
+            item = root.findall("./plot")
             if (F.request.json.get('mode') == "real"): ## latest 60 readings
-                item = root.findall("./plot")[-60:]
+                item = item[-60:]
                 for k in range(len(item)):
                     data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
                 return F.jsonify(data)
             else:
                 if (F.request.json.get('mode') == "start"): ## since program start
-                    ## since last start
                     item = root.findall("./plot[@n='1']")[-1]
                     read = root[list(root).index(item):]
                     for k in range(len(read)):
                         data.append({'voltage': read[k].attrib['voltage'], 'current': read[k].attrib['current']})
                     return F.jsonify(data)
                 else:
-                    if (F.request.get('mode') == "day"): ##readings throughout a day
+                    if (F.request.json.get('mode') == "day"): ##readings throughout a day
                         i = end = start = 0
-                        item = root.findall("./plot")
                         for k in reversed(range(len(item))):
                             if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date()): 
                                 if i == 0:
@@ -54,5 +53,13 @@ def graph():
                         for stuff in item[start:end]:
                             data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
                         return F.jsonify(data)
+                    else:
+                        if (F.request.json.get('mode') == "datescurr"): ## available months for current year
+                            months = []
+                            for k in range(len(item)):
+                                if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year):
+                                    if (months.count(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0):
+                                        months.append(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month)
+                        return F.jsonify(months)
 if __name__ == "__main__":
     app.run()
