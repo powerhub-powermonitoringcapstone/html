@@ -60,15 +60,16 @@
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		if (data.notify == "True"){
-			console.log("yuh");
+			//console.log("yuh");
 			$('.overv').toggle();
 		};
+		wattage = data.voltage * data.current * data.pf;
 		$('#voltage').html(data.voltage);
 		$('#current').html(data.current);
 		$('#pf').html(data.pf);
 		$('#kwh').html(parseFloat(data.kwh).toFixed(2));
-		$('#wattage').html(data.voltage * data.current * data.pf);
-		$('#carbfpt').html(data.voltage * data.current * data.pf * fpt / 100);
+		$('#wattage').html(wattage);
+		$('#carbfpt').html(wattage * fpt / 100);
 		//console.log(data.notify);
 		// console.log(data.variation);
 	};
