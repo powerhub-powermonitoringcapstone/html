@@ -5,7 +5,7 @@ cwdf = '/home/capstone/codebase'
 #login = open(cwd + '/login.html', 'r')
 app = F.Flask(__name__)
 @app.route("/", methods=['GET', 'POST']) ##real time data
-def post():
+def realtimeGraph():
     import sys, xml.etree.ElementTree as ET
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
@@ -13,13 +13,20 @@ def post():
         with open(cwdf+'/measurements.xml', 'r') as sett:
             measurements = ET.parse(sett)
             root = measurements.getroot()
-            last = root.findall("./plot")[-1]
-        data = {'voltage': last.attrib['voltage'], 'current': last.attrib['current'], 'variation':last.attrib['variation'], 'notify':last.attrib['notify'], 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5]}
+            item = root.findall("./plot")
+            kilowatts = 0
+            for entries in item:
+                kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
+            kilowatts = kilowatts/3600/1000
+        data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
+                'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
+                'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
+                'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}
         return F.jsonify(data)
     else:
         return F.jsonify({'auth':'false'})
 @app.route("/graph/", methods=['GET', 'POST']) #past data array, graphing
-def graph():
+def pastData():
     import sys, xml.etree.ElementTree as ET, datetime
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh

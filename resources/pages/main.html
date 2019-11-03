@@ -65,9 +65,11 @@
 		};
 		$('#voltage').html(data.voltage);
 		$('#current').html(data.current);
-		$('#wattage').html(data.voltage * data.current);
-		$('#carbfpt').html(data.voltage * data.current * fpt / 100);
-		console.log(data.notify);
+		$('#pf').html(data.pf);
+		$('#kwh').html(parseFloat(data.kwh).toFixed(2));
+		$('#wattage').html(data.voltage * data.current * data.pf);
+		$('#carbfpt').html(data.voltage * data.current * data.pf * fpt / 100);
+		//console.log(data.notify);
 		// console.log(data.variation);
 	};
 	var dyg = new Worker('graph.js');
@@ -122,6 +124,7 @@
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
 		<td>Current<br><span id="current">---</span> A</td>
 		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
+		<tr><td>Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></tr>
 		<!--<td>Graph Here</td></tr>-->
 	</table>
 	<div id="graph"></div>
