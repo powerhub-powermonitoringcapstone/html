@@ -62,8 +62,12 @@ def pastData():
                                     if (months.count(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0):
                                         months.append(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month)
                             return F.jsonify(months)
-##                        else:
-##                            if (F.request.json.get('mode') == "week"):
+                        else:
+                            if (F.request.json.get('mode') == "week"): ##readings throughout a week
+                                for k in range(len(item)):
+                                    if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date().strftime("%U")):
+                                        data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current'], 'pf': item[k].attrib['pf']})
+                                return F.jsonify(data)
                             
                         
 if __name__ == "__main__":
