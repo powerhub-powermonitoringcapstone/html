@@ -39,26 +39,20 @@ def pastData():
             if (F.request.json.get('mode') == "real"): ## latest 60 readings
                 item = item[-60:]
                 for k in range(len(item)):
-                    data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
+                    data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current'], 'pf': item[k].attrib['pf']})
                 return F.jsonify(data)
             else:
                 if (F.request.json.get('mode') == "start"): ## since program start
                     item = root.findall("./plot[@n='1']")[-1]
                     read = root[list(root).index(item):]
                     for k in range(len(read)):
-                        data.append({'voltage': read[k].attrib['voltage'], 'current': read[k].attrib['current']})
+                        data.append({'voltage': read[k].attrib['voltage'], 'current': read[k].attrib['current'], 'pf': item[k].attrib['pf']})
                     return F.jsonify(data)
                 else:
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
-                        i = end = start = 0
-                        for k in reversed(range(len(item))):
-                            if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date()): 
-                                if i == 0:
-                                    i = 1
-                                    end = k ## end of data
-                                start = k
-                        for stuff in item[start:end]:
-                            data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current']})
+                        for stuff in item:
+                            if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date()):
+                                data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current'], 'pf': item[k].attrib['pf']})
                         return F.jsonify(data)
                     else:
                         if (F.request.json.get('mode') == "datescurr"): ## available months for current year
@@ -67,6 +61,10 @@ def pastData():
                                 if (datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year):
                                     if (months.count(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0):
                                         months.append(datetime.datetime.strptime(item[k].attrib['date'], "%m/%d/%Y %H:%M:%S").date().month)
-                        return F.jsonify(months)
+                            return F.jsonify(months)
+##                        else:
+##                            if (F.request.json.get('mode') == "week"):
+                            
+                        
 if __name__ == "__main__":
     app.run()
