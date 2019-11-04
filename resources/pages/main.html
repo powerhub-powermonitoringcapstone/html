@@ -9,9 +9,10 @@
 <script src="jquery-3.4.1.min.js"></script>
 <script src="js-cookie.js"></script>
 <script src="plotly.js"></script>
-<script src="login.js"></script><!-- if (isLogin()){readData();} else {window.location.href="resources/pages/login.html";};</script> -->
+<script src="login.js"></script>
+<script>fgt = Cookies.get('fgt'); /* login handler */</script>
+<script src="main_readout.js"></script>
 <script>
-	fgt = Cookies.get('fgt'); // login handler
 	fpt = 0 //carbon footprint
 	if (isLogin(fgt) != 1){
 		window.location.href = "/resources/pages/login.html";
@@ -28,51 +29,8 @@
 	function beep(){
 		$('#notif').get(0).play();
 	}
-	//readData
-	function readData(){
-	$.ajax({
-		type: 'POST',
-		url: '/wsgi_bin/data/',
-		data: JSON.stringify({fgt: fgt}),
-		success: function(data){
-			$('#voltage').html(data.voltage);
-			$('#current').html(data.current);
-			$('#wattage').html(data.voltage * data.current);
-			$('#nodename').html(data.nodename);
-			$('#firmware').html(data.firmware);
-		},
-		contentType: "application/json"
-		});
-	$.ajax({
-		type: 'POST',
-		url: '/wsgi_bin/settings/data/',
-		data: JSON.stringify({fgt:fgt}),
-		success: function(data){
-			fpt = data.carbfpt;
-			// alert(fpt);
-		},
-		contentType: "application/json"
-	});
-	}
-	//autorefresher
-	var dyn = new Worker('dynamic.js');
-	dyn.postMessage(fgt);
-	dyn.onmessage = function(e) {
-		data = JSON.parse(e.data);
-		if (data.notify == "True"){
-			//console.log("yuh");
-			$('.overv').toggle();
-		};
-		wattage = data.voltage * data.current * data.pf;
-		$('#voltage').html(data.voltage);
-		$('#current').html(data.current);
-		$('#pf').html(data.pf);
-		$('#kwh').html(parseFloat(data.kwh).toFixed(2));
-		$('#wattage').html(wattage);
-		$('#carbfpt').html(wattage * fpt / 100);
-		//console.log(data.notify);
-		// console.log(data.variation);
-	};
+	//readout code in main_readout.js
+	
 	var dyg = new Worker('graph.js');
 	dyg.postMessage(fgt);
 	dyg.onmessage = function(e){ 				
@@ -91,6 +49,7 @@
 		color:#FFFFFF;
 		width: 360px;
 		margin: 0 auto;
+		overflow-x:hidden;
 	}
 	table{
 		background: rgb(38,39,59)
@@ -135,7 +94,7 @@
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
 	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
 	<td>Uptime:<br>99999</td></tr>
-	<tr><td>Carbon footprint: <span id="carbfpt">---</span> KG</td></tr>
+	<tr><td>Carbon footprint: <br><span id="carbfpt">---</span> KG</td></tr>
 	</table>
 	<table id="notifs" style="background:#1a2839;">
 	<tr class="limit"><td><center><img src="/resources/icons/limit.gif" style="height:36px"/></center></td><td>Limit Reached!</td></tr>
