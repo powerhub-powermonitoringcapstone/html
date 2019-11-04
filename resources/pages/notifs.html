@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<HTML>
+<link href="animations.css" type="text/css" rel="stylesheet">
+<link href="intro.css" type="text/css" rel="stylesheet">
+<head>
+<style>
+	body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		width: 360px;
+		margin: 0 auto;
+	}
+	table{
+		background: rgb(38,39,59)
+	}
+	td, th{
+		border: 1px solid #dddddd;
+	}
+	#graph{
+		height:200px; width:80%; background:white; margin-left:10%;
+	}
+	/*override na lang pota*/
+	#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		opacity:0.5; /* habang di pa naiimplement yung animation checks */
+		top:12px;
+	}
+	#data, #nodeshit, #notifs{
+		width:275px;
+		margin-left:15%;
+	}
+	.limit, .overv{
+		display:none;
+	}
+</style>
+</head>
+<img id="intro_logo" src="../logo1.png">
+<div style="height:96px"></div>
+hello wodlr
+<iframe id="nav" src="nav.html?from=notifs"></iframe>
+</HTML>
