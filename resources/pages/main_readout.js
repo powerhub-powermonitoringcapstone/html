@@ -2,7 +2,7 @@
 	function readData(){
 	$.ajax({
 		type: 'POST',
-		url: '/wsgi_bin/data/',
+		url: '/wsgi_bin/data/real/',
 		data: JSON.stringify({fgt: fgt}),
 		success: function(data){
 			$('#voltage').html(data.voltage);
@@ -25,7 +25,7 @@
 	});
 	}
 	//autorefresher
-	var dyn = new Worker('dynamic.js');
+	var dyn = new Worker('main_readoutworker.js');
 	dyn.postMessage(fgt);
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);

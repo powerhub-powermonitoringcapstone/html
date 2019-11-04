@@ -11,9 +11,9 @@ async function demo(e) {
 		}
 	};
 	while (1){
-		xhttp.open("POST", "/wsgi_bin/data/", true);
+		xhttp.open("POST", "/wsgi_bin/data/past/", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
-		xhttp.send(JSON.stringify({fgt:e})); 
+		xhttp.send(JSON.stringify({fgt:e, mode:'last'})); 
 		await sleep(1000);
 	}
 }

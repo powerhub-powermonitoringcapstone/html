@@ -31,7 +31,7 @@
 	}
 	//readout code in main_readout.js
 	
-	var dyg = new Worker('graph.js');
+	var dyg = new Worker('main_graphworker.js');
 	dyg.postMessage(fgt);
 	dyg.onmessage = function(e){ 				
 		e = JSON.parse(e.data);

@@ -4,7 +4,7 @@ cwdf = '/home/capstone/codebase'
 #sett = open(cwdf + '/pvt.xml', 'r')
 #login = open(cwd + '/login.html', 'r')
 app = F.Flask(__name__)
-@app.route("/", methods=['GET', 'POST']) ##real time data
+@app.route("/real/", methods=['GET', 'POST']) ##real time data
 def realtimeGraph():
     import sys, xml.etree.ElementTree as ET
     sys.path.insert(1, cwdf)
@@ -25,7 +25,7 @@ def realtimeGraph():
         return F.jsonify(data)
     else:
         return F.jsonify({'auth':'false'})
-@app.route("/graph/", methods=['GET', 'POST']) #past data array, graphing
+@app.route("/past/", methods=['GET', 'POST']) #past data array, graphing
 def pastData():
     import sys, xml.etree.ElementTree as ET, datetime
     sys.path.insert(1, cwdf)
@@ -36,7 +36,7 @@ def pastData():
             measurements = ET.parse(sett) 
             root = measurements.getroot()
             item = root.findall("./plot")
-            if (F.request.json.get('mode') == "real"): ## latest 60 readings
+            if (F.request.json.get('mode') == "last"): ## latest 60 readings
                 item = item[-60:]
                 for k in range(len(item)):
                     data.append({'voltage': item[k].attrib['voltage'], 'current': item[k].attrib['current'], 'pf': item[k].attrib['pf']})
