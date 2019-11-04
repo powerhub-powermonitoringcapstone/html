@@ -10,9 +10,8 @@
 <script src="js-cookie.js"></script>
 <script src="plotly.js"></script>
 <script src="login.js"></script>
-<script>fgt = Cookies.get('fgt'); /* login handler */</script>
 <script>
-	 //carbon footprint
+	fgt = Cookies.get('fgt');
 	if (isLogin(fgt) != 1){
 		window.location.href = "/resources/pages/login.html";
 	}//end
@@ -104,6 +103,3 @@
 	<iframe id="nav" src="nav.html?from=home"></iframe>
 </BODY>
 </HTML>
-
-	
-<!---dynamic shit here! -->

@@ -1,4 +1,4 @@
-	fpt = 0; window.ref = 3600; // refresh rate, carbon footprint
+	fpt = 0; ref = 3600; // refresh rate, carbon footprint
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/data/real/',
@@ -18,13 +18,13 @@
 		data: JSON.stringify({fgt:fgt}),    // in the session in order to save up on data.
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
 			fpt = data.carbfpt;
-			window.ref = 3600/parseFloat(data.refresh)*1000; //refresh rate
+			ref = 3600/parseFloat(data.refresh)*1000; //refresh rate
 		},
 		contentType: "application/json"
 	});
 	//autorefresher
 	var dyn = new Worker('main_readoutworker.js');
-	dyn.postMessage({fgt:fgt, ref: window.ref});
+	dyn.postMessage({fgt:fgt, ref: ref});
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		if (data.notify == "True"){
@@ -32,7 +32,6 @@
 			$('.overv').toggle();
 		};
 		wattage = data.voltage * data.current * data.pf;
-		console.log(data.pf);
 		$('#voltage').html(data.voltage);
 		$('#current').html(data.current);
 		$('#pf').html(data.pf);
