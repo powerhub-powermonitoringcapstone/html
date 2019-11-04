@@ -13,8 +13,8 @@ async function demo(e) {
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/real/", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
-		xhttp.send(JSON.stringify({fgt:e})); 
-		await sleep(1000);
+		xhttp.send(JSON.stringify({fgt:e.fgt})); 
+		await sleep(e.ref);
 	}
 }
 self.onmessage = function(msg){

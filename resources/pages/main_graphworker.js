@@ -13,11 +13,10 @@ async function demo(e) {
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/past/", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
-		xhttp.send(JSON.stringify({fgt:e, mode:'last'})); 
-		await sleep(1000);
+		xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+		await sleep(e.ref);
 	}
 }
 self.onmessage = function(msg){
-	demo(msg.data);
+	demo({fgt:msg.data.fgt, ref:msg.data.ref});
 };
-// self.addEventListener('message', demo(), false);

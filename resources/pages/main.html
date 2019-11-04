@@ -11,13 +11,11 @@
 <script src="plotly.js"></script>
 <script src="login.js"></script>
 <script>fgt = Cookies.get('fgt'); /* login handler */</script>
-<script src="main_readout.js"></script>
 <script>
-	fpt = 0; //carbon footprint
+	 //carbon footprint
 	if (isLogin(fgt) != 1){
 		window.location.href = "/resources/pages/login.html";
 	}//end
-	readData(); //initial data reading
 	window.onload = function () {
 		if (Cookies.get('sesh') != "10100000"){ //start logo animation cookie
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
@@ -29,20 +27,20 @@
 	function beep(){
 		$('#notif').get(0).play();
 	}
-	//readout code in main_readout.js
-	
+</script>
+<script src="main_readout.js"></script>
+<script>
 	var dyg = new Worker('main_graphworker.js');
-	dyg.postMessage(fgt);
+	dyg.postMessage({fgt:fgt, ref:ref});
 	dyg.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
 		x = [], y = [];
 		for (var i = 0; i < e.length; i++){
 			x.push(i); y.push(parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf));
 		};
-		console.log(e);
 		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 	}
-	</script>
+</script>
 <style>
 	body{
 		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
