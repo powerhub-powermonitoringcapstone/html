@@ -4,11 +4,11 @@
 		url: '/wsgi_bin/data/real/',
 		data: JSON.stringify({fgt: fgt}),
 		success: function(data){
-			$('#voltage').html(data.voltage);
-			$('#current').html(data.current);
-			$('#wattage').html(data.voltage * data.current);
-			$('#nodename').html(data.nodename);
-			$('#firmware').html(data.firmware);
+			document.getElementById("voltage").innerHTML = data.voltage;
+			document.getElementById("current").innerHTML = data.current;
+			document.getElementById("wattage").innerHTML = data.voltage * data.current * data.pf;
+			document.getElementById("nodename").innerHTML = data.nodename;
+			document.getElementById("firmware").innerHTML = data.firmware;
 		},
 		contentType: "application/json"
 		});
@@ -18,9 +18,10 @@
 		data: JSON.stringify({fgt:fgt}),    // in the session in order to save up on data.
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
 			fpt = data.carbfpt;
-			ref = 3600/parseFloat(data.refresh)*1000; //refresh rate
+			ref = 3600/(data.refresh)*1000; //refresh rate
 		},
-		contentType: "application/json"
+		contentType: "application/json",
+		async: false
 	});
 	//autorefresher
 	var dyn = new Worker('main_readoutworker.js');
@@ -32,12 +33,12 @@
 			$('.overv').toggle();
 		};
 		wattage = data.voltage * data.current * data.pf;
-		$('#voltage').html(data.voltage);
-		$('#current').html(data.current);
-		$('#pf').html(data.pf);
-		$('#kwh').html(parseFloat(data.kwh).toFixed(2));
-		$('#wattage').html(wattage);
-		$('#carbfpt').html((wattage * fpt / 100).toFixed(2));
+		document.getElementById("voltage").innerHTML = data.voltage;
+		document.getElementById("current").innerHTML = data.current;
+		document.getElementById("wattage").innerHTML = wattage;
+		document.getElementById("pf").innerHTML = data.pf;
+		document.getElementById("kwh").innerHTML = data.kwh.toFixed(2);
+		document.getElementById("carbfpt").innerHTML = (wattage * fpt / 100).toFixed(2);
 		//console.log(data.notify);
 		// console.log(data.variation);
 	};
