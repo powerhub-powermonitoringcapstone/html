@@ -1,19 +1,6 @@
 	fpt = 0; ref = 3600; // refresh rate, carbon footprint
 	$.ajax({
 		type: 'POST',
-		url: '/wsgi_bin/data/real/',
-		data: JSON.stringify({fgt: fgt}),
-		success: function(data){
-			document.getElementById("voltage").innerHTML = data.voltage;
-			document.getElementById("current").innerHTML = data.current;
-			document.getElementById("wattage").innerHTML = data.voltage * data.current * data.pf;
-			document.getElementById("nodename").innerHTML = data.nodename;
-			document.getElementById("firmware").innerHTML = data.firmware;
-		},
-		contentType: "application/json"
-		});
-	$.ajax({
-		type: 'POST',
 		url: '/wsgi_bin/settings/data/',	// we polled the carbon footprint only once
 		data: JSON.stringify({fgt:fgt}),    // in the session in order to save up on data.
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
@@ -42,3 +29,16 @@
 		//console.log(data.notify);
 		// console.log(data.variation);
 	};
+	$.ajax({
+		type: 'POST',
+		url: '/wsgi_bin/data/real/',
+		data: JSON.stringify({fgt: fgt}),
+		success: function(data){
+			document.getElementById("voltage").innerHTML = data.voltage;
+			document.getElementById("current").innerHTML = data.current;
+			document.getElementById("wattage").innerHTML = data.voltage * data.current * data.pf;
+			document.getElementById("nodename").innerHTML = data.nodename;
+			document.getElementById("firmware").innerHTML = data.firmware;
+		},
+	contentType: "application/json"
+		});
