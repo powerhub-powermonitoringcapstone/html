@@ -1,4 +1,5 @@
-	fpt = 0; ref = 3600; // refresh rate, carbon footprint
+	//main readout & data chor
+	fpt = 0; ref = 3600; today = new Date();// refresh rate, carbon footprint, today
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/settings/data/',	// we polled the carbon footprint only once
@@ -16,7 +17,6 @@
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		if (data.notify == "True"){
-			//console.log("yuh");
 			$('.overv').toggle();
 		};
 		wattage = data.voltage * data.current * data.pf;
@@ -26,8 +26,6 @@
 		document.getElementById("pf").innerHTML = data.pf;
 		document.getElementById("kwh").innerHTML = data.kwh.toFixed(2);
 		document.getElementById("carbfpt").innerHTML = (wattage * fpt / 100).toFixed(2);
-		//console.log(data.notify);
-		// console.log(data.variation);
 	};
 	$.ajax({
 		type: 'POST',
