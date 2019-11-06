@@ -22,7 +22,7 @@
 		wattage = data.voltage * data.current * data.pf;
 		document.getElementById("voltage").innerHTML = data.voltage;
 		document.getElementById("current").innerHTML = data.current;
-		document.getElementById("wattage").innerHTML = wattage;
+		document.getElementById("wattage").innerHTML = wattage.toFixed(2);
 		document.getElementById("pf").innerHTML = data.pf;
 		document.getElementById("kwh").innerHTML = data.kwh.toFixed(2);
 		document.getElementById("carbfpt").innerHTML = (wattage * fpt / 100).toFixed(2);
