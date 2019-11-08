@@ -7,6 +7,7 @@
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
 			fpt = data.carbfpt;
 			ref = 3600/(data.refresh)*1000; //refresh rate
+			
 		},
 		contentType: "application/json",
 		async: false
@@ -40,3 +41,14 @@
 		},
 	contentType: "application/json"
 		});
+	//graphing
+	var dyg = new Worker('main_graphworker.js');
+	dyg.postMessage({fgt:fgt, ref:ref});
+	dyg.onmessage = function(e){ 				
+		e = JSON.parse(e.data);
+		x = [], y = [];
+		for (var i = 0; i < e.length; i++){
+			x.push(i); y.push(parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf));
+		};
+		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
+	}
