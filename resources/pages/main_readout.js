@@ -63,7 +63,7 @@
 					contentType: "application/json",
 					success: function(data){
 						if (data.length != 0){
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2), "todayAvg"));
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2), "thirdDayAvg"));
 							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2) + " - " + today.toLocaleString('default', {month:'long'}), "todayAvg") + " " + String(today.getDate()), "ThreeDaysTogether");
 							// for (var i = 0; i < data.length; i++){
 							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
@@ -79,7 +79,8 @@
 					contentType: "application/json",
 					success: function(data){
 						if (data.length != 0){
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1), "todayAvg"));
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1), "secondDayAvg"));
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1) + " - " + today.toLocaleString('default', {month:'long'}), "todayAvg") + " " + String(today.getDate()), "TwoDaysTogether");
 							// for (var i = 0; i < data.length; i++){
 							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
 							// } LETS USE A WORKER INSTEAD FOR THE GRAPH CHANGING
