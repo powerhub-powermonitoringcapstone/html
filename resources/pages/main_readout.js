@@ -48,7 +48,10 @@
 		e = JSON.parse(e.data);
 		x = [], y = [];
 		for (var i = 0; i < e.length; i++){
-			x.push(i); y.push(parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf));
+			x.push(i); y.push((parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf)).toFixed(2));
 		};
 		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
+	}
+	function changeGraphType(){
+		alert('yuh');
 	}
