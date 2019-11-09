@@ -39,8 +39,8 @@
 			document.getElementById("nodename").innerHTML = data.nodename;
 			document.getElementById("firmware").innerHTML = data.firmware;
 		},
-	contentType: "application/json"
-		});
+		contentType: "application/json"
+	});
 	//graphing
 	var dyg = new Worker('main_graphworker.js');
 	dyg.postMessage({fgt:fgt, ref:ref});
@@ -53,5 +53,62 @@
 		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 	}
 	function changeGraphType(){
-		alert('yuh');
+		switch($('#displayData').children("option:selected").val()){
+			case 'average':
+				x = [], y = [];
+				$.ajax({
+					type: 'POST',
+					url: '/wsgi_bin/data/past/',
+					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate()-2)+"/"+String(today.getUTCFullYear()), mode:'day'}),
+					contentType: "application/json",
+					success: function(data){
+						if (data.length != 0){
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2), "todayAvg"));
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2) + " - " + today.toLocaleString('default', {month:'long'}), "todayAvg") + " " + String(today.getDate()), "ThreeDaysTogether");
+							// for (var i = 0; i < data.length; i++){
+							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
+							// 	console.log(y);
+							// } LETS USE A WORKER INSTEAD FOR THE GRAPH CHANGING
+						}
+					}
+				});
+				$.ajax({
+					type: 'POST',
+					url: '/wsgi_bin/data/past/',
+					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate()-1)+"/"+String(today.getUTCFullYear()), mode:'day'}),
+					contentType: "application/json",
+					success: function(data){
+						if (data.length != 0){
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1), "todayAvg"));
+							// for (var i = 0; i < data.length; i++){
+							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
+							// } LETS USE A WORKER INSTEAD FOR THE GRAPH CHANGING
+						}else{alert('fegelein!')}
+					}
+				});
+				$.ajax({
+					type: 'POST',
+					url: '/wsgi_bin/data/past/',
+					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate())+"/"+String(today.getUTCFullYear()), mode:'day'}),
+					contentType: "application/json",
+					success: function(data){
+						if (data.length != 0){
+							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()), "todayAvg"));
+							// for (var i = 0; i < data.length; i++){
+							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
+							// 	console.log(y);
+							// } LETS USE A WORKER INSTEAD
+						}
+					}
+				});
+				document.getElementById("graphcontrols").style.display = "block";
+			break;
+			case 'instantaneous':
+				document.getElementById("graphcontrols").style.display = "none";
+				var dyg = new Worker('main_graphworker.js');
+			break;	
+			case 'overall':
+				document.getElementById("graphcontrols").style.display = "none";
+			break;
+		};
 	}

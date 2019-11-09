@@ -44,18 +44,18 @@ def pastData():
             else:
                 if (F.request.json.get('mode') == "start"): ## since program start
                     for k in item:
-                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']})
+                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
                     return F.jsonify(data)
                 else:
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
                         for k in item:
-                            if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date()):
-                                data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']})
+                            if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()):
+                                data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
                         return F.jsonify(data)
                     else:
                         if (F.request.json.get('mode') == "week"): ##readings throughout a week
                             for k in item:
-                                if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y").date().strftime("%U")):
+                                if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")):
                                     data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']})
                             return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data

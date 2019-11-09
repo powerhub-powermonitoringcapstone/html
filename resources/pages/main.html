@@ -65,7 +65,7 @@
 	<!--actual markup code here-->
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div><!--placeholder-->
-	Display: <select name="displayData" onChange="changeGraphType()"><option id="average" value="average">Average</option><option value="instantaneous" selected="selected">Instantaneous</option><option value="overall">Overall</option></select><!--6 months-->
+	Display: <select id="displayData" autocomplete="off" onChange="changeGraphType()"><option name="average" value="average">Average</option><option name="instantaneous" value="instantaneous" selected="selected">Instantaneous</option><option name="overall" value="overall">Overall</option></select><!--6 months-->
 	<table id="data">
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
 		<td>Current<br><span id="current">---</span> A</td>
@@ -73,7 +73,7 @@
 		<tr><td>Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></td></tr>
 	</table>
 	<div id="graph"></div>
-	<div id="graphcontrols" style="display:none;"><input type="button" value="&lt;--"><select name="displayDates"><option>Aug 14</option></select><input type="button" value="--&gt;"></div>
+	<div id="graphcontrols" style="display:none;"><input type="button" value="&lt;--"><select name="displayDates"></select><input type="button" value="--&gt;"></div>
 	<table id="nodeshit">
 	<tr><td>Node Name<br><span id="nodename">---</span></td>
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
