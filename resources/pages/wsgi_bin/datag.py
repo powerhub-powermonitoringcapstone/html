@@ -15,6 +15,7 @@ def realtimeGraph():
             root = measurements.getroot()
             item = root.findall("./plot")
             kilowatts = 0
+            
             for entries in item:
                 kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
             kilowatts = kilowatts/3600/1000
@@ -31,33 +32,22 @@ def pastData():
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
-        data = []
         with open(cwdf+'/measurements.xml', 'r') as sett:
             measurements = ET.parse(sett) 
             root = measurements.getroot()
             item = root.findall("./plot")
             if (F.request.json.get('mode') == "last"): ## latest 60 readings
                 item = item[-60:]
-                for k in item:
-                    data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']})
-                return F.jsonify(data)
-            else:
-                if (F.request.json.get('mode') == "start"): ## since program start
-                    for k in item:
-                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
-                    return F.jsonify(data)
-                else:
-                    if (F.request.json.get('mode') == "day"): ##readings throughout a day
-                        for k in item:
-                            if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()):
-                                data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
-                        return F.jsonify(data)
-                    else:
-                        if (F.request.json.get('mode') == "week"): ##readings throughout a week
-                            for k in item:
-                                if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")):
-                                    data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']})
-                            return F.jsonify(data)
+                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']} for k in item]
+            if (F.request.json.get('mode') == "start"): ## since last data reset
+                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item]
+            if (F.request.json.get('mode') == "day"): ##readings throughout a day
+                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
+                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()]
+            if (F.request.json.get('mode') == "week"): ##readings throughout a week
+                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
+                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")]
+            return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data
 def dates():
     import sys, xml.etree.ElementTree as ET, datetime
@@ -70,19 +60,12 @@ def dates():
             root = measurements.getroot()
             item = root.findall("./plot")
             if (F.request.json.get('mode') == "months"): ## available months for current year
-                months = []
-                for k in item:
-                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year):
-                        if (months.count(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0):
-                            months.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month)
-                return F.jsonify(months)
-            else:
-                if (F.request.json.get('mode') == "weeks"): ##mm-dd-yyyy for within a week
-                    weeks = []
-                    for k in item:
-                        week = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") 
-                        if (week == datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y %H:%M:%S")):
-                            if (weeks.count(week) == 0):
-                                weeks.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y"))
+                data = [datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month for k in item \
+                          if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year and months.count(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0]
+                return F.jsonify(data)
+            if (F.request.json.get('mode') == "weeks"): ##mm-dd-yyyy for within a week
+                weekr = datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y %H:%M:%S").date().strftime("%U")## date and time from request
+                weeks = [datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y") for k in item \
+                             if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == weekr and weeks.count(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y")) == 0]
 if __name__ == "__main__":
     app.run()
