@@ -62,10 +62,10 @@ def dates():
             if (F.request.json.get('mode') == "months"): ## available months for current year
                 data = [datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month for k in item \
                           if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year and months.count(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month) == 0]
-                return F.jsonify(data)
             if (F.request.json.get('mode') == "weeks"): ##mm-dd-yyyy for within a week
                 weekr = datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y %H:%M:%S").date().strftime("%U")## date and time from request
-                weeks = [datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y") for k in item \
-                             if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == weekr and weeks.count(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y")) == 0]
+                data = [datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y") for k in item \
+                             if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == weekr and data.count(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y")) == 0]
+            return F.jsonify(data)
 if __name__ == "__main__":
     app.run()
