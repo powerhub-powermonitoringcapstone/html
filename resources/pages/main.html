@@ -51,7 +51,7 @@
 		animation-play-state: paused;
 		top:12px;
 	}
-	#data, #nodeshit, #notifs{
+	#data, #nodeshit, #notifs, #graphcontrols{
 		width:275px;
 		margin-left:15%;
 	}
@@ -70,10 +70,10 @@
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
 		<td>Current<br><span id="current">---</span> A</td>
 		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
-		<tr><td>Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></tr>
-		<!--<td>Graph Here</td></tr>-->
+		<tr><td>Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></td></tr>
 	</table>
 	<div id="graph"></div>
+	<div id="graphcontrols" style="display:none;"><input type="button" value="&lt;--"><select name="displayDates"><option>Aug 14</option></select><input type="button" value="--&gt;"></div>
 	<table id="nodeshit">
 	<tr><td>Node Name<br><span id="nodename">---</span></td>
 	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
