@@ -23,6 +23,10 @@
 						$('#settings').css("background", "rgb(60,63,99)");
 						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/security/'");
 						break;
+					case 'settings_security2':
+						$('#settings').css("background", "rgb(60,63,99)");
+						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/main/'");
+						break;
 				}
 				document.getElementById(getParameter("from")).style.background = "rgb(60,63,99)";
 		}
@@ -42,7 +46,7 @@
 <img id="backup" alt="Previous Readings" src="..\icons\backup.png">
 <img id="plot" onClick="parent.document.location.href = 'graphs.html';" alt="Real-Time Plot" src="..\icons\plot.png">
 <img id="home" onClick="parent.document.location.href = 'main.html';" alt="Home" src="..\icons\home.png">
-<img id="notifs" alt="Notification Settings" onClick="parent.document.location.href = 'notifs.html';" src="..\icons\server.png">
+<img id="notifs" alt="Notifications / Data Settings" onClick="parent.document.location.href = 'notifs.html';" src="..\icons\server.png">
 <img id="settings" onClick="parent.document.location.href = '/wsgi_bin/settings/main/';"alt="Settings" src="..\icons\settings.png">
 </body>
 </HTML>
