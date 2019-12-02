@@ -47,6 +47,7 @@
 </style>
 <script src="js-cookie.js"></script>
 <script src="login.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
 <script>
 	fgt = Cookies.get('fgt');
 	if (isLogin(fgt) != 1){
@@ -58,24 +59,31 @@
 			Cookies.set("sesh", "10100000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
-		}
+		};
+		if(fgt!=undefined){
+			$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/data/dates/',
+			data: JSON.stringify ({fgt: fgt, mode:'months'}),
+			success: function(data){
+				for (var i = 0; i < data.length; i++){
+					console.log(data[i]);
+				};
+			},
+		contentType: "application/json",
+		async: false
+		});
+		} 
 	}//end
 </script>
 </head>
 <img id="intro_logo" src="../logo1.png">
 <div style="height:96px"></div>
-<div class="navbuttons">Pick start date:<br>
+<div class="navbuttons" style="padding-top:24px;padding-bottom:24px;">Pick start date:<br>
 	<select name="month">
 		<!--add dynamic shit here-->
 	</select>
 </div><br>
-<div class="navbuttons" onClick="window.location.href = '/wsgi_bin/settings/security'">Dump Data ...<span class="navarrow">&#x3009;</span></div><br>
-<div class="navbuttons">Help<span class="navarrow">&#x3009;</span></div><br>
-<!--about-->
-<div class="about">This PowerHub web applet is made for the partial fulfillment of the SY 2019-2020 Capstone Experience Program.</div>
-<div class="about">Credits:</div>
-<div class="about">Jericho Rejuso - Android app development</div>
-<div class="about">Khalil Ubalde - Everything Else</div>
-<div class="about" onClick="about()" style="">Back</div>
+<div class="navbuttons" >Submit ...<span class="navarrow">&#x3009;</span></div><br>
 <iframe id="nav" src="nav.html?from=notifs"></iframe>
 </HTML>
