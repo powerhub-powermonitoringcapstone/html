@@ -13,8 +13,7 @@ def realtimeGraph():
             measurements = ET.parse(sett)
             root = measurements.getroot()
             item = root.findall("./plot")
-            kilowatts = 0
-            
+            kilowatts = 0            
             for entries in item:
                 kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
             kilowatts = kilowatts/3600/1000

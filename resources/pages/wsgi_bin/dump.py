@@ -9,7 +9,7 @@ def dump():
     rand = str(uuid.uuid4())
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
-    if (True):# F.request.json != None or lh.isLogin(str(F.request.json.get('fgt')))):
+    if (F.request.args != None or lh.isLogin(str(F.request.args.get('fgt')))):
         files = [cwd_csv + '/' + file for file in os.listdir(cwd_csv)]
         if len(files) > 10: ##checking for extraneous files
             for files_delete in sorted(files, key=os.path.getctime)[:len(files)-10]:
@@ -22,7 +22,7 @@ def dump():
             file_writer.writerow(['PowerHub Data Log', "Created " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")])
             file_writer.writerow(['',"Hint: Trends in power consumption can be seen easier if you use your favorite spreadsheet program's graphing tools."])
             file_writer.writerow(['Date / Time (UTC)', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
-            if (True):#F.request.json.get('mode') == None):
+            if (F.request.args.get('mode') == "entire"):
                 for k in item:
                     file_writer.writerow([k.attrib['date'], k.attrib['voltage'], k.attrib['current'],\
                                           k.attrib['pf'], float(k.attrib['voltage']) * float(k.attrib['current']) * float(k.attrib['pf']),\

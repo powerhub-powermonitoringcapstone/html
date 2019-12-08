@@ -68,22 +68,25 @@
 			success: function(data){
 				for (var i = 0; i < data.length; i++){
 					console.log(data[i]);
+					$("#month").append(new Option(data[i], data[i]));
 				};
 			},
 		contentType: "application/json",
 		async: false
 		});
+		document.getElementById("submit").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt};
 		} 
 	}//end
 </script>
 </head>
 <img id="intro_logo" src="../logo1.png">
 <div style="height:96px"></div>
-<div class="navbuttons" style="padding-top:24px;padding-bottom:24px;">Pick start date:<br>
-	<select name="month">
+<div class="navbuttons">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option></select></div><br>
+<div class="navbuttons" style="padding-top:16px;padding-bottom:16px;">Pick start date:<br>
+	<select id="month">
 		<!--add dynamic shit here-->
 	</select>
 </div><br>
-<div class="navbuttons" >Submit ...<span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons" id="submit" >Submit ...<span class="navarrow">&#x3009;</span></div><br>
 <iframe id="nav" src="nav.html?from=notifs"></iframe>
 </HTML>
