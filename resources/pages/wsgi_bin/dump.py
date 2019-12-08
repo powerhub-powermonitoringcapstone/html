@@ -18,15 +18,22 @@ def dump():
             measurements = ET.parse(sett)
             root = measurements.getroot()
             item = root.findall("./plot")
+            timeoffset = int(F.request.args.get('timeoffset'))
             file_writer = csv.writer(file, dialect='excel')
-            file_writer.writerow(['PowerHub Data Log', "Created " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")])
+            file_writer.writerow(['PowerHub Data Log', "Created " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]) 
             file_writer.writerow(['',"Hint: Trends in power consumption can be seen easier if you use your favorite spreadsheet program's graphing tools."])
-            file_writer.writerow(['Date / Time (UTC)', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            file_writer.writerow(['Date / Time (according to Local Time)', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
             if (F.request.args.get('mode') == "entire"):
-                for k in item:
-                    file_writer.writerow([k.attrib['date'], k.attrib['voltage'], k.attrib['current'],\
-                                          k.attrib['pf'], float(k.attrib['voltage']) * float(k.attrib['current']) * float(k.attrib['pf']),\
-                                          k.attrib['notify']])
-                    
+                    for k in item:
+                        if timeoffset < 0:
+                            timeoffset = -timeoffset
+                            time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") - datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
+                        else:
+                            time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") + datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
+                        file_writer.writerow([time.strftime("%m/%d/%Y %H:%M:%S"),\
+                                              k.attrib['voltage'], k.attrib['current'],\
+                                              k.attrib['pf'], float(k.attrib['voltage']) * float(k.attrib['current']) * float(k.attrib['pf']),\
+                                              k.attrib['notify']])
+
         return F.send_file(cwd_csv + '/' + rand + '.csv', attachment_filename='PowerHub_dump.csv', as_attachment=True)
             
