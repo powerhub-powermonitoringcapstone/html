@@ -58,15 +58,25 @@ def dates():
             root = measurements.getroot()
             item = root.findall("./plot")
             data = []
-            if (F.request.json.get('mode') == "months"): ## available months for current year
+            if (F.request.json.get('mode') == "months"): ## available months for year
+                year = datetime.datetime.strptime(F.request.json.get('time'), "%Y").year
                 for k in item:
-                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().year == datetime.datetime.now(datetime.timezone.utc).year and datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month not in data:
-                        data.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().month)
+                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year == year and datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month not in data:
+                        data.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month)
             if (F.request.json.get('mode') == "weeks"): ##mm-dd-yyyy for within a week
-                weekr = datetime.datetime.strptime(F.request.get('time'), "%m/%d/%Y %H:%M:%S").date().strftime("%U")## date and time from request
+                weekr = datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y %H:%M:%S").strftime("%U")## date and time from request
                 for k in item:
-                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == weekr and datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y") not in data:
-                        data.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S").date(), "%m/%d/%Y"))
+                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").strftime("%U") == weekr and datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S"), "%m/%d/%Y") not in data:
+                        data.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S"), "%m/%d/%Y"))
+            if (F.request.json.get('mode') == "days"): ##available days within a month
+                dayr = datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month
+                for k in item:
+                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == dayr and datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S"), "%d") not in data:
+                        data.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S"), "%d"))
+            if (F.request.json.get('mode') == "years"): ## available years
+                for k in item:
+                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year not in data:
+                        data.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year)
             return F.jsonify(data)
 if __name__ == "__main__":
     app.run()

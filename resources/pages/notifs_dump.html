@@ -25,6 +25,8 @@
 		top:12px;
 	}
 	.navbuttons{
+		position: relative;
+		top:20px;
 		background: rgb(60,63,99);
 		padding-top: 12px;
 		padding-bottom: 12px;
@@ -64,29 +66,53 @@
 			$.ajax({
 			type: 'POST',
 			url: '/wsgi_bin/data/dates/',
-			data: JSON.stringify ({fgt: fgt, mode:'months'}),
+			data: JSON.stringify ({fgt: fgt, mode:'years'}),
 			success: function(data){
 				for (var i = 0; i < data.length; i++){
-					console.log(data[i]);
-					$("#month").append(new Option(data[i], data[i]));
+					$("#year").append(new Option(data[i], data[i]));
 				};
+				$("#year option:last").attr("selected", "selected");
+				console.log(data[data.length-1])
+				$.ajax({
+					type: 'POST',
+					url: '/wsgi_bin/data/dates/',
+					data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
+					success: function(data){
+						for (var i=0; i < data.length; i++){
+							$("#month").append(new Option (data[i], data[i]));
+						};
+						$("#month option:last").attr("selected", "selected");
+						$.ajax({
+							type: 'POST',
+							url: '/wsgi_bin/data/dates/',
+							data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
+							success: function(data){
+								for (var i=0; i < data.length; i++){
+									$("#day").append(new Option (data[i], data[i]));
+								};
+							},
+							contentType: "application/json"
+						});
+					},
+					contentType: "application/json"
+				})
 			},
-		contentType: "application/json",
-		async: false
-		});
-		document.getElementById("submit").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
-		} 
+			contentType: "application/json"
+			});
+		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+		}
 	}//end
 </script>
+<script src="notifs_dump_forms.js"></script>
 </head>
 <img id="intro_logo" src="../logo1.png">
 <div style="height:96px"></div>
-<div class="navbuttons">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option></select></div><br>
-<div class="navbuttons" style="padding-top:16px;padding-bottom:16px;">Pick start date:<br>
-	<select id="month">
-		<!--add dynamic shit here-->
-	</select>
-</div><br>
-<div class="navbuttons" id="submit" >Submit ...<span class="navarrow">&#x3009;</span></div><br>
+<div class="navbuttons" onchange="formChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option></select></div><br>
+<div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
+	<select id="month"></select>
+	<select id="day"></select>
+	<select id="year"></select>
+</div><br id="startdatebr" style="display:none;">
+<div class="navbuttons" id="dump" >Dump Data ...<span class="navarrow">&#x3009;</span></div><br>
 <iframe id="nav" src="nav.html?from=notifs"></iframe>
 </HTML>
