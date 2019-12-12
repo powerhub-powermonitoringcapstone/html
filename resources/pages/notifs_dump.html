@@ -3,57 +3,57 @@
 <link href="animations.css" type="text/css" rel="stylesheet">
 <link href="intro.css" type="text/css" rel="stylesheet">
 <head>
-<style>
-	body{
-		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
-		color:#FFFFFF;
-		width: 360px;
-		margin: 0 auto;
-	}
-	table{
-		background: rgb(38,39,59)
-	}
-	td, th{
-		border: 1px solid #dddddd;
-	}
+	<style>
+		body{
+			background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+			color:#FFFFFF;
+			width: 360px;
+			margin: 0 auto;
+		}
+		table{
+			background: rgb(38,39,59)
+		}
+		td, th{
+			border: 1px solid #dddddd;
+		}
 
-	/*override na lang pota*/
-	#intro_logo{
-		position:fixed;
-		animation-play-state: paused;
-		opacity:0.5; /* habang di pa naiimplement yung animation checks */
-		top:12px;
-	}
-	.navbuttons{
-		position: relative;
-		top:20px;
-		background: rgb(60,63,99);
-		padding-top: 12px;
-		padding-bottom: 12px;
-		height:28px;
-	}
-	.navarrow{
-		position:fixed;
-		left:332px;
-	}
-	.navparm{
-		position:fixed;
-		left:150px;
-	}
-	.security, .about{
-		display:none;
-		background: rgb(60,63,99);
-		padding-top: 12px;
-		padding-bottom: 12px;
-	}
-</style>
-<script src="js-cookie.js"></script>
-<script src="login.js"></script>
-<script src="jquery-3.4.1.min.js"></script>
-<script>
-	fgt = Cookies.get('fgt');
-	if (isLogin(fgt) != 1){
-		window.location.href = "/resources/pages/login.html";
+		/*override na lang pota*/
+		#intro_logo{
+			position:fixed;
+			animation-play-state: paused;
+			opacity:0.5; /* habang di pa naiimplement yung animation checks */
+			top:12px;
+		}
+		.navbuttons{
+			position: relative;
+			top:20px;
+			background: rgb(60,63,99);
+			padding-top: 12px;
+			padding-bottom: 12px;
+			height:28px;
+		}
+		.navarrow{
+			position:fixed;
+			left:332px;
+		}
+		.navparm{
+			position:fixed;
+			left:150px;
+		}
+		.security, .about{
+			display:none;
+			background: rgb(60,63,99);
+			padding-top: 12px;
+			padding-bottom: 12px;
+		}
+	</style>
+	<script src="js-cookie.js"></script>
+	<script src="login.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+		fgt = Cookies.get('fgt');
+		if (isLogin(fgt) != 1){
+			window.location.href = "/resources/pages/login.html";
 	}//end
 	window.onload = function () {
 		if (Cookies.get('sesh') != "10100000"){ //start logo animation cookie
@@ -62,57 +62,61 @@
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		};
+		modeChange();
 		if(fgt!=undefined){
 			$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/data/dates/',
-			data: JSON.stringify ({fgt: fgt, mode:'years'}),
-			success: function(data){
-				for (var i = 0; i < data.length; i++){
-					$("#year").append(new Option(data[i], data[i]));
-				};
-				$("#year option:last").attr("selected", "selected");
-				console.log(data[data.length-1])
-				$.ajax({
-					type: 'POST',
-					url: '/wsgi_bin/data/dates/',
-					data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
-					success: function(data){
-						for (var i=0; i < data.length; i++){
-							$("#month").append(new Option (data[i], data[i]));
-						};
-						$("#month option:last").attr("selected", "selected");
-						$.ajax({
-							type: 'POST',
-							url: '/wsgi_bin/data/dates/',
-							data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
-							success: function(data){
-								for (var i=0; i < data.length; i++){
-									$("#day").append(new Option (data[i], data[i]));
-								};
-							},
-							contentType: "application/json"
-						});
-					},
-					contentType: "application/json"
-				})
-			},
-			contentType: "application/json"
+				type: 'POST',
+				url: '/wsgi_bin/data/dates/',
+				data: JSON.stringify ({fgt: fgt, mode:'years'}),
+				success: function(data){
+					for (var i = 0; i < data.length; i++){
+						$("#year").append(new Option(data[i], data[i]));
+					};
+					$("#year option:last").attr("selected", "selected");
+					console.log(data[data.length-1])
+					$.ajax({
+						type: 'POST',
+						url: '/wsgi_bin/data/dates/',
+						data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
+						success: function(data){
+							for (var i=0; i < data.length; i++){
+								$("#month").append(new Option (data[i], data[i]));
+							};
+							$("#month option:last").attr("selected", "selected");
+							$.ajax({
+								type: 'POST',
+								url: '/wsgi_bin/data/dates/',
+								data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
+								success: function(data){
+									for (var i=0; i < data.length; i++){
+										$("#day").append(new Option (data[i], data[i]));
+									};
+								},
+								contentType: "application/json"
+							});
+						},
+						contentType: "application/json"
+					})
+				},
+				contentType: "application/json"
 			});
-		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+			document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
 		}
 	}//end
 </script>
 <script src="notifs_dump_forms.js"></script>
 </head>
-<img id="intro_logo" src="../logo1.png">
-<div style="height:96px"></div>
-<div class="navbuttons" onchange="formChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option></select></div><br>
-<div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
-	<select id="month"></select>
-	<select id="day"></select>
-	<select id="year"></select>
-</div><br id="startdatebr" style="display:none;">
-<div class="navbuttons" id="dump" >Dump Data ...<span class="navarrow">&#x3009;</span></div><br>
-<iframe id="nav" src="nav.html?from=notifs"></iframe>
+<body>
+	<img id="intro_logo" src="../logo1.png">
+	<div style="height:96px"></div>
+	<div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option></select></div><br>
+	<div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
+		<select id="month" onchange="dateChange('month')"></select>
+		<select id="day" onchange="dateChange('day')"></select>
+		<select id="year" onchange="dateChange('year')"></select>
+	</div><br id="startdatebr" style="display:none;">
+	<div class="navbuttons" id="dump" >Dump Data ...<span class="navarrow">&#x3009;</span></div><br>
+	<iframe id="nav" src="nav.html?from=notifs"></iframe>
+</body>
+
 </HTML>

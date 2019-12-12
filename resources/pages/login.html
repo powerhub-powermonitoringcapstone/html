@@ -57,10 +57,10 @@
 							data: JSON.stringify({fgt: fgt}),
 							success: function(data){
 								minutes = data.permanence;
-								date.setTime(date.getTime() + (minutes * 60 * 1000));
-								window.location.href = "/resources/pages/main.html";	
-								Cookies.set("fgt", fgt);		
+								date.setTime(date.getTime() + (minutes * 60 * 1000));	
 								if (minutes != 0){Cookies.set("fgt", fgt, { expires: date });};	
+								Cookies.set("fgt", fgt);	
+								window.location.href = "/resources/pages/main.html";	
 							},
 							contentType: "application/json"
 						});		

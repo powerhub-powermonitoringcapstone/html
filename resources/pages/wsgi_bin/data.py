@@ -45,6 +45,9 @@ def pastData():
             if (F.request.json.get('mode') == "week"): ##readings throughout a week
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
                         if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")]
+            if (F.request.json.get('mode') == "month"): ##readings throughout a month
+                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
+                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month]
             return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data
 def dates():
@@ -69,10 +72,11 @@ def dates():
                     if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").strftime("%U") == weekr and datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S"), "%m/%d/%Y") not in data:
                         data.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['time'], "%m/%d/%Y %H:%M:%S"), "%m/%d/%Y"))
             if (F.request.json.get('mode') == "days"): ##available days within a month
-                dayr = datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month
+                request = [datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month, datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").year]
                 for k in item:
-                    if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == dayr and datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S"), "%d") not in data:
-                        data.append(datetime.datetime.strftime(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S"), "%d"))
+                    datefile = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S")
+                    if datefile.month == request[0] and datefile.year == request[1] and datetime.datetime.strftime(datefile, "%d") not in data:
+                        data.append(datetime.datetime.strftime(datefile, "%d"))
             if (F.request.json.get('mode') == "years"): ## available years
                 for k in item:
                     if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year not in data:
