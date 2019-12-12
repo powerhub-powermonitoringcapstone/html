@@ -1,23 +1,27 @@
-mode = "entire"; //entire, month, or week
 function modeChange(){
 	switch(document.getElementById('mode').value){
 		case 'entire':
-		mode = 'entire';
 		document.getElementById('startdate').style.display = 'none';
 		document.getElementById('startdatebr').style.display = 'none';
-		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset().toString()};
 		break;
 		case 'month':
-		mode = 'month';
 		document.getElementById('startdate').style.display = 'block';
+		document.getElementById('day').style.display = 'none';
 		document.getElementById('startdatebr').style.display = 'inline';
-		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=month&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=month&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset().toString() + "&time=" + $("#month option:selected").val() + "/" + $("#year option:selected").val()};
 		break;
 		case 'week':
-		mode = 'week';
 		document.getElementById('startdate').style.display = 'block';
+		document.getElementById('day').style.display = 'inline'
 		document.getElementById('startdatebr').style.display = 'inline';
-		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=week&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=week&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset().toString() + "&time=" + $("#month option:selected").val() + "/" + $("#day option:selected").val() + "/" + $("#year option:selected").val()};
+		break;
+		case 'day':
+		document.getElementById('startdate').style.display = 'block';
+		document.getElementById('day').style.display = 'inline'
+		document.getElementById('startdatebr').style.display = 'inline';
+		document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=day&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset().toString() + "&time=" + $("#month option:selected").val() + "/" + $("#day option:selected").val() + "/" + $("#year option:selected").val()};
 		break;
 	}
 }
