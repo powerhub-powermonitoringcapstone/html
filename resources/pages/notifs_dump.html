@@ -99,7 +99,7 @@
 				},
 				contentType: "application/json"
 			});
-			document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + new Date().getTimezoneOffset()};
+			document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + (-parseInt(new Date().getTimezoneOffset())).toString()};
 		}
 	}//end
 </script>
