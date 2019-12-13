@@ -30,7 +30,7 @@
 		document.getElementById("wattage").innerHTML = wattage.toFixed(2);
 		document.getElementById("pf").innerHTML = data.pf;
 		document.getElementById("kwh").innerHTML = data.kwh.toFixed(2);
-		document.getElementById("carbfpt").innerHTML = (wattage * fpt / 100).toFixed(2);
+		document.getElementById("carbfpt").innerHTML = (data.kwh * fpt).toFixed(2);
 	};
 	$.ajax({
 		type: 'POST',

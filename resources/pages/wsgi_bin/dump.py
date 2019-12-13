@@ -22,7 +22,17 @@ def dump():
             file_writer = csv.writer(file, dialect='excel')
             file_writer.writerow(['PowerHub Data Log', "Created " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]) 
             file_writer.writerow(['',"Hint: Trends in power consumption can be seen easier if you use your favorite spreadsheet program's graphing tools."])
-            file_writer.writerow(['Date / Time (according to Local Time)', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            if timeoffset/60 > 0 and timeoffset%60 == 0:
+                file_writer.writerow(['Date / Time (UTC +'+str(int(timeoffset/60))+')', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            if timeoffset/60 < 0 and timeoffset%60 == 0:
+                file_writer.writerow(['Date / Time (UTC -'+str(int(-timeoffset/60))+')', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            if timeoffset/60 > 0 and timeoffset%60 != 0:
+                file_writer.writerow(['Date / Time (UTC +'+str(timeoffset/60)+')', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            if timeoffset/60 < 0 and timeoffset%60 != 0:
+                file_writer.writerow(['Date / Time (UTC -'+str(-timeoffset/60)+')', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            if timeoffset/60 == 0:
+                file_writer.writerow(['Date / Time (UTC)', 'Voltage', 'Current', 'Power Factor', 'Wattage', 'Notification Triggered?'])
+            
             if (F.request.args.get('mode') == "entire"):
                 for k in item:
                     if timeoffset < 0:
