@@ -74,6 +74,22 @@
 		border: 1px solid #dddddd;
 	}
 	/*override na lang pota*/
+	.navbuttons{
+		position: relative;
+		top:20px;
+		background: rgb(60,63,99);
+		padding-top: 12px;
+		padding-bottom: 12px;
+		height:28px;
+	}
+	.navarrow{
+		position:fixed;
+		left:332px;
+	}
+	.navparm{
+		position:fixed;
+		left:150px;
+	}
 	#intro_logo{
 		position:fixed;
 		animation-play-state: paused;
@@ -93,21 +109,9 @@
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
-	<!-- <table id="data">
-		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
-		<td>Current<br><span id="current">---</span> A</td>
-		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
-		<<td>Graph Here</td></tr>
-	</table> -->
+	<div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br>
 	<div id="graph"></div>
-	<!--maybe graph should be held captive here-->
-	<!-- <table id="nodeshit">
-	<tr><td>Node Name<br><span id="nodename">---</span></td>
-	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
-	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
-	<td>Uptime:<br>99999</td></tr>
-	</table>
-	 --><script src="graph.js">plot('real');</script>
+	<script src="graph.js">plot('real');</script>
 	<iframe id="nav" src="nav.html?from=plot"></iframe>
 </BODY>
 </HTML>

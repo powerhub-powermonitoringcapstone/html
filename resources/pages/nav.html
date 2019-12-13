@@ -19,18 +19,29 @@
 <script>
 	window.onload = function () {
 				switch(getParameter("from")){
+					case 'datadump':
+						$('#notifs').css("background", "rgb(60,63,99)");
+						$('#notifs').attr('onclick', "parent.document.location.href = '/resources/pages/notifs.html'");
+						$('#notifs').attr('alt', "Back to Notifications / Data Settings ...");
+						$('#notifs').attr('title', "Back to Notifications / Data Settings ...");
+						break;
 					case 'settings_security':
 						$('#settings').css("background", "rgb(60,63,99)");
-						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/security/'");
+						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/main/'");
+						$('#settings').attr('alt', "Back to Main Settings Page ...");
+						$('#settings').attr('title', "Back to Main Settings Page ...");
 						break;
 					case 'settings_security2':
 						$('#settings').css("background", "rgb(60,63,99)");
-						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/main/'");
+						$('#settings').attr('onclick', "parent.document.location.href = '/wsgi_bin/settings/security/'");
+						$('#settings').attr('alt', "Back to Security Page ...");
+						$('#settings').attr('title', "Back to Security Page ...");
 						break;
+					default:
+						document.getElementById(getParameter("from")).style.background = "rgb(60,63,99)";
+					break;
 				}
-				document.getElementById(getParameter("from")).style.background = "rgb(60,63,99)";
 		}
-
 	function getParameter(variable){
 		var query = window.location.search.substring(1);
 		var vars = query.split("&");
@@ -44,9 +55,9 @@
 </HEAD>
 <body>
 <!-- <img id="past" alt="Previous Readings" src="..\icons\backup.png"> -->
-<img id="plot" onClick="parent.document.location.href = 'graphs.html';" alt="Real-Time Plot" src="..\icons\plot.png">
-<img id="home" onClick="parent.document.location.href = 'main.html';" alt="Home" src="..\icons\home.png">
-<img id="notifs" alt="Notifications / Data Settings" onClick="parent.document.location.href = 'notifs.html';" src="..\icons\server.png">
-<img id="settings" onClick="parent.document.location.href = '/wsgi_bin/settings/main/';"alt="Settings" src="..\icons\settings.png">
+<img id="plot" onClick="parent.document.location.href = 'graphs.html';" alt="Other Plot Modes ..." title="Other Plot Modes ..." src="..\icons\plot.png">
+<img id="home" onClick="parent.document.location.href = 'main.html';" alt="Home" title="Home" src="..\icons\home.png">
+<img id="notifs" onClick="parent.document.location.href = 'notifs.html';" alt="Notifications / Data Settings" title="Notifications / Data Settings" src="..\icons\server.png">
+<img id="settings" onClick="parent.document.location.href = '/wsgi_bin/settings/main/';" alt="Settings" title="Settings" src="..\icons\settings.png">
 </body>
 </HTML>

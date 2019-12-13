@@ -1,13 +1,12 @@
 	//main readout & data chor
-	fpt = 0; ref = 3600; today = new Date();// refresh rate, carbon footprint, today
+	fpt = 0; ref = 3600; today = new Date(); insig = 0// refresh rate, carbon footprint, today, notification, don't notify
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/settings/data/',	// we polled the carbon footprint only once
 		data: JSON.stringify({fgt:fgt}),    // in the session in order to save up on data.
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
 			fpt = data.carbfpt;
-			ref = 3600/(data.refresh)*1000; //refresh rate
-			
+			ref = 3600/(data.refresh)*1000; //refresh rate			
 		},
 		contentType: "application/json",
 		async: false
@@ -18,8 +17,13 @@
 	dyn.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		if (data.notify == "True"){
-			$('.overv').toggle();
-		};
+			$('.overv').css("display", "block");
+			$("#notif")[0].play();
+		} else {
+			if (insig > 5) {insig = 0};
+			insig +=1;
+			if (insig == 3) {"display", "none"};
+		}
 		wattage = data.voltage * data.current * data.pf;
 		document.getElementById("voltage").innerHTML = data.voltage;
 		document.getElementById("current").innerHTML = data.current;
