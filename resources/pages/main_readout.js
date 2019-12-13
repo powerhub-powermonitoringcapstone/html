@@ -22,7 +22,7 @@
 		} else {
 			if (insig > 5) {insig = 0};
 			insig +=1;
-			if (insig == 3) {"display", "none"};
+			if (insig == 3) {$('.overv').css("display", "none")};
 		}
 		wattage = data.voltage * data.current * data.pf;
 		document.getElementById("voltage").innerHTML = data.voltage;
