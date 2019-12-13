@@ -56,10 +56,15 @@
 							url: '/wsgi_bin/settings/data/',
 							data: JSON.stringify({fgt: fgt}),
 							success: function(data){
-								minutes = data.permanence;
-								date.setTime(date.getTime() + (minutes * 60 * 1000));	
-								if (minutes != 0){Cookies.set("fgt", fgt, { expires: date });};	
 								Cookies.set("fgt", fgt);	
+								if ($('#rememberMe').is(':checked')){
+									date.setTime(date.getTime() + 31556952000);	
+									Cookies.set("fgt", fgt, { expires: date });
+								} else{
+									minutes = data.permanence;	
+									date.setTime(date.getTime() + (minutes * 60 * 1000));	
+									if (minutes != 0){Cookies.set("fgt", fgt, { expires: date });};	
+								}
 								window.location.href = "/resources/pages/main.html";	
 							},
 							contentType: "application/json"
