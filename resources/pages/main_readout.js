@@ -12,9 +12,9 @@
 		async: false
 	});
 	//autorefresher
-	var dyn = new Worker('main_readoutworker.js');
-	dyn.postMessage({fgt:fgt, ref: ref});
-	dyn.onmessage = function(e) {
+	var readoutworker = new Worker('main_readoutworker.js');
+	readoutworker.postMessage({fgt:fgt, ref: ref});
+	readoutworker.onmessage = function(e) {
 		data = JSON.parse(e.data);
 		if (data.notify == "True"){
 			$('.overv').css("display", "block");
@@ -46,9 +46,9 @@
 		contentType: "application/json"
 	});
 	//graphing
-	var dyg = new Worker('main_graphworker.js');
-	dyg.postMessage({fgt:fgt, ref:ref});
-	dyg.onmessage = function(e){ 				
+	var graphworker = new Worker('main_graphworker.js');
+	graphworker.postMessage({fgt:fgt, ref:ref});
+	graphworker.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
 		x = [], y = [];
 		for (var i = 0; i < e.length; i++){

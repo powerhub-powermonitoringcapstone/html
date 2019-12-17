@@ -1,54 +1,53 @@
 <!DOCTYPE HTML>
 <HTML>
 <HEAD>
-<link href="animations.css" type="text/css" rel="stylesheet">
-<link href="intro.css" type="text/css" rel="stylesheet">
-<link href="uielements.css" rel="stylesheet" type="text/css">
-<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
-<!--MAIN SCREEN (C) 2019 -->
-<!--javascript-->
-<script src="jquery-3.4.1.min.js"></script>
-<script src="js-cookie.js"></script>
-<script src="plotly.js"></script>
-<script>
+	<link href="animations.css" type="text/css" rel="stylesheet">
+	<link href="intro.css" type="text/css" rel="stylesheet">
+	<link href="uielements.css" rel="stylesheet" type="text/css">
+	<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
+	<!--MAIN SCREEN (C) 2019 -->
+	<!--javascript-->
+	<script src="jquery-3.4.1.min.js"></script>
+	<script src="js-cookie.js"></script>
+	<script src="plotly.js"></script>
+	<script>
 	//autoLogin
 	fgt = Cookies.get('fgt');
 	if(fgt!=undefined){
 		$.ajax({
-		type: 'POST',
-		url: '/wsgi_bin/login/',
-		data: JSON.stringify ({fgt: fgt}),
-		success: function(data){
-			if (data != "True"){
-				window.location.href = "/resources/pages/login.html";
-				Cookies.set('fgt','');
-			} else if (data == "True"){readData();};
-		},
-		contentType: "application/json",
+			type: 'POST',
+			url: '/wsgi_bin/login/',
+			data: JSON.stringify ({fgt: fgt}),
+			success: function(data){
+				if (data != "True"){
+					window.location.href = "/resources/pages/login.html";
+					Cookies.set('fgt','');
+				} else if (data == "True"){readData();};
+			},
+			contentType: "application/json",
 		});
 	} else {window.location.href = "/resources/pages/login.html";};
-	window.onload = function () {
-		if (Cookies.get('sesh') != "10100000"){
-			document.getElementById("intro_logo").style.animationPlayState = "running" ;
-			Cookies.set("sesh", "10100000");
-		} else {
-			document.getElementById("intro_logo").style.opacity = "0.5";
-		}
-	}
+	window.onload = function(){
+	if (Cookies.get('sesh') != "30000000"){
+		document.getElementById("intro_logo").style.animationPlayState = "running" ;
+		Cookies.set("sesh", "30000000");
+	} else {
+		document.getElementById("intro_logo").style.opacity = "0.5";
+	}}
 	//readData
 	function readData(){
-	$.ajax({
-		type: 'POST',
-		url: '/wsgi_bin/data/',
-		data: JSON.stringify({fgt: fgt}),
-		success: function(data){
-			$('#voltage').html(data.voltage);
-			$('#current').html(data.current);
-			$('#wattage').html(data.voltage * data.current);
-			$('#nodename').html(data.nodename);
-			$('#firmware').html(data.firmware);
-		},
-		contentType: "application/json"
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/data/',
+			data: JSON.stringify({fgt: fgt}),
+			success: function(data){
+				$('#voltage').html(data.voltage);
+				$('#current').html(data.current);
+				$('#wattage').html(data.voltage * data.current);
+				$('#nodename').html(data.nodename);
+				$('#firmware').html(data.firmware);
+			},
+			contentType: "application/json"
 		});
 	}
 	//autorefresher
@@ -60,7 +59,7 @@
 		$('#current').html(data.current);
 		$('#wattage').html(data.voltage * data.current);
 	};
-	</script>
+</script>
 <style>
 	.navbuttons{
 		height:18px;
@@ -70,7 +69,7 @@
 </style>
 </HEAD>
 <BODY>
-<script src="client.min.js"></script>
+	<script src="client.min.js"></script>
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
@@ -81,5 +80,5 @@
 </BODY>
 </HTML>
 
-	
+
 <!---dynamic shit here! -->

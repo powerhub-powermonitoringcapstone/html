@@ -11,15 +11,11 @@
 	<script src="/resources/pages/js-cookie.js"></script>
 	<script src="/resources/pages/login.js"></script>
 	<script>
-		//autoLogin
 		fgt = Cookies.get('fgt');
-		if (isLogin(fgt) == 0){
-		window.location.href = "/resources/pages/login.html";
-		}
-	window.onload = function () {
-		if (Cookies.get("sesh") != "11000000"){
+		window.onload = function(){
+		if (Cookies.get("sesh") != "20000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
-		Cookies.set("sesh", "11000000");
+		Cookies.set("sesh", "20000000");
 		}
 		else {document.getElementById("intro_logo").style.opacity = "0.5"};
 		$.ajax({
@@ -32,10 +28,7 @@
 			},
 			contentType: "application/json"
 			});
-		}
-	// function security(){
-	// 	window.location.href = "/wsgi_bin/settings/security";
-	// }
+	}
 	function node(){
 		alert("yuuuuuuuuuuh");
 		// $("input[name='nodename']").val();

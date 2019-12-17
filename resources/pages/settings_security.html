@@ -12,13 +12,10 @@
 	<script src="/resources/pages/login.js"></script>
 	<script>
 		fgt = Cookies.get('fgt');
-		if (isLogin(fgt) == 0){
-		window.location.href = "/resources/pages/login.html";
-		}
-		window.onload = function () {
-		if (Cookies.get("sesh") != "11000000"){
+		window.onload = function(){
+		if (Cookies.get("sesh") != "20000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running";
-		Cookies.set("sesh", "11000000");
+		Cookies.set("sesh", "20000000");
 		}
 		else {document.getElementById("intro_logo").style.opacity = "0.5"};
 		$.ajax({
@@ -28,10 +25,6 @@
 			success: function(data){
 				data = parseInt(data.permanence)/60;
 				$("#perm").val(data.toString()).change();
-				// if (data==0){$('#perm').html('Until Exit');};
-				// if (data==60){$('#perm').html((data/60) + " hour");};
-				// if (data>60){$('#perm').html((data/60) + " hours");};
-				//$('input[name=nodename]').val(data.nodename);
 			},
 			contentType: "application/json"
 		});

@@ -22,10 +22,10 @@
 		if (isLogin(fgt) != 1){
 			window.location.href = "/resources/pages/login.html";
 	}//end
-	window.onload = function () {
-		if (Cookies.get('sesh') != "10100000"){ //start logo animation cookie
+	window.onload = function(){
+		if (Cookies.get('sesh') != "40000000"){ //start logo animation cookie
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
-			Cookies.set("sesh", "10100000");
+			Cookies.set("sesh", "40000000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		};
@@ -69,7 +69,7 @@
 			});
 			document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + (-parseInt(new Date().getTimezoneOffset())).toString()};
 		}
-	}//end
+	}
 </script>
 <script src="notifs_dump_forms.js"></script>
 </head>

@@ -12,18 +12,14 @@
 <script src="js-cookie.js"></script>
 <script src="login.js"></script>
 <script>
-	fgt = Cookies.get('fgt');
-	if (isLogin(fgt) != 1){
-		window.location.href = "/resources/pages/login.html";
-	}//end
-	window.onload = function () {
-		if (Cookies.get('sesh') != "10100000"){ //start logo animation cookie
+	window.onload = function() {
+		if (Cookies.get('sesh') != "40000000"){ //start logo animation cookie
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
-			Cookies.set("sesh", "10100000");
+			Cookies.set("sesh", "40000000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		}
-	}//end
+	}
 </script>
 </head>
 <img id="intro_logo" src="../logo1.png">

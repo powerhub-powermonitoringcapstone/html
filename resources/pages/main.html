@@ -1,62 +1,58 @@
 <!DOCTYPE HTML>
 <HTML>
 <HEAD>
-<link href="animations.css" type="text/css" rel="stylesheet">
-<link href="intro.css" type="text/css" rel="stylesheet">
-<link href="uielements.css" rel="stylesheet" type="text/css">
-<!--MAIN SCREEN (C) 2019 -->
-<script src="jquery-3.4.1.min.js"></script>
-<script src="js-cookie.js"></script>
-<script src="plotly.js"></script>
-<script src="login.js"></script>
-<script>
-	fgt = Cookies.get('fgt');
-	if (isLogin(fgt) != 1){
-		window.location.href = "/resources/pages/login.html";
-	}//end
-	window.onload = function () {
-		if (Cookies.get('sesh') != "10100000"){ //start logo animation cookie
-			document.getElementById("intro_logo").style.animationPlayState = "running" ;
-			Cookies.set("sesh", "10100000");
-		} else {
-			document.getElementById("intro_logo").style.opacity = "0.5";
+	<link href="animations.css" type="text/css" rel="stylesheet">
+	<link href="intro.css" type="text/css" rel="stylesheet">
+	<link href="uielements.css" rel="stylesheet" type="text/css">
+	<script src="jquery-3.4.1.min.js"></script>
+	<script src="js-cookie.js"></script>
+	<script src="plotly.js"></script>
+	<script src="login.js"></script>
+	<script>
+		fgt = Cookies.get('fgt');
+		function beep(){
+			$('#notif').get(0).play();
 		}
-	}//end
-	function beep(){
-		$('#notif').get(0).play();
-	}
+		window.onload = function (){
+	if (Cookies.get('sesh') != "10000000"){ //start logo animation cookie
+		document.getElementById("intro_logo").style.animationPlayState = "running" ;
+		Cookies.set("sesh", "10000000");
+	} else {
+		document.getElementById("intro_logo").style.opacity = "0.5";
+	};
+}
 </script>
 <script src="main_readout.js"></script> <!-- graphing has been merged to main_readout -->
 </HEAD>
 <BODY>
-<script src="client.min.js"></script>
+	<script src="client.min.js"></script>
 	<!--actual markup code here-->
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div><!--placeholder-->
 	Display: <select id="displayData" autocomplete="off" onChange="changeGraphType()"><option name="1" value="1" selected="selected">1 minute</option><option name="5" value="5" >5 minutes</option><option name="10" value="10">10 minutes</option></select><!--6 months-->
 	<table id="data">
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
-		<td>Current<br><span id="current">---</span> A</td>
-		<td>Wattage<br><span id="wattage">---</span> W</td></tr>
-		<tr><td colspan="2">Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></td></tr>
-	</table>
-	<div id="graph"></div>
+			<td>Current<br><span id="current">---</span> A</td>
+			<td>Wattage<br><span id="wattage">---</span> W</td></tr>
+			<tr><td colspan="2">Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></td></tr>
+		</table>
+		<div id="graph"></div>
 	<!--
-	<div id="graphcontrols" style="display:none;"><input type="button" value="&lt;--"><select name="displayDates"></select><input type="button" value="--&gt;"></div>-->
-	<table id="nodeshit">
-	<tr><td>Node Name<br><span id="nodename">---</span></td>
-	<td>IP Address<br><span id="ipaddr">---</span></td></tr>
-	<tr><td>Firmware Version<br><span id="firmware">---</span></td>
-	<td>Uptime:<br>99999</td></tr>
-	<tr><td colspan="2" style="text-align:center;">Carbon footprint: <br><span id="carbfpt">---</span> KG</td></tr>
-	</table>
-	<table id="notifs" style="background:#1a2839;">
-	<tr class="limit"><td><center><img src="/resources/icons/limit.gif" style="height:36px"/></center></td><td>Limit Reached!</td></tr>
-	<tr class="overv"><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Significant peak detected</td></tr>
-	</table>
-	<!--<audio autoplay="true" style="display:none;" src="/resources/beep.mp3"></audio>-->
-	<audio id="notif" style="display:none;" src="/resources/beep.mp3"></audio>
-	<div style="height:96px"></div><!--placeholder-->
-	<iframe id="nav" src="nav.html?from=home"></iframe>
-</BODY>
-</HTML>
+		<div id="graphcontrols" style="display:none;"><input type="button" value="&lt;--"><select name="displayDates"></select><input type="button" value="--&gt;"></div>-->
+		<table id="nodeshit">
+			<tr><td>Node Name<br><span id="nodename">---</span></td>
+				<td>IP Address<br><span id="ipaddr">---</span></td></tr>
+				<tr><td>Firmware Version<br><span id="firmware">---</span></td>
+					<td>Uptime:<br>99999</td></tr>
+					<tr><td colspan="2" style="text-align:center;">Carbon footprint: <br><span id="carbfpt">---</span> KG</td></tr>
+				</table>
+				<table id="notifs" style="background:#1a2839;">
+					<tr class="limit"><td><center><img src="/resources/icons/limit.gif" style="height:36px"/></center></td><td>Limit Reached!</td></tr>
+					<tr class="overv"><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Significant peak detected</td></tr>
+				</table>
+				<!--<audio autoplay="true" style="display:none;" src="/resources/beep.mp3"></audio>-->
+				<audio id="notif" style="display:none;" src="/resources/beep.mp3"></audio>
+				<div style="height:96px"></div><!--placeholder-->
+				<iframe id="nav" src="nav.html?from=home"></iframe>
+			</BODY>
+		</HTML>

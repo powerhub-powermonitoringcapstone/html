@@ -20,12 +20,12 @@
 	display:block;
 	margin:auto;
 	position:fixed;
-	top: 124px;
 	opacity: 0;
-	animation-duration: 2s;
+	animation-duration: 1s;
 	animation-name: intrologo1;
 	animation-fill-mode: forwards;
 	animation-iteration-count: 1;
+	animation-timing-function: linear;
 	animation-delay: 0.5s;
 }
 #intro_text2{
