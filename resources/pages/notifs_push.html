@@ -16,7 +16,11 @@
 		td, th{
 			border: 1px solid #dddddd;
 		}
-
+		.label{
+			background: rgb(75,88,104);
+			height: 24px;
+			margin-bottom:10px;
+		}
 		/*override na lang pota*/
 		#intro_logo{
 			position:fixed;
@@ -108,13 +112,14 @@
 <body>
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div>
-	<div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br>
-	<div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
+	<div class="label">Push Notification Settings &#x3009;</div>
+	<!-- <div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br> -->
+	<!-- <div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
 		<select id="month" onchange="dateChange('month')"></select>
 		<select id="day" onchange="dateChange('day')"></select>
 		<select id="year" onchange="dateChange('year')"></select>
-	</div><br id="startdatebr" style="display:none;">
-	<div class="navbuttons" id="dump" >Dump Data ...<span class="navarrow">&#x3009;</span></div><br>
+	</div><br id="startdatebr" style="display:none;"> -->
+	<div class="navbuttons" id="dump">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
 </body>
 
