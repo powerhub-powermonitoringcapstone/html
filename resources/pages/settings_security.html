@@ -3,46 +3,7 @@
 <HEAD>
 	<link href="/resources/pages/animations.css" type="text/css" rel="stylesheet">
 	<link href="/resources/pages/intro.css" type="text/css" rel="stylesheet">
-	<style>
-		#intro_logo{
-		position:fixed;
-		animation-play-state: paused;
-		top:12px;
-		}
-		body{
-		overflow-x:hidden;
-		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
-		color:#FFFFFF;
-		height: 58px;
-		margin: 0 auto;
-		}
-		.label{
-			background: rgb(75,88,104);
-			height: 24px;
-			margin-bottom:10px;
-		}
-		.buttons{
-			background: rgb(60,63,99);
-			padding-top: 12px;
-			padding-bottom: 12px;
-		}
-		.parm{
-			position:fixed;
-			left:150px;
-		}
-		.parm.pw{
-			display:inline;
-			position:relative;
-			left:20px;
-			padding:0px;
-			/*bottom:12px;*/
-		}		
-		.arrow{
-			position:fixed;
-			left:332px;
-		}
-		.buttons.authb{display:none;} /*password change button*/
-	</style>
+	<link href="/resources/pages/uielements.css" type="text/css" rel="stylesheet">
 </HEAD>
 <body>
 	<script src="/resources/pages/client.min.js"></script>
@@ -76,7 +37,7 @@
 		});
 		}
 	function auth(){
-		$('.buttons.auth').toggle();$('.buttons.authb').toggle();
+		$('.buttonsmall.auth').toggle();$('.buttonsmall.authb').toggle();
 		document.getElementById('nav').src = "/resources/pages/nav.html?from=settings_security2";
 	}
 	function change(){
@@ -97,11 +58,11 @@
 <img id="intro_logo" class="main" src="/resources/logo1.png">
 <!-- <div class="security">MAC Address<span style="position:fixed; left:210px">Status</span></div><br> -->
 <div class="label">Security Settings &#x3009;</div>
-<div class="buttons auth" onClick="auth()">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
-<div class="buttons authb" id="auth">Password<form class="parm pw" onSubmit="return change()"><input name="pw" type="password"></form><span class="arrow">&#x3009;</span></div>
+<div class="buttonsmall auth" onClick="auth()">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
+<div class="buttonsmall authb" id="auth">Password<form class="navparm pw" onSubmit="return change()"><input name="pw" type="password"></form><span class="navarrow">&#x3009;</span></div>
 <br>
-<div class="buttons authb">Login Permanence
-<select id="perm" style="position:relative; left:45px;"><option value="0">Until Exit</option><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="730.484398">1 month</option></select><span class="arrow" onClick="clickauthb()">&#x3009;</span></div>
+<div class="buttonsmall authb">Login Permanence
+<select id="perm" style="position:relative; left:45px;"><option value="0">Until Exit</option><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="730.484398">1 month</option></select><span class="navarrow" onClick="clickauthb()">&#x3009;</span></div>
 <iframe id="nav" class="main" src="/resources/pages/nav.html?from=settings_security"></iframe>
 </body>
 </HTML>

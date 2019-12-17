@@ -1,0 +1,73 @@
+/* taken from main.html */
+	body{
+		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
+		color:#FFFFFF;
+		width: 360px;
+		margin: 0 auto;
+		overflow-x:hidden;
+	}
+	#intro_logo{
+		position:fixed;
+		animation-play-state: paused;
+		top:12px;
+	}
+	#data, #nodeshit, #notifs, #graphcontrols{
+		width:275px;
+		margin-left:15%;
+	}
+	#graph{
+		height:200px; width:80%; background:white; margin-left:10%;
+	}
+	.limit, .overv{
+		display:none;
+	}
+	table{
+		background: rgb(38,39,59);
+	}
+	td, th{
+		border: 1px solid #dddddd;
+	}
+/* taken from settings_main and settings_security.html */
+	.navbuttons{
+		background: rgb(60,63,99);
+		padding-top: 24px;
+		padding-bottom: 24px;
+		height:28px;
+	}
+	.buttonsmall{
+		background: rgb(60,63,99);
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+	.buttonsmall.authb{display:none;} /*password change button*/
+	.navarrow{
+		position:fixed;
+		left:332px;
+	}
+	.navparm{
+		position:fixed;
+		left:150px;
+	}
+	.navparm.pw{
+		display:inline;
+		position:relative;
+		left:20px;
+		padding:0px;
+	}		
+	.label{
+		background: rgb(75,88,104);
+		height: 24px;
+		margin-bottom:10px;
+	}
+	.security, .about{
+		display:none;
+		background: rgb(60,63,99);
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+
+
+
+
+
+		

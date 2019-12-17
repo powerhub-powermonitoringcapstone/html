@@ -3,9 +3,8 @@
 <HEAD>
 <link href="animations.css" type="text/css" rel="stylesheet">
 <link href="intro.css" type="text/css" rel="stylesheet">
-<!--POWERHUB INTRO STARTUP SCREEN CODE (C) 2019 -->
+<link href="uielements.css" rel="stylesheet" type="text/css">
 <!--MAIN SCREEN (C) 2019 -->
-<!--javascript-->
 <script src="jquery-3.4.1.min.js"></script>
 <script src="js-cookie.js"></script>
 <script src="plotly.js"></script>
@@ -28,37 +27,6 @@
 	}
 </script>
 <script src="main_readout.js"></script> <!-- graphing has been merged to main_readout -->
-<style>
-	body{
-		background: rgb(20,21,38);				/* The rest of the styles are on the intro.css stylesheet*/
-		color:#FFFFFF;
-		width: 360px;
-		margin: 0 auto;
-		overflow-x:hidden;
-	}
-	table{
-		background: rgb(38,39,59)
-	}
-	td, th{
-		border: 1px solid #dddddd;
-	}
-	#graph{
-		height:200px; width:80%; background:white; margin-left:10%;
-	}
-	/*override na lang pota*/
-	#intro_logo{
-		position:fixed;
-		animation-play-state: paused;
-		top:12px;
-	}
-	#data, #nodeshit, #notifs, #graphcontrols{
-		width:275px;
-		margin-left:15%;
-	}
-	.limit, .overv{
-		display:none;
-	}
-</style>
 </HEAD>
 <BODY>
 <script src="client.min.js"></script>
