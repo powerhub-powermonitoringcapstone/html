@@ -50,7 +50,7 @@ def dump():
                     datadate = [datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month, datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year]
                     if datadate == date:
                         if timeoffset < 0:
-                            timeoffset =- timeoffset
+                            timeoffset = -timeoffset
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") - datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
                         else:
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") + datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
@@ -64,7 +64,7 @@ def dump():
                     datadate = [datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").strftime("%U"), datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year]
                     if datadate == date:
                         if timeoffset < 0:
-                            timeoffset =- timeoffset
+                            timeoffset = -timeoffset
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") - datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
                         else:
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") + datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
@@ -76,7 +76,7 @@ def dump():
                 for k in item:
                     if datetime.datetime.strptime(F.request.args.get('time'), "%m/%d/%Y").date() == datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date():
                         if timeoffset < 0:
-                            timeoffset =- timeoffset
+                            timeoffset = -timeoffset
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") - datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
                         else:
                             time = datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S") + datetime.timedelta(hours=int(timeoffset/60), minutes=timeoffset%60)
