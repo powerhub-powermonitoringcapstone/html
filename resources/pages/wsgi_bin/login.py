@@ -6,11 +6,14 @@ app = F.Flask(__name__)
 def post():
     import sys
     sys.path.insert(1, '/home/capstone/codebase')
-    import loginHandler as lh
-    if (lh.isLogin(str(F.request.json.get('fgt')))):
+    import loginHandler as lh, settingsHandler as sh
+    if (lh.isLogin(str(F.request.json.get('fgt'))) and sh.readSettings()[0] == "True"):
         return ("True")
     else:
-        return ("False")
+        if (sh.readSettings()[0] == "True"):
+            return ("False")
+        else:
+            return ("Setup")
 @app.route("/auth/", methods=['GET', 'POST'])
 def auth():
     import sys

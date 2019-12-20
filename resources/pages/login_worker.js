@@ -2,9 +2,7 @@ self.onmessage = function(msg){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			x = false;
-			if (this.responseText == "True"){x = true;};
-			self.postMessage(x);
+			self.postMessage(this.responseText);
 		}
 	}	
 	xhttp.open("POST", "/wsgi_bin/login/", true);
