@@ -18,51 +18,30 @@ def post():
 def auth():
     import sys
     sys.path.insert(1, '/home/capstone/codebase')
-    import os, xml.etree.ElementTree as ET, loginHandler as lh, hashlib
+    import loginHandler as lh
     data = F.request.json
-    sett = open(cwdf + '/pvt.xml', 'r')
-    settings = ET.parse(sett)
-    root = settings.getroot()
-    key = str(root.find(".private").attrib['key'])
-    salt = str(root.find(".private").attrib['salt'])##end of loading local files
-    auth = str(data.get('auth')) + salt
-    auth = str(hashlib.sha256(auth.encode('utf-8')).hexdigest())
-    if (auth == key):
-        lh.newLogin(str(data.get('fgt')))
-        return ("True")
-    else:
-        return ("False")
+    return (lh.authenticate(data.get('auth'), data.get('fgt')))
 @app.route("/change/", methods=['GET', 'POST'])
 def change():
-    import sys, uuid, os, xml.etree.ElementTree as ET, hashlib
+    import sys
     sys.path.insert(1, '/home/capstone/codebase')
-    import loginHandler as lh, settingsHandler as sh
-    lh.clear()
+    import loginHandler as lh
     data = F.request.json
-    salt = str(uuid.uuid4())
-    auth = str(hashlib.sha256((data.get('auth') + salt).encode('utf-8')).hexdigest())
-    with open(cwdf + '/pvt.xml', 'r') as sett:
-        settings = ET.parse(sett)
-        root = settings.getroot()
-        found = root.find("./private")
-        if (lh.isLogin(data.get('fgt') or sh.readSettings[0] == "False")):
-            found.set('key', auth)
-            found.set('salt', salt)
-##        if (found == None and lh.isLogin(data.get('fgt'))):
-##            root.append(ET.Element("private", {'key': auth, 'salt': salt}))
-##        else:
+    return (lh.changeKey(data.get('auth'), data.get('fgt')))
+##    salt = str(uuid.uuid4())
+##    auth = str(hashlib.sha256((data.get('auth') + salt).encode('utf-8')).hexdigest())
+##    with open(cwdf + '/pvt.xml', 'r') as sett:
+##        settings = ET.parse(sett)
+##        root = settings.getroot()
+##        found = root.find("./private")
+##        if (lh.isLogin(data.get('fgt') or sh.readSettings[0] == "False")):
 ##            found.set('key', auth)
 ##            found.set('salt', salt)
-        with open (cwdf + '/pvt.xml', 'wb') as settw:
-            settings.write(settw)
-            settw.close()
-    return ("True") ## success
+##        with open (cwdf + '/pvt.xml', 'wb') as settw:
+##            settings.write(settw)
+##            settw.close()
+##    return ("True") ## success
 ##@app.route("/change/register/", methods['GET', 'POST'])
-##def changeNew():
-##    import sys, uuid, os, xml.etree.ElementTree as ET
-##    sys.path.insert(1, '/home/capstone/codebase')
-##    import loginHandler as lh
-##    lh.clear()
-##    
+ 
 if __name__ == "__main__":
     app.run()
