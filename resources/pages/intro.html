@@ -61,20 +61,27 @@
 			$('#setupSetPass').css("display", "none");
 			$('#next_button').attr("onClick", "clickNext('setupSetPass')");
 			break;
-			case 'setupOnlySet':
-			$('#intro').css("display", "none");
-			$('#setup').css("display", "none");
-			$('#setupOnly').css("display", "none");
-			$('#setupOnlySet').css("display", "block");
-			$('#setupSetPass').css("display", "none");
-			break;
 			case 'setupSetPass':
 			$('#intro').css("display", "none");
 			$('#setup').css("display", "none");
 			$('#setupOnly').css("display", "none");
 			$('#setupOnlySet').css("display", "none");
 			$('#setupSetPass').css("display", "block");
+			if($('input[name="pass"]').val().length < 6){
+				alert('Please type a sufficiently long password (6-32 characters).');
+			} else {
+				$('#next_button').attr("onClick", "clickNext('setupSet')");
+			};
 			break;
+			case 'setupSet':
+			$('#intro').css("display", "none");
+			$('#setup').css("display", "none");
+			$('#setupOnly').css("display", "none");
+			$('#setupOnlySet').css("display", "block");
+			$('#setupSetPass').css("display", "none");
+			$('#next_button').css("display", "none");
+			break;
+			
 		}
 	}
 	// $('#intro').toggle();
@@ -90,14 +97,14 @@
 		<div id="intro_text3" class="introtext">PowerHub's use of immediate feedback can help you cut down on your power bills by up to 15%!</div>
 	</div>
 	<!-- setup page-->
-	<div id="setup"><form accept-charset="utf-8" onSubmit="">
+	<div id="setup">
 		<div class="centr" onClick="clickNext('setupOnly')" style="float:left;"><img style="height:128px" alt="One Device" src="./intro/node.png"><br>Only Device<br>Choose this if you do not have any<br> other PowerHub(tm) Meters installed.</div>
 		<div class="centr" style="float:right;"><img style="height:128px" alt="Main Device" src="./intro/manynodes.png"><br>Main Device<br>Choose this if you have other<br> PowerHub(tm) Meters installed<br>that you wish to control.</div>
 	</div>
 	<!-- setup page, chose only page-->
 		<div id="setupOnly">
 			<div style="height:260px"></div>
-			<div>Please type in the name you'd like for your PowerHub.<br>PowerHub_<input type="text" name="name" value="xxxxxx"></div>
+			<div>Please type in the name you'd like for your PowerHub.<br>PowerHub_<input type="text" name="name" value="xxxxxxxx" maxlength="8"></div>
 		</div>
 		<div id="setupOnlySet">
 			<div style="height:260px"></div>
@@ -107,10 +114,10 @@
 		<div id="setupSetPass">
 			<div style="height:260px"></div>
 			Input a password that will be memorable. (6-32 characters):<br>
-			<input type="password" name="pass">
+			<input type="password" name="pass" maxlength="32">
 		</div>
 	<a id="next_button" onClick="clickNext('setup')">NEXT</a><!--to setup-->
-	<button type="submit" onClick="return Setup()" value="Submit">
+	<!-- <button type="submit" onClick="return Setup()" value="Submit"> -->
 	</form>
 </body>
 </HTML>

@@ -36,7 +36,7 @@ def auth():
 def change():
     import sys, uuid, os, xml.etree.ElementTree as ET, hashlib
     sys.path.insert(1, '/home/capstone/codebase')
-    import loginHandler as lh
+    import loginHandler as lh, settingsHandler as sh
     lh.clear()
     data = F.request.json
     salt = str(uuid.uuid4())
@@ -45,11 +45,14 @@ def change():
         settings = ET.parse(sett)
         root = settings.getroot()
         found = root.find("./private")
-        if (found == None and lh.isLogin(data.get('fgt'))):
-            root.append(ET.Element("private", {'key': auth, 'salt': salt}))
-        else:
+        if (lh.isLogin(data.get('fgt') or sh.readSettings[0] == "False")):
             found.set('key', auth)
             found.set('salt', salt)
+##        if (found == None and lh.isLogin(data.get('fgt'))):
+##            root.append(ET.Element("private", {'key': auth, 'salt': salt}))
+##        else:
+##            found.set('key', auth)
+##            found.set('salt', salt)
         with open (cwdf + '/pvt.xml', 'wb') as settw:
             settings.write(settw)
             settw.close()
