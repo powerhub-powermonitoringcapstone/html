@@ -67,19 +67,25 @@
 			$('#setupOnly').css("display", "none");
 			$('#setupOnlySet').css("display", "none");
 			$('#setupSetPass').css("display", "block");
+			$('#next_button').attr("onClick", "clickNext('setupSet')");
+			break;
+			case 'setupSet':
 			if($('input[name="pass"]').val().length < 6){
 				alert('Please type a sufficiently long password (6-32 characters).');
 			} else {
-				$('#next_button').attr("onClick", "clickNext('setupSet')");
+				$('#intro').css("display", "none");
+				$('#setup').css("display", "none");
+				$('#setupOnly').css("display", "none");
+				$('#setupOnlySet').css("display", "block");
+				$('#setupSetPass').css("display", "none");
+				$('#next_button').css("display", "none");
+				$.ajax({
+					type: 'POST',
+					url: '/wsgi_bin/firstsetup/',
+					data: JSON.stringify ({name: "PowerHub_" + $('input[name=name]').val(), auth: $('input[name=pass]').val()}),
+					contentType: "application/json"
+				});
 			};
-			break;
-			case 'setupSet':
-			$('#intro').css("display", "none");
-			$('#setup').css("display", "none");
-			$('#setupOnly').css("display", "none");
-			$('#setupOnlySet').css("display", "block");
-			$('#setupSetPass').css("display", "none");
-			$('#next_button').css("display", "none");
 			break;
 			
 		}

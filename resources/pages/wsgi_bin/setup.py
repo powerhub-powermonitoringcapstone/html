@@ -5,25 +5,16 @@ cwdf = '/home/capstone/codebase'
 app = F.Flask(__name__)
 @app.route("/", methods=['GET', 'POST']) ##real time data
 def firstSetup():
-    import sys, xml.etree.ElementTree as ET
+    import sys
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
-    if (F.request.json != None and sh.readSettings()[0] == "True"):
-        with open(cwd+'/pvt.xml', 'r') as file:
-            private = ET.parse(file)
-            root = measurements.getroot()
-            item = root.findall("./plot")
-            kilowatts = 0            
-            for entries in item:
-                kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
-            kilowatts = kilowatts/3600/1000
-        data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
-                'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
-                'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
-                'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}
-        return F.jsonify(data)
+    if (F.request.json != None and sh.readSettings()[0] == "False"):
+        lh.changeKey(F.request.json.get('auth'), None)
+        sh.riteSettings(4, F.request.json.get('name'))
+        sh.riteSettings(0, "True")
+        return ("True")
     else:
-        return F.jsonify({'auth':'false'})
+        return ("False")
 ##@app.route("/past/", methods=['GET', 'POST']) #past data array, graphing
 ##def pastData():
 ##    import sys, xml.etree.ElementTree as ET, datetime
