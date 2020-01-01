@@ -18,10 +18,7 @@
 	<script src="login.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
-		fgt = Cookies.get('fgt');
-		if (isLogin(fgt) != 1){
-			window.location.href = "/resources/pages/login.html";
-	}//end
+	fgt = Cookies.get('fgt');
 	window.onload = function(){
 		if (Cookies.get('sesh') != "40000000"){ //start logo animation cookie
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
@@ -29,47 +26,49 @@
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		};
-		modeChange();
-		if(fgt!=undefined){
-			$.ajax({
-				type: 'POST',
-				url: '/wsgi_bin/data/dates/',
-				data: JSON.stringify ({fgt: fgt, mode:'years'}),
-				success: function(data){
-					for (var i = 0; i < data.length; i++){
-						$("#year").append(new Option(data[i], data[i]));
-					};
-					$("#year option:last").attr("selected", "selected");
-					console.log(data[data.length-1])
-					$.ajax({
-						type: 'POST',
-						url: '/wsgi_bin/data/dates/',
-						data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
-						success: function(data){
-							for (var i=0; i < data.length; i++){
-								$("#month").append(new Option (data[i], data[i]));
-							};
-							$("#month option:last").attr("selected", "selected");
-							$.ajax({
-								type: 'POST',
-								url: '/wsgi_bin/data/dates/',
-								data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
-								success: function(data){
-									for (var i=0; i < data.length; i++){
-										$("#day").append(new Option (data[i], data[i]));
-									};
-								},
-								contentType: "application/json"
-							});
-						},
-						contentType: "application/json"
-					})
-				},
-				contentType: "application/json"
-			});
-			document.getElementById("dump").onclick = function (){window.location.href = "/wsgi_bin/dump/" + "?mode=entire&fgt=" + fgt +"&timeoffset=" + (-parseInt(new Date().getTimezoneOffset())).toString()};
-		}
 	}
+	function subscribePush(){
+		Notification.requestPermission(function(status){console.log(status);});
+	}
+		// modeChange();
+		// if(fgt!=undefined){
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: '/wsgi_bin/data/dates/',
+		// 		data: JSON.stringify ({fgt: fgt, mode:'years'}),
+		// 		success: function(data){
+		// 			for (var i = 0; i < data.length; i++){
+		// 				$("#year").append(new Option(data[i], data[i]));
+		// 			};
+		// 			$("#year option:last").attr("selected", "selected");
+		// 			console.log(data[data.length-1])
+		// 			$.ajax({
+		// 				type: 'POST',
+		// 				url: '/wsgi_bin/data/dates/',
+		// 				data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
+		// 				success: function(data){
+		// 					for (var i=0; i < data.length; i++){
+		// 						$("#month").append(new Option (data[i], data[i]));
+		// 					};
+		// 					$("#month option:last").attr("selected", "selected");
+		// 					$.ajax({
+		// 						type: 'POST',
+		// 						url: '/wsgi_bin/data/dates/',
+		// 						data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
+		// 						success: function(data){
+		// 							for (var i=0; i < data.length; i++){
+		// 								$("#day").append(new Option (data[i], data[i]));
+		// 							};
+		// 						},
+		// 						contentType: "application/json"
+		// 					});
+		// 				},
+		// 				contentType: "application/json"
+		// 			})
+		// 		},
+		// 		contentType: "application/json"
+		// 	});
+		// }
 </script>
 <script src="notifs_dump_forms.js"></script>
 </head>
@@ -83,7 +82,8 @@
 		<select id="day" onchange="dateChange('day')"></select>
 		<select id="year" onchange="dateChange('year')"></select>
 	</div><br id="startdatebr" style="display:none;"> -->
-	<div class="navbuttons" id="dump">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons" id="push" onclick="subscribePush()">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
+	<div class="error" style="display:none;">It seems that you have push notifications blocked. On Google Chrome ...<br>addinstructionshere<br>On Mozilla Firefox ...<br>addinstructionshere<br>On Microsoft Edge ...<br>addinstructionshere<br>On Opera ...<br>addinstructionshere<br><a>Close</a></div>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
 </body>
 
