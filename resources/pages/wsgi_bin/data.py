@@ -9,9 +9,8 @@ def realtimeGraph():
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
-        with open(cwdf+'/measurements.xml', 'r') as sett:
-            sett.seek(0)
-            measurements = ET.parse(sett)
+        with open(cwdf+'/measurements.xml', 'r') as file:
+            measurements = ET.parse(file)
             root = measurements.getroot()
             item = root.findall("./plot")
             kilowatts = 0            
@@ -22,6 +21,7 @@ def realtimeGraph():
                 'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
                 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
                 'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}
+        file.close()
         return F.jsonify(data)
     else:
         return F.jsonify({'auth':'false'})
@@ -31,9 +31,8 @@ def pastData():
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
-        with open(cwdf+'/measurements.xml', 'r') as sett:
-            sett.seek(0)
-            measurements = ET.parse(sett) 
+        with open(cwdf+'/measurements.xml', 'r') as file:
+            measurements = ET.parse(file) 
             root = measurements.getroot()
             item = root.findall("./plot")
             if (F.request.json.get('mode') == "last"): ## latest 60 readings
@@ -50,6 +49,7 @@ def pastData():
             if (F.request.json.get('mode') == "month"): ##readings throughout a month
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
                         if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month]
+            file.close()
         return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data
 def dates():
@@ -58,9 +58,8 @@ def dates():
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
         data = []
-        with open(cwdf+'/measurements.xml', 'r') as sett:
-            sett.seek(0)
-            measurements = ET.parse(sett) 
+        with open(cwdf+'/measurements.xml', 'r') as file:
+            measurements = ET.parse(file) 
             root = measurements.getroot()
             item = root.findall("./plot")
             data = []
@@ -84,6 +83,7 @@ def dates():
                 for k in item:
                     if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year not in data:
                         data.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year)
+            file.close()
         return F.jsonify(data)
 if __name__ == "__main__":
     app.run()
