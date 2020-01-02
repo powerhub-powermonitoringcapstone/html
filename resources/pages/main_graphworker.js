@@ -1,6 +1,6 @@
 //auto graph data refresh handler (c) 2019 powerhub
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function demo(e) {
@@ -14,11 +14,12 @@ async function demo(e) {
 		if (this.readyState == 4 && this.status == 500) {
 			error +=1;
 			if (error > 2){error = 0;} else {
-			xhttp.open("POST", "/wsgi_bin/data/past/", true);
-			xhttp.setRequestHeader("Content-Type", "application/json");
-			xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+				xhttp.open("POST", "/wsgi_bin/data/past/", true);
+				xhttp.setRequestHeader("Content-Type", "application/json");
+				xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
 			};
-	};
+		};
+	}
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/past/", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
