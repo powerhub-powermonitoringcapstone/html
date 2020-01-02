@@ -26,9 +26,16 @@
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		};
+		if (Notification.permission == "blocked" || Notification.permission == "denied"){
+			document.getElementById("pushError").style.display = "block";
+		}
 	}
 	function subscribePush(){
-		Notification.requestPermission(function(status){console.log(status);});
+		Notification.requestPermission(function(status){/*console.log(status);*/
+		if (status == "blocked" || status == "denied"){
+		document.getElementById("pushError").style.display = "block";
+		}
+		});
 	}
 		// modeChange();
 		// if(fgt!=undefined){
@@ -83,7 +90,8 @@
 		<select id="year" onchange="dateChange('year')"></select>
 	</div><br id="startdatebr" style="display:none;"> -->
 	<div class="navbuttons" id="push" onclick="subscribePush()">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
-	<div class="error" style="display:none;">It seems that you have push notifications blocked. On Google Chrome ...<br>addinstructionshere<br>On Mozilla Firefox ...<br>addinstructionshere<br>On Microsoft Edge ...<br>addinstructionshere<br>On Opera ...<br>addinstructionshere<br><a>Close</a></div>
+	<div class="navbuttons" id="unpush">Unsubscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons" id="pushError" style="display:none; background: #8E374E; height:256px; position:fixed; top:214px; opacity:0.75" >It seems that you have push notifications blocked.<br><br>On Google Chrome ...<br><br>addinstructionshere<br>On Mozilla Firefox ...<br>addinstructionshere<br>On Microsoft Edge ...<br>addinstructionshere<br>On Opera ...<br>addinstructionshere<br><span style="align-content:right; cursor:pointer; position:absolute;left:286px; bottom:20px" onclick="document.getElementById('pushError').style.display = 'none';">Close</span></div>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
 </body>
 

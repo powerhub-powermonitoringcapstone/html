@@ -9,6 +9,12 @@ async function demo(e) {
 		if (this.readyState == 4 && this.status == 200) {
 			self.postMessage(this.responseText);
 		}
+		if (this.readyState == 4 && this.status == 500) {
+			xhttp.open("POST", "/wsgi_bin/data/past/", true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+		}
+
 	};
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/past/", true);
