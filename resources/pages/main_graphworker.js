@@ -17,6 +17,7 @@ async function demo(e) {
 				xhttp.open("POST", "/wsgi_bin/data/past/", true);
 				xhttp.setRequestHeader("Content-Type", "application/json");
 				xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+				error = 0;
 			};
 		};
 	}

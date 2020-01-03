@@ -20,11 +20,8 @@ def realtimeGraph():
         data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
                 'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
                 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
-                'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}
-        file.close()
+                'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}    
         return F.jsonify(data)
-    else:
-        return F.jsonify({'auth':'false'})
 @app.route("/past/", methods=['GET', 'POST']) #past data array, graphing
 def pastData():
     import sys, xml.etree.ElementTree as ET, datetime
@@ -49,7 +46,6 @@ def pastData():
             if (F.request.json.get('mode') == "month"): ##readings throughout a month
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
                         if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month]
-            file.close()
         return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data
 def dates():
@@ -62,7 +58,6 @@ def dates():
             measurements = ET.parse(file) 
             root = measurements.getroot()
             item = root.findall("./plot")
-            data = []
             if (F.request.json.get('mode') == "months"): ## available months for year
                 year = datetime.datetime.strptime(F.request.json.get('time'), "%Y").year
                 for k in item:
@@ -83,7 +78,6 @@ def dates():
                 for k in item:
                     if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year not in data:
                         data.append(datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").year)
-            file.close()
         return F.jsonify(data)
 if __name__ == "__main__":
     app.run()
