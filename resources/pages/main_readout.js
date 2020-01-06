@@ -6,7 +6,8 @@
 		data: JSON.stringify({fgt:fgt}),    // in the session in order to save up on data.
 		success: function(data){            // we may want to poll this every five seconds instead hmm.... asynchronous function;
 			fpt = data.carbfpt;
-			ref = 3600/(data.refresh)*1000; //refresh rate			
+			ref = 3600/(data.refresh)*1000; //refresh rate
+			orgref = ref; //orig refresh rate			
 		},
 		contentType: "application/json",
 		async: false
@@ -20,8 +21,8 @@
 			$('.overv').css("display", "block");
 			$("#notif")[0].play();
 		} else {
-			if (insig > 5) {insig = 0};
 			insig +=1;
+			if (insig > 5) {insig = 0};
 			if (insig == 3) {$('.overv').css("display", "none")};
 		}
 		wattage = data.voltage * data.current * data.pf;
@@ -57,63 +58,15 @@
 		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 	}
 	function changeGraphType(){
+		// readoutworker.terminate(); graphworker.terminate();
 		switch($('#displayData').children("option:selected").val()){
-			case 'average':
-				x = [], y = [];
-				$.ajax({
-					type: 'POST',
-					url: '/wsgi_bin/data/past/',
-					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate()-2)+"/"+String(today.getUTCFullYear()), mode:'day'}),
-					contentType: "application/json",
-					success: function(data){
-						if (data.length != 0){
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2), "thirdDayAvg"));
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-2) + " - " + today.toLocaleString('default', {month:'long'}), "todayAvg") + " " + String(today.getDate()), "ThreeDaysTogether");
-							// for (var i = 0; i < data.length; i++){
-							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
-							// 	console.log(y);
-							// } LETS USE A WORKER INSTEAD FOR THE GRAPH CHANGING
-						}
-					}
-				});
-				$.ajax({
-					type: 'POST',
-					url: '/wsgi_bin/data/past/',
-					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate()-1)+"/"+String(today.getUTCFullYear()), mode:'day'}),
-					contentType: "application/json",
-					success: function(data){
-						if (data.length != 0){
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1), "secondDayAvg"));
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()-1) + " - " + today.toLocaleString('default', {month:'long'}), "todayAvg") + " " + String(today.getDate()), "TwoDaysTogether");
-							// for (var i = 0; i < data.length; i++){
-							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
-							// } LETS USE A WORKER INSTEAD FOR THE GRAPH CHANGING
-						}else{alert('fegelein!')}
-					}
-				});
-				$.ajax({
-					type: 'POST',
-					url: '/wsgi_bin/data/past/',
-					data: JSON.stringify({fgt: fgt, time: String(today.getUTCMonth()+ 1)+"/"+String(today.getUTCDate())+"/"+String(today.getUTCFullYear()), mode:'day'}),
-					contentType: "application/json",
-					success: function(data){
-						if (data.length != 0){
-							$('select[name="displayDates"]').append(new Option(today.toLocaleString('default', {month:'long'}) + " " + String(today.getDate()), "todayAvg"));
-							// for (var i = 0; i < data.length; i++){
-							// 	x.push(i); y.push((parseFloat(data[i].voltage) * parseFloat(data[i].current) * parseFloat(data[i].pf)).toFixed(2));
-							// 	console.log(y);
-							// } LETS USE A WORKER INSTEAD
-						}
-					}
-				});
-				document.getElementById("graphcontrols").style.display = "block";
+			case '1':
+			alert('implement later');
+			/*ref = orgref;
+			readoutworker.postMessage({fgt:fgt, ref:ref})*/
 			break;
-			case 'instantaneous':
-				document.getElementById("graphcontrols").style.display = "none";
-				var dyg = new Worker('main_graphworker.js');
-			break;	
-			case 'overall':
-				document.getElementById("graphcontrols").style.display = "none";
+			case '5':
+			alert('implement later');
 			break;
 		};
 	}

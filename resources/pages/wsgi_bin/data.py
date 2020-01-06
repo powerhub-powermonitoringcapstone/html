@@ -8,6 +8,7 @@ def realtimeGraph():
     import sys, xml.etree.ElementTree as ET
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
+    refreshrate = int(sh.readSettings()[9])
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
         with open(cwdf+'/measurements.xml', 'r') as file:
             measurements = ET.parse(file)
@@ -16,7 +17,7 @@ def realtimeGraph():
             kilowatts = 0            
             for entries in item:
                 kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
-        kilowatts = kilowatts/3600/1000
+        kilowatts = kilowatts/refreshrate/1000
         data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
                 'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
                 'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
@@ -32,20 +33,23 @@ def pastData():
             measurements = ET.parse(file) 
             root = measurements.getroot()
             item = root.findall("./plot")
-            if (F.request.json.get('mode') == "last"): ## latest 60 readings
-                item = item[-60:]
+            if (F.request.json.get('mode') == "last"): ## latest n readings
+                item = item[-int(F.request.json.get('readings')):]
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']} for k in item]
             if (F.request.json.get('mode') == "start"): ## since last data reset
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item]
             if (F.request.json.get('mode') == "day"): ##readings throughout a day
-                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
-                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()]
+                for k in item:
+                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()):
+                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "week"): ##readings throughout a week
-                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
-                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")]
+                for k in item:
+                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")):
+                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "month"): ##readings throughout a month
-                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item \
-                        if datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month]
+                for k in item:
+                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month):
+                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
         return F.jsonify(data)
 @app.route("/dates/", methods=['GET', 'POST'])#Dates only, not data
 def dates():
