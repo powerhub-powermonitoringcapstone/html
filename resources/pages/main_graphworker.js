@@ -16,7 +16,7 @@ async function demo(e) {
 			if (error > 2){error = 0;} else {
 				xhttp.open("POST", "/wsgi_bin/data/past/", true);
 				xhttp.setRequestHeader("Content-Type", "application/json");
-				xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+				xhttp.send(JSON.stringify({fgt:e.fgt, mode:'lastmin', time:e.time})); 
 				error = 0;
 			};
 		};
@@ -24,10 +24,10 @@ async function demo(e) {
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/past/", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
-		xhttp.send(JSON.stringify({fgt:e.fgt, mode:'last'})); 
+		xhttp.send(JSON.stringify({fgt:e.fgt, mode:'lastmin', time:e.time})); 
 		await sleep(e.ref);
 	}
 }
 self.onmessage = function(msg){
-	demo({fgt:msg.data.fgt, ref:msg.data.ref});
+	demo({fgt:msg.data.fgt, ref:msg.data.ref, msg.data.time});
 };

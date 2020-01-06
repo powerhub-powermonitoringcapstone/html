@@ -48,7 +48,7 @@
 	});
 	//graphing
 	var graphworker = new Worker('main_graphworker.js');
-	graphworker.postMessage({fgt:fgt, ref:ref});
+	graphworker.postMessage({fgt:fgt, ref:ref, time:parseInt(document.getElementById("displayData").value)});
 	graphworker.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
 		x = [], y = [];

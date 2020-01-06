@@ -29,22 +29,25 @@ def pastData():
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
+        data = []
         with open(cwdf+'/measurements.xml', 'r') as file:
             measurements = ET.parse(file) 
             root = measurements.getroot()
             item = root.findall("./plot")
-            if (F.request.json.get('mode') == "last"): ## latest n readings
-                item = item[-60:]#[-int(F.request.json.get('readings')):]
-                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']} for k in item]
+##            if (F.request.json.get('mode') == "last"): ## latest n readings
+##                item = item[-60:]#[-int(F.request.json.get('readings')):]
+##                data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf']} for k in item]
             if (F.request.json.get('mode') == "start"): ## since last data reset
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item]
             if (F.request.json.get('mode') == "lastmin"): ## readings from the last n minute
-                for k in item:
-                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()):
-                        data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
+                lastdata = datetime.datetime.strptime(item[-1].attrib['date'], "%m/%d/%Y %H:%M:%S")
+                for i in range(0,int(F.request.json.get('time'))+1):
+                    for k in item:
+                        if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == (lastdata - datetime.timedelta(minutes=i)).replace(second=0, microsecond=0)):
+                            data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "day"): ##readings throughout a day
                 for k in item:
-                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date()):
+                    if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y")):
                         data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "week"): ##readings throughout a week
                 for k in item:
