@@ -46,9 +46,10 @@
 		},
 		contentType: "application/json"
 	});
+
 	//graphing
 	var graphworker = new Worker('main_graphworker.js');
-	graphworker.postMessage({fgt:fgt, ref:ref, time:parseInt(document.getElementById("displayData").value)});
+	graphworker.postMessage({fgt:fgt, ref:ref, time:1});
 	graphworker.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
 		x = [], y = [];
@@ -56,17 +57,20 @@
 			x.push(i); y.push((parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf)).toFixed(2));
 		};
 		Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
-	}
+	};
 	function changeGraphType(){
 		// readoutworker.terminate(); graphworker.terminate();
-		switch($('#displayData').children("option:selected").val()){
-			case '1':
-			alert('implement later');
-			/*ref = orgref;
-			readoutworker.postMessage({fgt:fgt, ref:ref})*/
-			break;
-			case '5':
-			alert('implement later');
-			break;
+		graphworker.terminate();
+		console.log(graphworker);
+		graphworker = new Worker('main_graphworker.js');
+		graphworker.postMessage({fgt:fgt, ref:ref, time:parseInt(document.getElementById("displayData").value)});	
+		graphworker.onmessage = function(e){ 				
+			e = JSON.parse(e.data);
+			x = [], y = [];
+			for (var i = 0; i < e.length; i++){
+				x.push(i); y.push((parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf)).toFixed(2));
+			};
+			Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 		};
-	}
+		alert(parseInt(document.getElementById("displayData").value));
+	};

@@ -29,5 +29,5 @@ async function demo(e) {
 	}
 }
 self.onmessage = function(msg){
-	demo({fgt:msg.data.fgt, ref:msg.data.ref, msg.data.time});
+	demo({fgt:msg.data.fgt, ref:msg.data.ref, time:msg.data.time});
 };

@@ -10,23 +10,24 @@
 	<script src="jquery-3.4.1.min.js"></script>
 	<script src="js-cookie.js"></script>
 	<script src="plotly.js"></script>
+	<script src="login.js"></script>
 	<script>
 	//autoLogin
 	fgt = Cookies.get('fgt');
-	if(fgt!=undefined){
-		$.ajax({
-			type: 'POST',
-			url: '/wsgi_bin/login/',
-			data: JSON.stringify ({fgt: fgt}),
-			success: function(data){
-				if (data != "True"){
-					window.location.href = "/resources/pages/login.html";
-					Cookies.set('fgt','');
-				} else if (data == "True"){readData();};
-			},
-			contentType: "application/json",
-		});
-	} else {window.location.href = "/resources/pages/login.html";};
+	// if(fgt!=undefined){
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '/wsgi_bin/login/',
+	// 		data: JSON.stringify ({fgt: fgt}),
+	// 		success: function(data){
+	// 			if (data != "True"){
+	// 				window.location.href = "/resources/pages/login.html";
+	// 				Cookies.set('fgt','');
+	// 			} else if (data == "True"){readData();};
+	// 		},
+	// 		contentType: "application/json",
+	// 	});
+	// } else {window.location.href = "/resources/pages/login.html";};
 	window.onload = function(){
 	if (Cookies.get('sesh') != "30000000"){
 		document.getElementById("intro_logo").style.animationPlayState = "running" ;
