@@ -33,7 +33,6 @@ def pastData():
         with open(cwdf+'/measurements.xml', 'r') as file:
             measurements = ET.parse(file) 
             root = measurements.getroot()
-            file.seek(0)
             item = root.findall("./plot")
 ##            if (F.request.json.get('mode') == "last"): ## latest n readings
 ##                item = item[-60:]#[-int(F.request.json.get('readings')):]
@@ -44,7 +43,7 @@ def pastData():
                 lastdata = datetime.datetime.strptime(item[-1].attrib['date'], "%m/%d/%Y %H:%M:%S")
                 for k in item:
                     for i in reversed(range(0,int(F.request.json.get('time'))+1)):
-                        if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == (lastdata - datetime.timedelta(minutes=i)).replace(second=0, microsecond=0)):
+                        if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == (lastdata.replace(second=0, microsecond=0) - datetime.timedelta(minutes=i)):
                             data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "day"): ##readings throughout a day
                 for k in item:
