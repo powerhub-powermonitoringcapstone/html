@@ -40,10 +40,10 @@ def pastData():
             if (F.request.json.get('mode') == "start"): ## since last data reset
                 data = [{'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']} for k in item]
             if (F.request.json.get('mode') == "lastmin"): ## readings from the last n minute
-                lastdata = datetime.datetime.strptime(item[-1].attrib['date'], "%m/%d/%Y %H:%M:%S")
+                lastdata = datetime.datetime.strptime(item[-1].attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0)
                 for k in item:
-                    for i in reversed(range(0,int(F.request.json.get('time'))+1)):
-                        if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == (lastdata.replace(second=0, microsecond=0) - datetime.timedelta(minutes=i)):
+                    for i in reversed(range(0, int(F.request.json.get('time'))+1)):
+                        if (datetime.datetime.strptime(k.attrib['date'], "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == lastdata - datetime.timedelta(minutes=i)):
                             data.append({'voltage': k.attrib['voltage'], 'current': k.attrib['current'], 'pf': k.attrib['pf'], 'date': k.attrib['date']})
             if (F.request.json.get('mode') == "day"): ##readings throughout a day
                 for k in item:
