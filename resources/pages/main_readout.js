@@ -72,5 +72,4 @@
 			};
 			Plotly.react('graph', [{x:x, y:y}], {margin: {l:0,r:0,b:0,t:0,pad:2}});
 		};
-		alert(parseInt(document.getElementById("displayData").value));
 	};
