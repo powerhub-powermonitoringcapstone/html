@@ -29,12 +29,12 @@
 	// 	});
 	// } else {window.location.href = "/resources/pages/login.html";};
 	window.onload = function(){
-	if (Cookies.get('sesh') != "30000000"){
-		document.getElementById("intro_logo").style.animationPlayState = "running" ;
-		Cookies.set("sesh", "30000000");
-	} else {
-		document.getElementById("intro_logo").style.opacity = "0.5";
-	}}
+		if (Cookies.get('sesh') != "30000000"){
+			document.getElementById("intro_logo").style.animationPlayState = "running" ;
+			Cookies.set("sesh", "30000000");
+		} else {
+			document.getElementById("intro_logo").style.opacity = "0.5";
+		}}
 	//readData
 	function readData(){
 		$.ajax({
@@ -75,10 +75,15 @@
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
 	<div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br>
+	<table id="data">
+		<tr><td>Average Voltage<br><span id="voltage">---</span> V</td>
+			<td>Average Current<br><span id="current">---</span> A</td>
+			<td>Average Wattage<br><span id="wattage">---</span> W</td></tr>
+			<tr><td colspan="2">Average Power Factor<br><span id="pf">---</span></td><td>Kilowatt-hours<br><span id="kwh">---</span></td></tr>
+	</table>
 	<div id="graph"></div>
-	<script src="graph.js">plot('real');</script>
 	<iframe id="nav" src="nav.html?from=plot"></iframe>
-</BODY>
+	</BODY>
 </HTML>
 
 

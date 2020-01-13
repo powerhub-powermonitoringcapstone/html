@@ -29,8 +29,8 @@
 	<!--actual markup code here-->
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div><!--placeholder-->
-	Display: <select id="displayData" autocomplete="off" onchange="changeGraphType()"><option name="1" value="1" selected="selected">1 minute</option><option name="5" value="5" >5 minutes</option><option name="10" value="10">10 minutes</option></select><!--6 months-->
-	<table id="data">
+	Display: <select id="displayData" autocomplete="off" onchange="changeGraphType()"><option name="1" value="1" selected="selected">1 minute</option><option name="5" value="5" >5 minutes</option><option name="10" value="10">10 minutes</option></select>	
+<table id="data">
 		<tr><td>Voltage<br><span id="voltage">---</span> V</td>
 			<td>Current<br><span id="current">---</span> A</td>
 			<td>Wattage<br><span id="wattage">---</span> W</td></tr>
@@ -50,7 +50,6 @@
 					<tr class="limit"><td><center><img src="/resources/icons/limit.gif" style="height:36px"/></center></td><td>Limit Reached!</td></tr>
 					<tr class="overv"><td><img src="/resources/icons/overv.gif" style="height:36px"/></td><td>Significant peak detected</td></tr>
 				</table>
-				<!--<audio autoplay="true" style="display:none;" src="/resources/beep.mp3"></audio>-->
 				<audio id="notif" style="display:none;" src="/resources/beep.mp3"></audio>
 				<div style="height:96px"></div><!--placeholder-->
 				<iframe id="nav" src="nav.html?from=home"></iframe>

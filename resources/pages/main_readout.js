@@ -52,7 +52,6 @@
 	graphworker.postMessage({fgt:fgt, ref:ref, time:1});
 	graphworker.onmessage = function(e){ 				
 		e = JSON.parse(e.data);
-		console.log(e);
 		x = [], y = [];
 		for (var i = 0; i < e.length; i++){
 			x.push(i); y.push((parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf)).toFixed(2));
@@ -66,7 +65,6 @@
 		graphworker.postMessage({fgt:fgt, ref:ref, time:document.getElementById("displayData").value});	
 		graphworker.onmessage = function(e){ 				
 			e = JSON.parse(e.data);
-			console.log(e);
 			x = [], y = [];
 			for (var i = 0; i < e.length; i++){
 				x.push(i); y.push((parseFloat(e[i].voltage) * parseFloat(e[i].current) * parseFloat(e[i].pf)).toFixed(2));
