@@ -28,10 +28,30 @@
 			},
 			contentType: "application/json"
 			});
-	}
+		}
 	function node(){
-		alert("yuuuuuuuuuuh");
-		// $("input[name='nodename']").val();
+		switch(document.getElementById('nodename').style.display){
+			case 'inline':
+				document.getElementById('nodename').style.display = "none";
+				document.getElementById('nodeinput').style.display = "inline";
+			break;
+			case 'none':
+				if ($('#nodename').html() != $('input[name=nodename]').val()){
+					if (confirm("Save changes?")){
+						alert("Clicked yes");
+					} else {
+						alert("Clicked no");
+						$('input[name=nodename]').val($("#nodename").html());
+						document.getElementById('nodename').style.display = "block";		
+						document.getElementById('nodeinput').style.display = "none";
+					}
+				};
+			break;
+			default:
+				document.getElementById('nodename').style.display = "none";
+				document.getElementById('nodeinput').style.display = "inline";
+			break;
+		}
 	}
 	function about(){
 		// $('.about').toggle();$('.navbuttons').toggle();
@@ -41,13 +61,13 @@
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="/resources/logo1.png">
 <!--navigation-->
-<!-- <div class="navbuttons">Nodes<span class="navarrow">&#x3009;</span></div><br> -->
 <div class="navbuttons" onClick="window.location.href = '/wsgi_bin/settings/security'">Security Settings<span class="navarrow">&#x3009;</span></div><br>
 <div class="navbuttons">Firmware Update<span class="navarrow">&#x3009;</span></div><br>
 <!--node-->
-<div class="navbuttons" id="node">Node Name...<span class="navparm" id="nodename">---</span><span class="navarrow">&#x3009;</span>
-<span class="node"><form onSubmit=""><input type="textbox" style="display:none;position:relative;left:150px;bottom:20px;z-index:5; background:inherit;color:inherit;border: 0 none;font-size: 12pt;"name="nodename" value="---"></form></span>
-</div><br>
+<div class="navbuttons" onClick="node()">Node Name...<span class="navparm" id="nodename">---</span>
+<form class="navparm" id="nodeinput" style="display:none;" autocomplete="off" onsubmit="submitNode()"><input type="text" size="12" maxlength="20" name="nodename"></form><!-- </span> -->
+<span class="navarrow">&#x3009;</span></div><br>
+<!--about-->
 <div class="navbuttons" onClick="about()">About<span class="navarrow">&#x3009;</span></div><br>
 <!--about-->
 <div class="about">This PowerHub web applet is made for the partial fulfillment of the SY 2019-2020 Capstone Experience Program.</div>
