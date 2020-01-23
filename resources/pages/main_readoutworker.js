@@ -21,7 +21,7 @@ async function demo(e) {
 		};
 	};
 	while (1){
-		xhttp.open("POST", "/wsgi_bin/data/real/", true);
+		xhttp.open("POST", "/wsgi_bin/data/real/", false);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		xhttp.send(JSON.stringify({fgt:e.fgt})); 
 		await sleep(e.ref);

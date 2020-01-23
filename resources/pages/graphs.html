@@ -62,7 +62,7 @@
 	};
 </script>
 <style>
-	.navbuttons{
+	.navbuttons.small{
 		height:18px;
 		padding-top:10px;
 		padding-bottom:10px;
@@ -74,7 +74,7 @@
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
-	<div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br>
+	<div class="navbuttons small" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select><span style="position:relative;left:20px"><select id="month"></select><select id="day"></select><select id="year"></select></span></div><br>
 	<table id="data">
 		<tr><td>Average Voltage<br><span id="voltage">---</span> V</td>
 			<td>Average Current<br><span id="current">---</span> A</td>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<HTML>
+<link href="animations.css" type="text/css" rel="stylesheet">
+<link href="intro.css" type="text/css" rel="stylesheet">
+<link href="uielements.css" type="text/css" rel="stylesheet">
+<head>
+	<style>
+		.navbuttons{
+			position: relative;
+			top:20px;
+			background: rgb(60,63,99);
+			padding-top: 12px;
+			padding-bottom: 12px;
+			height:28px;
+		}
+	</style>
+	<script src="js-cookie.js"></script>
+	<script src="login.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script>
+	fgt = Cookies.get('fgt');
+	window.onload = function(){
+		if (Cookies.get('sesh') != "40000000"){ //start logo animation cookie
+			document.getElementById("intro_logo").style.animationPlayState = "running" ;
+			Cookies.set("sesh", "40000000");
+		} else {
+			document.getElementById("intro_logo").style.opacity = "0.5";
+		};
+		if (Notification.permission == "blocked" || Notification.permission == "denied"){
+			document.getElementById("pushError").style.display = "block";
+		}
+	}
+	function subscribePush(){
+		Notification.requestPermission(function(status){/*console.log(status);*/
+		if (status == "blocked" || status == "denied"){
+		document.getElementById("pushError").style.display = "block";
+		}
+		});
+	}
+		// modeChange();
+		// if(fgt!=undefined){
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: '/wsgi_bin/data/dates/',
+		// 		data: JSON.stringify ({fgt: fgt, mode:'years'}),
+		// 		success: function(data){
+		// 			for (var i = 0; i < data.length; i++){
+		// 				$("#year").append(new Option(data[i], data[i]));
+		// 			};
+		// 			$("#year option:last").attr("selected", "selected");
+		// 			console.log(data[data.length-1])
+		// 			$.ajax({
+		// 				type: 'POST',
+		// 				url: '/wsgi_bin/data/dates/',
+		// 				data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
+		// 				success: function(data){
+		// 					for (var i=0; i < data.length; i++){
+		// 						$("#month").append(new Option (data[i], data[i]));
+		// 					};
+		// 					$("#month option:last").attr("selected", "selected");
+		// 					$.ajax({
+		// 						type: 'POST',
+		// 						url: '/wsgi_bin/data/dates/',
+		// 						data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
+		// 						success: function(data){
+		// 							for (var i=0; i < data.length; i++){
+		// 								$("#day").append(new Option (data[i], data[i]));
+		// 							};
+		// 						},
+		// 						contentType: "application/json"
+		// 					});
+		// 				},
+		// 				contentType: "application/json"
+		// 			})
+		// 		},
+		// 		contentType: "application/json"
+		// 	});
+		// }
+</script>
+<script src="notifs_dump_forms.js"></script>
+</head>
+<body>
+	<img id="intro_logo" src="../logo1.png">
+	<div style="height:96px"></div>
+	<div class="label">Push Notification Settings &#x3009;</div>
+	<!-- <div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br> -->
+	<!-- <div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
+		<select id="month" onchange="dateChange('month')"></select>
+		<select id="day" onchange="dateChange('day')"></select>
+		<select id="year" onchange="dateChange('year')"></select>
+	</div><br id="startdatebr" style="display:none;"> -->
+	<div class="navbuttons" id="push" onclick="subscribePush()">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons" id="unpush">Unsubscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons" id="pushError" style="display:none; background: #8E374E; height:256px; position:fixed; top:214px; opacity:0.75" >It seems that you have push notifications blocked.<br><br>On Google Chrome ...<br><br>addinstructionshere<br>On Mozilla Firefox ...<br>addinstructionshere<br>On Microsoft Edge ...<br>addinstructionshere<br>On Opera ...<br>addinstructionshere<br><span style="align-content:right; cursor:pointer; position:absolute;left:286px; bottom:20px" onclick="document.getElementById('pushError').style.display = 'none';">Close</span></div>
+	<iframe id="nav" src="nav.html?from=datadump"></iframe>
+</body>
+
+</HTML>
