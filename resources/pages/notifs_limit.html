@@ -82,16 +82,9 @@
 <body>
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div>
-	<div class="label">Push Notification Settings &#x3009;</div>
-	<!-- <div class="navbuttons" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select></div><br> -->
-	<!-- <div class="navbuttons" id="startdate" style="padding-top:16px;padding-bottom:16px;display:none">Pick start date:<br>
-		<select id="month" onchange="dateChange('month')"></select>
-		<select id="day" onchange="dateChange('day')"></select>
-		<select id="year" onchange="dateChange('year')"></select>
-	</div><br id="startdatebr" style="display:none;"> -->
-	<div class="navbuttons" id="push" onclick="subscribePush()">Subscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
-	<div class="navbuttons" id="unpush">Unsubscribe to Push Notification ...<span class="navarrow">&#x3009;</span></div><br>
-	<div class="navbuttons" id="pushError" style="display:none; background: #8E374E; height:256px; position:fixed; top:214px; opacity:0.75" >It seems that you have push notifications blocked.<br><br>On Google Chrome ...<br><br>addinstructionshere<br>On Mozilla Firefox ...<br>addinstructionshere<br>On Microsoft Edge ...<br>addinstructionshere<br>On Opera ...<br>addinstructionshere<br><span style="align-content:right; cursor:pointer; position:absolute;left:286px; bottom:20px" onclick="document.getElementById('pushError').style.display = 'none';">Close</span></div>
+	<div class="label">Limit Settings &#x3009;</div>
+	<div class="navbuttons" id="push">Kilowatt-Hour Limit <b>Enabled</b> | <span style="cursor:pointer; text-decoration:underline; color:cyan">Disable</span><span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons" id="unpush">Slider Here<span class="navarrow">&#x3009;</span></div><br>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
 </body>
 
