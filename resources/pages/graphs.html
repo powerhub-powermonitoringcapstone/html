@@ -14,27 +14,47 @@
 	<script>
 	//autoLogin
 	fgt = Cookies.get('fgt');
-	// if(fgt!=undefined){
-	// 	$.ajax({
-	// 		type: 'POST',
-	// 		url: '/wsgi_bin/login/',
-	// 		data: JSON.stringify ({fgt: fgt}),
-	// 		success: function(data){
-	// 			if (data != "True"){
-	// 				window.location.href = "/resources/pages/login.html";
-	// 				Cookies.set('fgt','');
-	// 			} else if (data == "True"){readData();};
-	// 		},
-	// 		contentType: "application/json",
-	// 	});
-	// } else {window.location.href = "/resources/pages/login.html";};
 	window.onload = function(){
 		if (Cookies.get('sesh') != "30000000"){
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
 			Cookies.set("sesh", "30000000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
-		}}
+		};
+		$.ajax({
+			type: 'POST',
+			url: '/wsgi_bin/data/dates/',
+			data: JSON.stringify({fgt:fgt, mode:'years'}),
+			success: function(data){
+				for (i=0; i<data.length; i++){
+					$('#year').append(new Option(data[i], data[i]));
+				};
+				$.ajax({ //looking for months
+					type: 'POST',
+					url: '/wsgi_bin/data/dates/',
+					data: JSON.stringify({fgt:fgt, mode:'months', time:$("#year").val()}),
+					success: function(data){
+						for (i=0; i<data.length; i++){
+							$("#month").append(new Option(data[i], data[i]));
+						};
+						$.ajax({ //days within month
+							type: 'POST',
+							url: '/wsgi_bin/data/dates/',
+							data: JSON.stringify({fgt:fgt, mode:'days', time:$("#month").val()+"/"+$("#year").val()}),
+							success: function(data){
+								for (i=0; i<data.length; i++){
+									$("#day").append(new Option(data[i], data[i]));
+								}
+							},
+							contentType: "application/json"
+						});
+					},
+					contentType: "application/json"
+				});
+			},
+			contentType: "application/json"
+		});
+	}
 	//readData
 	function readData(){
 		$.ajax({
@@ -60,6 +80,48 @@
 		$('#current').html(data.current);
 		$('#wattage').html(data.voltage * data.current);
 	};
+	function modeChange(mode){
+		switch(mode){
+			case 'mode':
+				switch($("#mode").val()){
+					default:
+						$("#month").css('display', 'inline');
+						$("#day").css('display', 'inline');
+						$("#year").css('display', 'inline');
+					break;
+					case 'entire':
+						$("#month").css('display', 'none');
+						$("#day").css('display', 'none');
+						$("#year").css('display', 'none');
+					break;
+				}
+			break;
+			case 'date':
+				$.ajax({ //looking for months
+					type: 'POST',
+					url: '/wsgi_bin/data/dates/',
+					data: JSON.stringify({fgt:fgt, mode:'months', time:$("#year").val()}),
+					success: function(data){
+						for (i=0; i<data.length; i++){
+							$("#month").append(new Option(data[i], data[i]));
+						};
+						$.ajax({ //days within month
+							type: 'POST',
+							url: '/wsgi_bin/data/dates/',
+							data: JSON.stringify({fgt:fgt, mode:'days', time:$("#month").val()+"/"+$("#year").val()}),
+							success: function(data){
+								for (i=0; i<data.length; i++){
+									$("#month").append(new Option(data[i], data[i]));
+								}
+							},
+							contentType: "application/json"
+						});
+					},
+					contentType: "application/json"
+				});
+			break;
+		};
+	}
 </script>
 <style>
 	.navbuttons.small{
@@ -74,7 +136,7 @@
 	<!--actual markup code here-->
 	<div style="height:96px"></div><!--placeholder-->
 	<img id="intro_logo" src="../logo1.png">
-	<div class="navbuttons small" onchange="modeChange()">Mode:<select id="mode"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select><span style="position:relative;left:20px"><select id="month"></select><select id="day"></select><select id="year"></select></span></div><br>
+	<div class="navbuttons" style="padding-top:6px; height:38px;">Mode:<select id="mode" autocomplete="off" onchange="modeChange('mode')"><option value="entire">Entire data log</option><option value="month">Single Month</option><option value="week">Single Week</option><option value="day">Single Day</option></select><br><span style="padding-left:25%" onselect="console.log('gago')"><select id="month" style="display:none;"></select><select id="day" style="display:none"></select><select id="year" style="display:none"></select></span></div><br>
 	<table id="data">
 		<tr><td>Average Voltage<br><span id="voltage">---</span> V</td>
 			<td>Average Current<br><span id="current">---</span> A</td>
