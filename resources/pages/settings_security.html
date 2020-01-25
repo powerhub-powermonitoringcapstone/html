@@ -39,37 +39,56 @@
 		document.getElementById('nav').src = "/resources/pages/nav.html?from=settings_security2";
 	}
 	function confirm(){
-		if ($("input[name='pw']").val() != $("input[name='cpw']").val()){
-			console.log("mali");
+		setTimeout(function(){
+			if ($("input[name='pw']").val() == $("input[name='cpw']").val()){
+			for (index=0; index<document.getElementsByClassName('passmismatch').length; index+=1){
+				document.getElementsByClassName('passmismatch')[index].style.display="none";
+			}
+		} else {
+			for (index=0; index<document.getElementsByClassName('passmismatch').length; index+=1){
+				document.getElementsByClassName('passmismatch')[index].style.display="block";
+			}
 		}
-	}
+		}, 100); 
+		}
 	function change(){
 		if ($("input[name='pw']").val() == $("input[name='cpw']").val()){
 			$.ajax({
-		 	type: 'POST',
-		 	url: '/wsgi_bin/login/change/',
-		 	data: JSON.stringify ({fgt: fgt, auth:$("input[name='pw']").val()}),	
-		 	success: function(){
-		 		alert('Done!');
-		 		window.location.reload();
-		 	},
-		 	contentType: "application/json"
-		 	});
+				type: 'POST',
+				url: '/wsgi_bin/login/auth/',
+				data: JSON.stringify ({fgt: fgt, auth:$("input[name='oldpw']").val()}),
+				success: function(data){
+					if(data=="True"){
+						$.ajax({
+		 					type: 'POST',
+		 					url: '/wsgi_bin/login/change/',
+		 					data: JSON.stringify ({fgt: fgt, auth:$("input[name='pw']").val()}),	
+		 					success: function(){
+		 						alert('Done!');
+		 						window.location.reload();
+		 						},
+		 					contentType: "application/json"
+		 					});
+					} else {
+						alert("Please type in the old password correctly.")
+					}
+				},
+				contentType: "application/json"
+			});
 		}
 		else {
-			alert("Wrong");
+			alert("Please make sure that you have typed in the correct password twice.")
 		};
 		return false;	
 	}
 	</script>
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="/resources/logo1.png">
-<!-- <div class="security">MAC Address<span style="position:fixed; left:210px">Status</span></div><br> -->
 <div class="label">Security Settings &#x3009;</div>
 <div class="buttonsmall auth" onClick="auth()">Authentication Settings<span style="position:fixed; left:332px">&#x3009;</span></div>
-<div class="buttonsmall authb">Old Password<form class="navparm pw"><input style="width:155px" maxlength="64"></form><!-- <span class="navarrow">&#x3009;</span> --></div>
-<div class="buttonsmall authb" id="auth">Password<form class="navparm pw" onSubmit="return change()"><input name="pw" type="password" oninput="confirm()" maxlength="64"></form><!--<span class="navarrow" onclick="change()">&#x3009;>/span>--></div>
-<div class="buttonsmall authb">Confirm:<form class="navparm pw"><input name="cpw" type="password" oninput="confirm()" maxlength="64"></form><span class="navarrow" title="Submit">&#x3009;</span></div>
+<div class="buttonsmall authb">Old Password<form class="navparm pw"><input name="oldpw" type="password" style="width:155px" maxlength="64"></form></div>
+<div class="buttonsmall authb" id="auth">Password<form class="navparm pw" onSubmit="return change()"><input name="pw" type="password" oninput="confirm()" maxlength="64"></form></div>
+<div class="buttonsmall authb">Confirm:<form class="navparm pw" onSubmit="return change()"><input name="cpw" type="password" oninput="confirm()" maxlength="64"></form><span class="navarrow" title="Submit" onclick="change()">&#x3009;</span></div>
 <div class="buttonsmall passmismatch" style="padding-top:6px;padding-bottom:6px;background: #8E374E;">Passwords do not match</div><br class="passmismatch">
 <div class="buttonsmall authb">Login Permanence
 <select id="perm" style="position:relative; left:45px;"><option value="0">Until Exit</option><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="730.484398">1 month</option></select><span class="navarrow" onClick="clickauthb()">&#x3009;</span></div>
