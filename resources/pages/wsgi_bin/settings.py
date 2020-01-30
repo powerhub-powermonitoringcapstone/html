@@ -9,10 +9,6 @@ def main(): ## weird rendering shit na ewan ko bat ko ginawa hehe
 @app.route("/security/")
 def secu():
     return F.render_template('settings_security.html')
-##@app.route("/debug/", methods=['GET', 'POST'])
-##def debug():             debug settings: restart server n all that
-####    import sys
-##    if (F.request.args != None and lh.isLogin(str(F.request.json.get('fgt')))):
 @app.route("/data/", methods=['GET', 'POST'])
 def data():
 ##    import sys
@@ -29,6 +25,8 @@ def data():
                 'permanence':sh.readSettings()[7],\
                 'carbfpt':sh.readSettings()[8],\
                 'refresh':sh.readSettings()[9],\
+                'kilowattlimit':sh.readSettings()[10],\
+                'kilowattlimitenabled':sh.readSettings()[11],\
                 }
         return F.jsonify(data)
     else:
@@ -39,9 +37,17 @@ def data():
         return F.jsonify(data)
             
         
-@app.route("/data/write/", methods=['GET', 'POST'])
+@app.route("/write/", methods=['GET', 'POST'])
 def write():
-##  dito na iveverify yung settings para di cluttered yung internal handler
-    return ("yeah")
+    d = {0:'IsSetup',1:'DataLogging',2:'SensitivityThreshold'\
+     ,3:'Debug', 4:'NodeName', 5:'Version', 6:'NodeType',\
+     7:'Permanence', 8:'CarbonFootprint', 9:'RefreshRate', 10:'KilowattLimit', 11:'KilowattLimitEnabled'}
+    sys.path.insert(1,cwdf)
+    import settingsHandler as sh, loginHandler as lh
+    if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
+        for data in range(len(d)):
+            if (F.request.json.get(d[data]) != None):
+                sh.riteSettings(data, F.request.json.get(d[data]))
+    return ("yuh")
 if __name__ == "__main__":
     app.run()

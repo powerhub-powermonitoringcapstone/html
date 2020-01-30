@@ -13,69 +13,114 @@
 			padding-bottom: 12px;
 			height:28px;
 		}
+		#limittext{
+			position:fixed;
+			left:290px;
+		}
+/*		#disabledstatus{
+			cursor:pointer;
+			text-decoration:underline;
+			font-weight:normal;
+			color:cyan;
+		}
+		#enabledstatus{
+			cursor:auto;
+			font-weight:bold;
+			color:inherit;
+		}*/
 	</style>
 	<script src="js-cookie.js"></script>
 	<script src="login.js"></script>
 	<script src="jquery-3.4.1.min.js"></script>
 	<script>
-	fgt = Cookies.get('fgt');
-	window.onload = function(){
+		fgt = Cookies.get('fgt');
+		window.onload = function(){
 		if (Cookies.get('sesh') != "40000000"){ //start logo animation cookie
 			document.getElementById("intro_logo").style.animationPlayState = "running" ;
 			Cookies.set("sesh", "40000000");
 		} else {
 			document.getElementById("intro_logo").style.opacity = "0.5";
 		};
-		if (Notification.permission == "blocked" || Notification.permission == "denied"){
-			document.getElementById("pushError").style.display = "block";
-		}
-	}
-	function subscribePush(){
-		Notification.requestPermission(function(status){/*console.log(status);*/
-		if (status == "blocked" || status == "denied"){
-		document.getElementById("pushError").style.display = "block";
-		}
+		$.ajax({ 
+			type: 'POST',
+			url: '/wsgi_bin/settings/data/',
+			data: JSON.stringify({fgt:fgt}),
+			success: function(data){
+				if (data.kilowattlimitenabled == "True"){
+					$("#disabledstatus").css("cursor", "pointer");
+					$("#disabledstatus").css("font-weight", "bold");
+					$("#disabledstatus").css("color", "cyan");
+					$("#disabledstatus").css("text-decoration", "underline");
+					$("#disabledstatus").html("Disable")
+					$("#enabledstatus").css("cursor", "auto");
+					$("#enabledstatus").css("font-weight", "bold");
+					$("#enabledstatus").css("color", "inherit");
+					$("#enabledstatus").css("text-decoration", "none currentcolor solid");
+					$("#enabledstatus").html("Enabled")
+
+				} else {
+					$("#enabledstatus").css("cursor", "pointer");
+					$("#enabledstatus").css("font-weight", "bold");
+					$("#enabledstatus").css("color", "cyan");
+					$("#enabledstatus").css("text-decoration", "underline");
+					$("#enabledstatus").html("Enable")
+					$("#disabledstatus").css("cursor", "auto");
+					$("#disabledstatus").css("font-weight", "bold");
+					$("#disabledstatus").css("color", "inherit");
+					$("#disabledstatus").css("text-decoration", "none currentcolor solid");
+					$("#disabledstatus").html("Disabled")
+				}
+			},
+			contentType: "application/json"
 		});
 	}
-		// modeChange();
-		// if(fgt!=undefined){
-		// 	$.ajax({
-		// 		type: 'POST',
-		// 		url: '/wsgi_bin/data/dates/',
-		// 		data: JSON.stringify ({fgt: fgt, mode:'years'}),
-		// 		success: function(data){
-		// 			for (var i = 0; i < data.length; i++){
-		// 				$("#year").append(new Option(data[i], data[i]));
-		// 			};
-		// 			$("#year option:last").attr("selected", "selected");
-		// 			console.log(data[data.length-1])
-		// 			$.ajax({
-		// 				type: 'POST',
-		// 				url: '/wsgi_bin/data/dates/',
-		// 				data: JSON.stringify ({fgt: fgt, mode: 'months', time: data[data.length-1].toString()}),
-		// 				success: function(data){
-		// 					for (var i=0; i < data.length; i++){
-		// 						$("#month").append(new Option (data[i], data[i]));
-		// 					};
-		// 					$("#month option:last").attr("selected", "selected");
-		// 					$.ajax({
-		// 						type: 'POST',
-		// 						url: '/wsgi_bin/data/dates/',
-		// 						data: JSON.stringify({fgt:fgt, mode: 'days', time: data[data.length-1].toString() + '/' + $('#year option:last').val().toString()}),
-		// 						success: function(data){
-		// 							for (var i=0; i < data.length; i++){
-		// 								$("#day").append(new Option (data[i], data[i]));
-		// 							};
-		// 						},
-		// 						contentType: "application/json"
-		// 					});
-		// 				},
-		// 				contentType: "application/json"
-		// 			})
-		// 		},
-		// 		contentType: "application/json"
-		// 	});
-		// }
+	function UpdateSlider(){
+		$("#limittext").html($("#limit").val());
+	}
+	function DisableLimit(){
+		if ($("#enabledstatus").css("cursor") == "auto"){
+			$.ajax({ 
+				type: 'POST',
+				url: '/wsgi_bin/settings/write/',
+				data: JSON.stringify({fgt:fgt, KilowattLimitEnabled:"True"}),
+				success: function(data){
+					$("#enabledstatus").css("cursor", "pointer");
+					$("#enabledstatus").css("font-weight", "bold");
+					$("#enabledstatus").css("color", "cyan");
+					$("#enabledstatus").css("text-decoration", "underline");
+					$("#enabledstatus").html("Enable")
+					$("#disabledstatus").css("cursor", "auto");
+					$("#disabledstatus").css("font-weight", "bold");
+					$("#disabledstatus").css("color", "inherit");
+					$("#disabledstatus").css("text-decoration", "none currentcolor solid");
+					$("#disabledstatus").html("Disabled")
+				},
+				contentType: "application/json"
+			});
+		}
+	}
+	function EnableLimit(){
+		if ($("#enabledstatus").css("cursor") != "auto"){
+			$.ajax({ 
+				type: 'POST',
+				url: '/wsgi_bin/settings/write/',
+				data: JSON.stringify({fgt:fgt, KilowattLimitEnabled:"True"}),
+				success: function(data){
+					$("#disabledstatus").css("cursor", "pointer");
+					$("#disabledstatus").css("font-weight", "bold");
+					$("#disabledstatus").css("color", "cyan");
+					$("#disabledstatus").css("text-decoration", "underline");
+					$("#disabledstatus").html("Disable")
+					$("#enabledstatus").css("cursor", "auto");
+					$("#enabledstatus").css("font-weight", "bold");
+					$("#enabledstatus").css("color", "inherit");
+					$("#enabledstatus").css("text-decoration", "none currentcolor solid");
+					$("#enabledstatus").html("Enabled")
+				},
+				contentType: "application/json"
+			});
+		}
+	}
 </script>
 <script src="notifs_dump_forms.js"></script>
 </head>
@@ -83,9 +128,10 @@
 	<img id="intro_logo" src="../logo1.png">
 	<div style="height:96px"></div>
 	<div class="label">Limit Settings &#x3009;</div>
-	<div class="navbuttons" id="push">Kilowatt-Hour Limit <b>Enabled</b> | <span style="cursor:pointer; text-decoration:underline; color:cyan">Disable</span><span class="navarrow">&#x3009;</span></div><br>
-	<div class="navbuttons" id="unpush">Slider Here<span class="navarrow">&#x3009;</span></div><br>
+	<div class="navbuttons">Kilowatt-Hour Limit <span id="enabledstatus" onclick="EnableLimit()">...</span>  |  <span onclick="DisableLimit()" id="disabledstatus"></span><span class="navarrow" title="Save">&#x3009;</span></div><br>
+	<div class="navbuttons" style="background:#71707f">Kilowatt Limit <input type="range" onchange="UpdateSlider()" id="limit" min="1" max="1000" value="500"><span id="limittext">500</span><span class="navarrow" title="Save">&#x3009;</span></div><br>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
+	<div class="navbuttons" style="background:#71707f">Restore Defaults<span class="navarrow">&#x3009;</span></div><br>
 </body>
 
 </HTML>
