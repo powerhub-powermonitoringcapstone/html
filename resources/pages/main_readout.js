@@ -1,5 +1,5 @@
 	//main readout & data chor
-	fpt = 0; ref = 3600; today = new Date(); insig = 0// refresh rate, carbon footprint, today, notification, don't notify
+	fpt = 0; ref = 3600; today = new Date(); insig = 0; kwh = 500; kwhenable=false; kwhnotif=0; // refresh rate, carbon footprint, today, notification, don't notify, kilowatt hour limit, kilowatt hour limit trigger count
 	$.ajax({
 		type: 'POST',
 		url: '/wsgi_bin/settings/data/',	// we polled the carbon footprint only once
@@ -8,6 +8,10 @@
 			fpt = data.carbfpt;
 			ref = 3600/(data.refresh)*1000; //refresh rate
 			orgref = ref; //orig refresh rate			
+			kwh = data.kilowattlimit;
+			if (data.kilowattlimitenabled = "True"){
+				kwhenable = true;
+			};
 		},
 		contentType: "application/json",
 		async: false
@@ -32,6 +36,12 @@
 		document.getElementById("pf").innerHTML = data.pf;
 		document.getElementById("kwh").innerHTML = data.kwh.toFixed(2);
 		document.getElementById("carbfpt").innerHTML = (data.kwh * fpt).toFixed(2);
+		if (kwhenable = true){
+			if (parseFloat(data.kwh) >= parseFloat(kwh) && kwhnotif <= 0){
+				$('.limit').css("display", "block");
+				$("#notif")[0].play();
+			};
+		}
 	};
 	$.ajax({
 		type: 'POST',
