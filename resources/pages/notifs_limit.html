@@ -70,6 +70,8 @@
 					$("#disabledstatus").css("text-decoration", "none currentcolor solid");
 					$("#disabledstatus").html("Disabled")
 				}
+				$("#limit").val(parseFloat(data.kilowattlimit));
+				$("#limittext").html(data.kilowattlimit);
 			},
 			contentType: "application/json"
 		});
@@ -121,6 +123,17 @@
 			});
 		}
 	}
+	function SaveSettings(){
+		$.ajax({ 
+			type: 'POST',
+			url: '/wsgi_bin/settings/write/',
+			data: JSON.stringify({fgt:fgt, KilowattLimit:$("#limit").val()}),
+			success: function(data){
+				alert("Done!")
+			},
+			contentType: "application/json"
+		});
+	}
 </script>
 <script src="notifs_dump_forms.js"></script>
 </head>
@@ -129,7 +142,7 @@
 	<div style="height:96px"></div>
 	<div class="label">Limit Settings &#x3009;</div>
 	<div class="navbuttons">Kilowatt-Hour Limit <span id="enabledstatus" onclick="EnableLimit()">...</span>  |  <span onclick="DisableLimit()" id="disabledstatus"></span><span class="navarrow" title="Save">&#x3009;</span></div><br>
-	<div class="navbuttons" style="background:#71707f">Kilowatt Limit <input type="range" onchange="UpdateSlider()" id="limit" min="1" max="1000" value="500"><span id="limittext">500</span><span class="navarrow" title="Save">&#x3009;</span></div><br>
+	<div class="navbuttons" style="background:#71707f">Kilowatt Limit <input type="range" oninput="UpdateSlider()" id="limit" min="1" max="1000" value="500"><span id="limittext">500</span><span class="navarrow" onclick="SaveSettings()"title="Save">&#x3009;</span></div><br>
 	<iframe id="nav" src="nav.html?from=datadump"></iframe>
 	<div class="navbuttons" style="background:#71707f">Restore Defaults<span class="navarrow">&#x3009;</span></div><br>
 </body>
