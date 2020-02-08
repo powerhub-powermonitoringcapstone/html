@@ -41,6 +41,7 @@
 				$('.limit').css("display", "block");
 				$("#notif")[0].play();
 			};
+			kwhnotif+=1;
 		}
 	};
 	$.ajax({
