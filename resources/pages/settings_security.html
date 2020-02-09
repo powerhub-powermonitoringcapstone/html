@@ -81,6 +81,17 @@
 		};
 		return false;	
 	}
+	function changepermanence(){
+		$.ajax({ 
+			type: 'POST',
+			url: '/wsgi_bin/settings/write/',
+			data: JSON.stringify({fgt:fgt, Permanence:$("#perm").val()}),
+			success: function(data){
+				alert("Done!")
+			},
+			contentType: "application/json"
+		});
+	}
 	</script>
 <div style="height:96px"></div>
 <img id="intro_logo" class="main" src="/resources/logo1.png">
@@ -91,7 +102,7 @@
 <div class="buttonsmall authb">Confirm:<form class="navparm pw" onSubmit="return change()"><input name="cpw" type="password" oninput="confirm()" maxlength="64"></form><span class="navarrow" title="Submit" onclick="change()">&#x3009;</span></div>
 <div class="buttonsmall passmismatch" style="padding-top:6px;padding-bottom:6px;background: #8E374E;">Passwords do not match</div><br class="passmismatch">
 <div class="buttonsmall authb">Login Permanence
-<select id="perm" style="position:relative; left:45px;"><option value="0">Until Exit</option><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="730.484398">1 month</option></select><span class="navarrow" onClick="clickauthb()">&#x3009;</span></div>
+<select id="perm" style="position:relative; left:45px;"><option value="0">Until Exit</option><option value="60">1 hour</option><option value="120">2 hours</option><option value="180">3 hours</option><option value="240">4 hours</option><option value="360">6 hours</option><option value="43829.0639">1 month</option></select><span class="navarrow" onclick="changepermanence()">&#x3009;</span></div>
 <iframe id="nav" class="main" src="/resources/pages/nav.html?from=settings_security"></iframe>
 </body>
 </HTML>
