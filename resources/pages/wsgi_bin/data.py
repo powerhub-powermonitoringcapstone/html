@@ -17,11 +17,12 @@ def realtimeGraph():
             kilowatts = 0            
             for entries in item:
                 kilowatts += float(entries.attrib['voltage']) * float(entries.attrib['current']) * float(entries.attrib['pf'])
-        kilowatts = kilowatts/refreshrate/1000
-        data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
-                'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
-                'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
-                'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}    
+            print(kilowatts)
+            kilowatts = kilowatts/refreshrate/1000
+            data = {'voltage': item[-1].attrib['voltage'], 'current': item[-1].attrib['current'], \
+                    'variation':item[-1].attrib['variation'], 'notify':item[-1].attrib['notify'], \
+                    'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
+                    'wattage': float(item[-1].attrib['voltage']) * float(item[-1].attrib['current']) * float(item[-1].attrib['pf']), 'kwh': kilowatts, 'pf': item[-1].attrib['pf']}    
         return F.jsonify(data)
 @app.route("/past/", methods=['GET', 'POST']) #past data array, graphing
 def pastData():
