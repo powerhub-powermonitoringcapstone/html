@@ -14,9 +14,8 @@ def dump():
         if len(files) > 10: ##checking for extraneous files
             for files_delete in sorted(files, key=os.path.getctime)[:len(files)-10]:
                 os.remove(files_delete)
-        with open(cwdf+'/measurements.xml', 'r') as sett, open(cwd_csv + '/' + rand + '.csv', mode='w+') as file:
-            measurements = ET.parse(sett)
-            root = measurements.getroot()
+        with open(cwd_csv + '/' + rand + '.csv', mode='w+') as file:
+            root = ET.parse(cwdf+'/measurements.xml').getroot()
             item = root.findall("./plot")
             timeoffset = int(F.request.args.get('timeoffset'))
             file_writer = csv.writer(file, dialect='excel')
