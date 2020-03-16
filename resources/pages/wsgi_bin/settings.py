@@ -35,7 +35,25 @@ def data():
                 'isSetup' : sh.readSettings()[0], \
                 }
         return F.jsonify(data)
-            
+@app.route("/emails/", methods=['GET', 'POST'])
+def data():
+    sys.path.insert(1, cwdf)
+    import settingsHandler as sh, loginHandler as lh
+    if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
+        data = {'emailaddr1':sh.readSettings()[12],\
+                'emailaddr2':sh.readSettings()[13],\
+                'emailaddr3':sh.readSettings()[14],\
+                'emailaddr4':sh.readSettings()[15],\
+                'emailaddr5':sh.readSettings()[16],\
+                'emailaddr6':sh.readSettings()[17],\
+                'emailaddr7':sh.readSettings()[18],\
+                'emailaddr8':sh.readSettings()[19],\
+                'emailaddr9':sh.readSettings()[20],\
+                'emailaddr10':sh.readSettings()[21],\
+                }
+        return F.jsonify(data)
+    else:
+        return "You are not allowed to access this resource."
         
 @app.route("/write/", methods=['GET', 'POST'])
 def write():
