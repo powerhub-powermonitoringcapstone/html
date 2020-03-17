@@ -36,7 +36,7 @@ def data():
                 }
         return F.jsonify(data)
 @app.route("/emails/", methods=['GET', 'POST'])
-def data():
+def emails():
     sys.path.insert(1, cwdf)
     import settingsHandler as sh, loginHandler as lh
     if (F.request.json != None and lh.isLogin(str(F.request.json.get('fgt')))):
