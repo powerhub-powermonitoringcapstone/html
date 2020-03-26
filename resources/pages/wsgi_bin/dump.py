@@ -5,7 +5,7 @@ cwd_csv = '/home/capstone/codebase/csv'
 app = F.Flask(__name__)
 @app.route("/", methods=['GET', 'POST']) 
 def dump():
-    import sys, xml.etree.ElementTree as ET, csv, uuid, datetime, os
+    import sys, lxml.etree as ET, csv, uuid, datetime, os
     rand = str(uuid.uuid4())
     sys.path.insert(1, cwdf)
     import loginHandler as lh, settingsHandler as sh
@@ -15,8 +15,7 @@ def dump():
             for files_delete in sorted(files, key=os.path.getctime)[:len(files)-10]:
                 os.remove(files_delete)
         with open(cwd_csv + '/' + rand + '.csv', mode='w+') as file:
-            root = ET.parse(cwdf+'/measurements.xml').getroot()
-            item = root.findall("./plot")
+            item = ET.parse(cwdf+'/measurements.xml').iter("plot")
             timeoffset = int(F.request.args.get('timeoffset'))
             file_writer = csv.writer(file, dialect='excel')
             file_writer.writerow(['PowerHub Data Log', "Created " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]) 
