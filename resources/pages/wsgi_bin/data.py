@@ -39,25 +39,24 @@ def pastData():
             try:
                 with portalocker.Lock(cwdf + '/measurements.xml', 'r+') as datafile:
                     root = ET.parse(datafile)
-                    item = root.iter("plot")
                     if (F.request.json.get('mode') == "start"): ## since last data reset
-                        data = [{'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')} for k in item]
+                        data = [{'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')} for k in root.iter("plot")]
                     if (F.request.json.get('mode') == "lastmin"): ## readings from the last n minute
                         lastdata = datetime.datetime.strptime(root.find("plot").get('date'), "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0)
-                        for k in item:
+                        for k in root.iter("plot"):
                             for i in reversed(range(0, int(F.request.json.get('time'))+1)):
                                 if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == lastdata - datetime.timedelta(minutes=i)):
                                     data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
-                        for k in item:
+                        for k in root.iter("plot"):
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y")):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "week"): ##readings throughout a week
-                        for k in item:
+                        for k in root.iter("plot"):
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "month"): ##readings throughout a month
-                        for k in item:
+                        for k in root.iter("plot"):
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})                    
                 lock = True
@@ -75,7 +74,7 @@ def dates():
         while lock == False:
             try:
                 with portalocker.Lock(cwdf + '/measurements.xml', 'r+') as datafile:
-                    item = ET.parse(datafile).getroot()
+                    item = ET.parse(datafile).iter("plot")
                     if (F.request.json.get('mode') == "months"): ## available months for year
                         year = datetime.datetime.strptime(F.request.json.get('time'), "%Y").year
                         for k in item:
