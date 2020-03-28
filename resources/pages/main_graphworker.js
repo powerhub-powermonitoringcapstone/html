@@ -8,18 +8,18 @@ async function demo(e) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			error = 0;
+			// error = 0;
 			self.postMessage(this.responseText);
 		};
-		if (this.readyState == 4 && this.status == 500) {
-			error +=1;
-			if (error > 2){error = 0;} else {
-				xhttp.open("POST", "/wsgi_bin/data/past/", false);
-				xhttp.setRequestHeader("Content-Type", "application/json");
-				xhttp.send(JSON.stringify({fgt:e.fgt, mode:'lastmin', time:e.time})); 
-				error = 0;
-			};
-		};
+		// if (this.readyState == 4 && this.status == 500) {
+		// 	error +=1;
+		// 	if (error > 2){error = 0;} else {
+		// 		xhttp.open("POST", "/wsgi_bin/data/past/", false);
+		// 		xhttp.setRequestHeader("Content-Type", "application/json");
+		// 		xhttp.send(JSON.stringify({fgt:e.fgt, mode:'lastmin', time:e.time})); 
+		// 		error = 0;
+		// 	};
+		// };
 	}
 	while (1){
 		xhttp.open("POST", "/wsgi_bin/data/past/", false);
