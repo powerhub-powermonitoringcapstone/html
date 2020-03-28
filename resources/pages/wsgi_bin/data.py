@@ -27,6 +27,8 @@ def realtimeGraph():
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
+    else:
+        return("Not logged in yet.")
 @app.route("/past/", methods=('GET', 'POST')) #past data array, graphing
 def pastData():
     import sys, lxml.etree as ET, datetime, portalocker
@@ -63,6 +65,8 @@ def pastData():
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
+    else:
+        return("Not logged in yet.")
 @app.route("/dates/", methods=('GET', 'POST'))#Dates only, not data
 def dates():
     import sys, xml.etree.ElementTree as ET, datetime, portalocker
@@ -99,5 +103,7 @@ def dates():
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
+    else:
+        return("Not logged in yet.")        
 if __name__ == "__main__":
     app.run()
