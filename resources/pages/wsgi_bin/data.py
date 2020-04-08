@@ -48,7 +48,7 @@ def pastData():
                     if (F.request.json.get('mode') == "lastmin"): ## readings from the last n minute
                         item = root.findall("plot")
                         for k in item:
-                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S") >= datetime.datetime.strptime(item[-1].get('date'), "%m/%d/%Y %H:%M:%S") - datetime.timedelta(minutes=1, seconds=-1)):
+                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S") >= datetime.datetime.strptime(item[-1].get('date'), "%m/%d/%Y %H:%M:%S") - datetime.timedelta(minutes=int(F.request.json.get('time')), seconds=-1)):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
                         for k in root.iter("plot"):
