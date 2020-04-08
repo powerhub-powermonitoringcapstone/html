@@ -13,17 +13,18 @@ def realtimeGraph():
         lock = False
         while lock == False:
             try:
+                lock = True
                 with portalocker.Lock(cwdf + '/measurements.xml', 'r+') as datafile:
                     root = ET.parse(datafile)
+                    item = root.findall("plot")
                     kilowatts = 0            
-                    for entries in root.iter("plot"):
+                    for entries in item:
                         kilowatts += float(entries.get('voltage')) * float(entries.get('current')) * float(entries.get('pf'))
                     kilowatts = kilowatts/refreshrate/1000
-                    data = {'voltage': root.find("plot").get('voltage'), 'current': root.find("plot").get('current'), \
-                            'variation':root.find("plot").get('variation'), 'notify':root.find("plot").get('notify'), \
+                    data = {'voltage': item[-1].get('voltage'), 'current': item[-1].get('current'), \
+                            'variation': item[-1].get('variation'), 'notify':item[-1].get('notify'), \
                             'nodename': sh.readSettings()[4], 'firmware':sh.readSettings()[5],\
-                            'wattage': float(root.find("plot").get('voltage')) * float(root.find("plot").get('current')) * float(root.find("plot").get('pf')), 'kwh': kilowatts, 'pf': root.find("plot").get('pf')}                    
-                lock = True
+                            'wattage': float(item[-1].get('voltage')) * float(item[-1].get('current')) * float(item[-1].get('pf')), 'kwh': kilowatts, 'pf': item[-1].get('pf')}                    
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
@@ -40,15 +41,15 @@ def pastData():
         while lock == False:
             try:
                 with portalocker.Lock(cwdf + '/measurements.xml', 'r+') as datafile:
+                    lock = True
                     root = ET.parse(datafile)
                     if (F.request.json.get('mode') == "start"): ## since last data reset
                         data = [{'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')} for k in root.iter("plot")]
                     if (F.request.json.get('mode') == "lastmin"): ## readings from the last n minute
-                        lastdata = datetime.datetime.strptime(root.find("plot").get('date'), "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0)
-                        for k in root.iter("plot"):
-                            for i in reversed(range(0, int(F.request.json.get('time'))+1)):
-                                if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").replace(second=0, microsecond=0) == lastdata - datetime.timedelta(minutes=i)):
-                                    data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
+                        item = root.findall("plot")
+                        for k in item:
+                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S") >= datetime.datetime.strptime(item[-1].get('date'), "%m/%d/%Y %H:%M:%S") - datetime.timedelta(minutes=1, seconds=-1)):
+                                data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
                         for k in root.iter("plot"):
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y")):
@@ -61,7 +62,6 @@ def pastData():
                         for k in root.iter("plot"):
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})                    
-                lock = True
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
@@ -78,6 +78,7 @@ def dates():
         while lock == False:
             try:
                 with portalocker.Lock(cwdf + '/measurements.xml', 'r+') as datafile:
+                    lock = True
                     item = ET.parse(datafile).iter("plot")
                     if (F.request.json.get('mode') == "months"): ## available months for year
                         year = datetime.datetime.strptime(F.request.json.get('time'), "%Y").year
@@ -99,7 +100,6 @@ def dates():
                         for k in item:
                             if datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").year not in data:
                                 data.append(datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").year)
-                lock = True
             except portalocker.exceptions.LockException:
                 pass
         return F.jsonify(data)
