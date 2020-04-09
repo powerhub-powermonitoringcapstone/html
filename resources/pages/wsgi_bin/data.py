@@ -52,16 +52,19 @@ def pastData():
                             if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S") >= datetime.datetime.strptime(item[-1].get('date'), "%m/%d/%Y %H:%M:%S") - datetime.timedelta(minutes=mins, seconds=-1)):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "day"): ##readings throughout a day
+                        timeparam = datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y")
                         for k in root.iter("plot"):
-                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date() == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y")):
+                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date() == timeparam):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "week"): ##readings throughout a week
+                        timeparam = datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")
                         for k in root.iter("plot"):
-                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date().strftime("%U") == datetime.datetime.strptime(F.request.json.get('time'), "%m/%d/%Y").date().strftime("%U")):
+                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").date().strftime("%U") == timeparam):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})
                     if (F.request.json.get('mode') == "month"): ##readings throughout a month
+                        timeparam = datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month)
                         for k in root.iter("plot"):
-                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").month == datetime.datetime.strptime(F.request.json.get('time'), "%m/%Y").month):
+                            if (datetime.datetime.strptime(k.get('date'), "%m/%d/%Y %H:%M:%S").month == timeparam):
                                 data.append({'voltage': k.get('voltage'), 'current': k.get('current'), 'pf': k.get('pf'), 'date': k.get('date')})                    
             except portalocker.exceptions.LockException:
                 pass
